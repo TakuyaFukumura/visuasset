@@ -1,12 +1,12 @@
-package com.example.myapplication;
+package com.example.visuasset;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class MyApplication {
+public class Visuasset {
 
     public static void main(String[] args) {
-        SpringApplication.run(MyApplication.class, args);
+        SpringApplication.run(Visuasset.class, args);
     }
 }

@@ -1,11 +1,12 @@
-package com.example.myapplication.controller;
+package com.example.visuasset.controller;
 
-import com.example.myapplication.service.IndexService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.example.visuasset.service.IndexService;
 
 @Controller
 @RequestMapping("/") // URLとの関連付け http://localhost:8080/ の時に呼ばれる

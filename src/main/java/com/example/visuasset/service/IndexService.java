@@ -1,4 +1,4 @@
-package com.example.myapplication.service;
+package com.example.visuasset.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
