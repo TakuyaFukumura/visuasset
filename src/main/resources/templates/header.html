@@ -1,0 +1,28 @@
+<header th:fragment="header">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
+            <div class="container-fluid">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarToggle" aria-controls="navbarToggle"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarToggle">
+                    <a th:href="@{/}" class="navbar-brand">
+                        visuasset
+                    </a>
+                    <ul class="navbar-nav nav-underline">
+                        <li class="nav-item">
+                            <a th:href="@{/index}" class="nav-link" style="color:white;">
+                                index
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a th:href="@{/}" class="nav-link" style="color:white;">
+                                資産グラフ
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>

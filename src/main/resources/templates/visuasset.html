@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>資産グラフ</title>
+    <link th:href="@{/css/basicChart.css}" rel="styleSheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+</head>
+<body>
+    <header th:replace="~{header}"></header>
+    <h1>資産グラフ</h1>
+    <div class="chart-container">
+        <canvas id="visuasset"></canvas>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    <script>
+        const ctx = document.getElementById("visuasset");
+        const chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ["2020年", "2021年", "2022年", "2023年", "2024年", "2025年"],
+                datasets: [
+                    {
+                        label: '現預金',
+                        data: [201599, 1400000, 4000000, 1641599, 1641599, 1641599],
+                        backgroundColor: "rgba(130, 201, 169, 0.5)"
+                    },
+                    {
+                        label: '有価証券',
+                        data: [64564, 1004564, 1604564, 5834564, 8304564, 9834564],
+                        backgroundColor: "rgba(255, 99, 132, 0.5)"
+                    },
+                    {
+                        label: '暗号資産',
+                        data: [0, 0, 100000, 158192, 260000, 448192],
+                        backgroundColor: "rgba(54, 162, 235, 0.5)"
+                    }
+                ]
+            },
+            options: {
+                plugins: {
+                    title: {
+                        display: true,
+                        text: '資産額'
+                    }
+                },
+                scales: {
+                    x: {
+                        stacked: true
+                    },
+                    y: {
+                        stacked: true,
+                        ticks: {
+                            callback: (value) => `${value.toLocaleString()}円`
+                        }
+                    }
+                },
+                maintainAspectRatio: false
+            }
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+            crossorigin="anonymous">
+    </script>
+</body>
+</html>

@@ -6,22 +6,22 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.example.visuasset.service.IndexService;
+import com.example.visuasset.service.VisuassetService;
 
 @Controller
-@RequestMapping("/index")
-public class IndexController {
+@RequestMapping("/") // URLとの関連付け http://localhost:8080/ の時に呼ばれる
+public class VisuassetController {
 
-    private final IndexService service;
+    private final VisuassetService service;
 
     @Autowired
-    public IndexController(IndexService service) {
-        this.service = service; // IndexServiceのインスタンスを使えるようにしている
+    public VisuassetController(VisuassetService service) {
+        this.service = service;
     }
 
     @GetMapping // Getされた時の処理 Postは別
     public String index(Model model) {
         model.addAttribute("message", service.getMessage());
-        return "index";
+        return "visuasset";
     }
 }

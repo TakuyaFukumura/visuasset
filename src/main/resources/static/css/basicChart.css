@@ -1,0 +1,13 @@
+/* チャート用基本CSS */
+/* PC向け */
+@media (min-width: 767px) {
+    .chart-container {
+        height: 600px;
+    }
+}
+/* スマホ向け */
+@media (max-width: 768px) {
+    .chart-container {
+        height: 400px;
+    }
+}
