@@ -11,12 +11,12 @@
 <body>
     <header th:replace="~{header}"></header>
     <div class="chart-container">
-        <canvas id="visuasset"></canvas>
+        <canvas id="yearly"></canvas>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
     <script>
-        const ctx = document.getElementById("visuasset");
+        const ctx = document.getElementById("yearly");
         const chart = new Chart(ctx, {
             type: 'bar',
             data: {

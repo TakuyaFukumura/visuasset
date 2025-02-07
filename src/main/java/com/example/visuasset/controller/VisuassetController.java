@@ -21,8 +21,13 @@ public class VisuassetController {
 
     @GetMapping // Getされた時の処理 Postは別
     public String index(Model model) {
+        return "/yearly";
+    }
+
+    @GetMapping("yearly")
+    public String yearly(Model model) {
         model.addAttribute("message", service.getMessage());
-        return "visuasset";
+        return "yearly";
     }
 
     @GetMapping("monthly")
