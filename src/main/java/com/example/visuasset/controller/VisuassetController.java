@@ -24,4 +24,10 @@ public class VisuassetController {
         model.addAttribute("message", service.getMessage());
         return "visuasset";
     }
+
+    @GetMapping("monthly")
+    public String monthly(Model model) {
+        model.addAttribute("message", service.getMessage());
+        return "monthly";
+    }
 }
