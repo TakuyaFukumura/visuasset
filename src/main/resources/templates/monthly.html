@@ -10,7 +10,19 @@
 </head>
 <body>
     <header th:replace="~{header}"></header>
-    2024年
+    <div style="display: flex; align-items: center; gap: 10px;">
+        <button onclick="changeYear(-1)">−</button>
+        <span id="yearDisplay">2024年</span>
+        <button onclick="changeYear(1)">＋</button>
+    </div>
+    <script>
+        let currentYear = 2024;
+    
+        function changeYear(delta) {
+            currentYear += delta;
+            document.getElementById("yearDisplay").textContent = currentYear + "年";
+        }
+    </script>
     <div class="chart-container">
         <canvas id="monthly"></canvas>
     </div>
