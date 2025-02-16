@@ -33,6 +33,7 @@
     </dependencies>
 
     <build>
+        <finalName>visuasset</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
