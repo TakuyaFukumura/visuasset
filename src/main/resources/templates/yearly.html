@@ -20,6 +20,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
     <script>
+        const securitiesData = [[${annualAssets.getSecurities()}]];
         const ctx = document.getElementById("yearly");
         const chart = new Chart(ctx, {
             type: 'bar',
@@ -33,7 +34,7 @@
                     },
                     {
                         label: '有価証券',
-                        data: [64564, 1004564, 1604564, 5834564, 8304564, 9834564],
+                        data: [64564, 1004564, 1604564, 5834564, securitiesData, 9834564],
                         backgroundColor: "rgba(255, 99, 132, 0.5)"
                     },
                     {

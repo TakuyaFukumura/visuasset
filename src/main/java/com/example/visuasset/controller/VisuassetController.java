@@ -30,6 +30,7 @@ public class VisuassetController {
                 .orElseThrow(() -> new RuntimeException("データが見つかりません"));
         System.out.println(annualAssets.getCash().toString()); // TODO:削除する使用例
         model.addAttribute("message", service.getMessage());
+        model.addAttribute("annualAssets", annualAssets);
         return "yearly";
     }
 
