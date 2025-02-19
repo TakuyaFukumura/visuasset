@@ -15,7 +15,12 @@ INSERT INTO `authorities`
 DELETE FROM `annual_assets`;
 
 INSERT INTO `annual_assets` (`target_year`, `cash`, `securities`, `crypto`)
-VALUES (2024, 1641599, 8304564, 260000);
+VALUES (2020, 201599, 64564, 0),
+       (2021, 1400000, 1004564, 0),
+       (2022, 4000000, 1604564, 100000),
+       (2023, 1641599, 5834564, 158192),
+       (2024, 1641599, 8304564, 260000),
+       (2025, 1641599, 9834564, 448192);
 
 DELETE FROM `monthly_assets`;
 
