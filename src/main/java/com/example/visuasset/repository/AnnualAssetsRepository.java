@@ -15,4 +15,7 @@ public interface AnnualAssetsRepository extends JpaRepository<AnnualAssets, Inte
 
     // 指定した年のデータを取得（Optionalでラップ）
     Optional<AnnualAssets> findByTargetYear(int year);
+
+    // 指定した範囲の年のデータを取得
+    List<AnnualAssets> findByTargetYearBetween(int from, int to);
 }

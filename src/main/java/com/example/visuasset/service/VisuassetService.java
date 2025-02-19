@@ -5,6 +5,7 @@ import com.example.visuasset.repository.AnnualAssetsRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -20,6 +21,11 @@ public class VisuassetService {
     // 指定した年の資産データを取得（存在しない場合は Optional.empty()）
     public Optional<AnnualAssets> getAssetsByYear(int year) {
         return repository.findByTargetYear(year);
+    }
+
+    // 指定した範囲の年のデータを取得
+    public List<AnnualAssets> getAssetsBetweenYears(int from, int to){
+        return repository.findByTargetYearBetween(from, to);
     }
 
     public String getMessage() {

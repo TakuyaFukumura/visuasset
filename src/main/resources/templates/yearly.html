@@ -21,6 +21,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
     <script>
         const securitiesData = [[${annualAssets.getSecurities()}]];
+        const cashList = [ [[${cashList}]] ];
         const ctx = document.getElementById("yearly");
         const chart = new Chart(ctx, {
             type: 'bar',
@@ -29,7 +30,7 @@
                 datasets: [
                     {
                         label: '現預金',
-                        data: [201599, 1400000, 4000000, 1641599, 1641599, 1641599],
+                        data: cashList,
                         backgroundColor: "rgba(130, 201, 169, 0.5)"
                     },
                     {
