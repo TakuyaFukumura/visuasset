@@ -5,6 +5,7 @@ import com.example.visuasset.repository.AnnualAssetsRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.Year;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,8 +24,23 @@ public class VisuassetService {
         return repository.findByTargetYear(year);
     }
 
-    // 指定した範囲の年のデータを取得
-    public List<AnnualAssets> getAssetsBetweenYears(int from, int to){
+    /**
+     * 指定年範囲の資産データを取得する
+     *
+     * @param from 開始年
+     * @param to   終了年
+     * @return 指定年範囲の資産データ一覧
+     */
+    public List<AnnualAssets> getAssetsBetweenYears(int from, int to) {
+        if (from > to) {
+            throw new IllegalArgumentException("開始年 (from) は終了年 (to) 以下である必要があります。");
+        }
+
+        int currentYear = Year.now().getValue();
+        if (from < 1900 || currentYear < to) {
+            throw new IllegalArgumentException("指定された年の範囲が不正です。");
+        }
+
         return repository.findByTargetYearBetween(from, to);
     }
 
