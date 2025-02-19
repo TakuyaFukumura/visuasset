@@ -30,12 +30,8 @@ public class VisuassetController {
     public String yearly(Model model) {
         AnnualAssets annualAssets = service.getAssetsByYear(2024)
                 .orElseThrow(() -> new RuntimeException("データが見つかりません"));
-        System.out.println(annualAssets.getCash().toString()); // TODO:削除する使用例
-        model.addAttribute("message", service.getMessage());
         model.addAttribute("annualAssets", annualAssets);
-        // 表示用データを配列で取得して渡したい
         List<AnnualAssets> annualAssetsList = service.getAssetsBetweenYears(2020, 2025);
-        // annualAssetsListからcashListを作成
         String cashList = annualAssetsList.stream()
                         .map(AnnualAssets::getCash)
                 .map(Object::toString)
