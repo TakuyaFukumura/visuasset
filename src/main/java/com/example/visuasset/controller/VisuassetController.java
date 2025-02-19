@@ -21,7 +21,7 @@ public class VisuassetController {
 
     @GetMapping // Getされた時の処理 Postは別
     public String index(Model model) {
-        return "/yearly";
+        return "redirect:/yearly";
     }
 
     @GetMapping("yearly")
