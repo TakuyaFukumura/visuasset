@@ -28,9 +28,6 @@ public class VisuassetController {
 
     @GetMapping("yearly")
     public String yearly(Model model) {
-        AnnualAssets annualAssets = service.getAssetsByYear(2024)
-                .orElseThrow(() -> new RuntimeException("データが見つかりません"));
-        model.addAttribute("annualAssets", annualAssets);
         List<AnnualAssets> annualAssetsList = service.getAssetsBetweenYears(2020, 2025);
 
         String cashList = service.getCashListAsString(annualAssetsList);

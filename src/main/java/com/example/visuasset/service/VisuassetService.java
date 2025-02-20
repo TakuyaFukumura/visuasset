@@ -82,8 +82,6 @@ public class VisuassetService {
                 .orElseThrow(() -> new RuntimeException("有価証券一覧の文字列変換で例外が発生"));
     }
 
-
-
     public String getMessage() {
         log.info("getMessage was called"); // ログ出力例
         return "Hello World!";
