@@ -21,7 +21,11 @@ public class VisuassetService {
         this.repository = repository;
     }
 
-    // 指定した年の資産データを取得（存在しない場合は Optional.empty()）
+    /**
+     * 指定した年の資産データを取得する
+     * @param year 指定した年
+     * @return 資産データ
+     */
     public Optional<AnnualAssets> getAssetsByYear(int year) {
         return repository.findByTargetYear(year);
     }
@@ -74,6 +78,12 @@ public class VisuassetService {
                 .orElseThrow(() -> new RuntimeException("現預金一覧の文字列変換で例外が発生"));
     }
 
+    /**
+     * 有価証券一覧をカンマ区切りの文字列に変換する
+     *
+     * @param annualAssetsList 資産データ一覧
+     * @return 有価証券のカンマ区切り文字列
+     */
     public String getSecuritiesListAsString(List<AnnualAssets> annualAssetsList) {
         return annualAssetsList.stream()
                 .map(AnnualAssets::getSecurities)
