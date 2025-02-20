@@ -32,10 +32,11 @@ public class VisuassetController {
 
         String cashList = service.getCashListAsString(annualAssetsList);
         String securitiesList = service.getSecuritiesListAsString(annualAssetsList);
+        String cryptoList = service.getCryptoListAsString(annualAssetsList);
 
         model.addAttribute("cashList", cashList);
         model.addAttribute("securitiesList", securitiesList);
-//        model.addAttribute("cryptoList", cryptoList);
+        model.addAttribute("cryptoList", cryptoList);
         return "yearly";
     }
 

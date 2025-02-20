@@ -92,6 +92,20 @@ public class VisuassetService {
                 .orElseThrow(() -> new RuntimeException("有価証券一覧の文字列変換で例外が発生"));
     }
 
+    /**
+     * 暗号資産一覧をカンマ区切りの文字列に変換する
+     *
+     * @param annualAssetsList 資産データ一覧
+     * @return 暗号資産のカンマ区切り文字列
+     */
+    public String getCryptoListAsString(List<AnnualAssets> annualAssetsList) {
+        return annualAssetsList.stream()
+                .map(AnnualAssets::getCrypto)
+                .map(Object::toString)
+                .reduce((s1, s2) -> s1 + ", " + s2)
+                .orElseThrow(() -> new RuntimeException("暗号資産一覧の文字列変換で例外が発生"));
+    }
+
     public String getMessage() {
         log.info("getMessage was called"); // ログ出力例
         return "Hello World!";
