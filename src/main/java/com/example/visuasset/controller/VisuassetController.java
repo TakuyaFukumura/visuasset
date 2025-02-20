@@ -32,10 +32,12 @@ public class VisuassetController {
                 .orElseThrow(() -> new RuntimeException("データが見つかりません"));
         model.addAttribute("annualAssets", annualAssets);
         List<AnnualAssets> annualAssetsList = service.getAssetsBetweenYears(2020, 2025);
+
         String cashList = service.getCashListAsString(annualAssetsList);
+        String securitiesList = service.getSecuritiesListAsString(annualAssetsList);
 
         model.addAttribute("cashList", cashList);
-//        model.addAttribute("securitiesList", securitiesList);
+        model.addAttribute("securitiesList", securitiesList);
 //        model.addAttribute("cryptoList", cryptoList);
         return "yearly";
     }

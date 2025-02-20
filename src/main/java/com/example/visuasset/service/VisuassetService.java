@@ -74,6 +74,15 @@ public class VisuassetService {
                 .orElseThrow(() -> new RuntimeException("現預金一覧の文字列変換で例外が発生"));
     }
 
+    public String getSecuritiesListAsString(List<AnnualAssets> annualAssetsList) {
+        return annualAssetsList.stream()
+                .map(AnnualAssets::getSecurities)
+                .map(Object::toString)
+                .reduce((s1, s2) -> s1 + ", " + s2)
+                .orElseThrow(() -> new RuntimeException("有価証券一覧の文字列変換で例外が発生"));
+    }
+
+
 
     public String getMessage() {
         log.info("getMessage was called"); // ログ出力例
