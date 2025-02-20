@@ -10,9 +10,6 @@ import java.util.Optional;
 @Repository
 public interface AnnualAssetsRepository extends JpaRepository<AnnualAssets, Integer> {
 
-    // 指定した年より後のデータを取得
-    List<AnnualAssets> findByTargetYearGreaterThan(int year);
-
     // 指定した年のデータを取得（Optionalでラップ）
     Optional<AnnualAssets> findByTargetYear(int year);
 

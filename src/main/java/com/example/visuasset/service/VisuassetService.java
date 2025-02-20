@@ -105,9 +105,4 @@ public class VisuassetService {
                 .reduce((s1, s2) -> s1 + ", " + s2)
                 .orElseThrow(() -> new RuntimeException("暗号資産一覧の文字列変換で例外が発生"));
     }
-
-    public String getMessage() {
-        log.info("getMessage was called"); // ログ出力例
-        return "Hello World!";
-    }
 }
