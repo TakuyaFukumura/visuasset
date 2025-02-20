@@ -5,7 +5,9 @@ import com.example.visuasset.repository.AnnualAssetsRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.Year;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,7 +43,27 @@ public class VisuassetService {
             throw new IllegalArgumentException("指定された年の範囲が不正です。");
         }
 
-        return repository.findByTargetYearBetween(from, to);
+        List<AnnualAssets> annualAssetsList = repository.findByTargetYearBetween(from, to);
+
+        // 欠けている年がある場合はデフォルト値ゼロの資産データで埋める
+        for (int year = from; year <= to; year++) {
+            Integer targetYear = year;
+            boolean isExist = annualAssetsList.stream().anyMatch(a -> a.getTargetYear().equals(targetYear));
+            if (!isExist) {
+                AnnualAssets empty = new AnnualAssets(year, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO);
+                annualAssetsList.add(empty);
+            }
+        }
+
+        // 年でソート
+        annualAssetsList.sort(Comparator.comparing(AnnualAssets::getTargetYear));
+
+//        int diff = assets.size() - (to - from + 1);
+//        if (diff != 0) {
+//            throw new RuntimeException("データが欠けています。不足数：" + diff);
+//        }
+
+        return annualAssetsList;
     }
 
     public String getMessage() {
