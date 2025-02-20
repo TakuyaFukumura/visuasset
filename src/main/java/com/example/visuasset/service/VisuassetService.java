@@ -55,13 +55,7 @@ public class VisuassetService {
             }
         }
 
-        // 年でソート
         annualAssetsList.sort(Comparator.comparing(AnnualAssets::getTargetYear));
-
-//        int diff = assets.size() - (to - from + 1);
-//        if (diff != 0) {
-//            throw new RuntimeException("データが欠けています。不足数：" + diff);
-//        }
 
         return annualAssetsList;
     }
