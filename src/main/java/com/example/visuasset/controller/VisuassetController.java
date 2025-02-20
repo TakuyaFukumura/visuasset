@@ -32,11 +32,8 @@ public class VisuassetController {
                 .orElseThrow(() -> new RuntimeException("データが見つかりません"));
         model.addAttribute("annualAssets", annualAssets);
         List<AnnualAssets> annualAssetsList = service.getAssetsBetweenYears(2020, 2025);
-        String cashList = annualAssetsList.stream()
-                        .map(AnnualAssets::getCash)
-                .map(Object::toString)
-                .reduce((s1, s2) -> s1 + ", " + s2)
-                .orElseThrow(() -> new RuntimeException("データ変換で例外が発生"));
+        String cashList = service.getCashListAsString(annualAssetsList);
+
         model.addAttribute("cashList", cashList);
 //        model.addAttribute("securitiesList", securitiesList);
 //        model.addAttribute("cryptoList", cryptoList);

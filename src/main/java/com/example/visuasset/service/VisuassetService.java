@@ -60,6 +60,21 @@ public class VisuassetService {
         return annualAssetsList;
     }
 
+    /**
+     * 現預金一覧をカンマ区切りの文字列に変換する
+     *
+     * @param annualAssetsList 資産データ一覧
+     * @return 現預金のカンマ区切り文字列
+     */
+    public String getCashListAsString(List<AnnualAssets> annualAssetsList) {
+        return annualAssetsList.stream()
+                .map(AnnualAssets::getCash)
+                .map(Object::toString)
+                .reduce((s1, s2) -> s1 + ", " + s2)
+                .orElseThrow(() -> new RuntimeException("現預金一覧の文字列変換で例外が発生"));
+    }
+
+
     public String getMessage() {
         log.info("getMessage was called"); // ログ出力例
         return "Hello World!";
