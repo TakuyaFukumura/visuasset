@@ -28,7 +28,13 @@ public class VisuassetController {
 
     @GetMapping("yearly")
     public String yearly(Model model) {
-        List<AnnualAssets> annualAssetsList = service.getAssetsBetweenYears(2020, 2025);
+        int startYear = 2020;
+        int endYear = 2025;
+
+        List<AnnualAssets> annualAssetsList = service.getAssetsBetweenYears(startYear, endYear);
+
+        model.addAttribute("startYear", startYear );
+        model.addAttribute("endYear", endYear );
 
         String cashList = service.getCashListAsString(annualAssetsList);
         String securitiesList = service.getSecuritiesListAsString(annualAssetsList);

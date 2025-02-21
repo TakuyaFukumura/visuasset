@@ -20,13 +20,21 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
     <script>
+        const startYear = [[${startYear}]];
+        const endYear = [[${endYear}]];
+
+        const labels = [];
+        for (let year = startYear; year <= endYear; year++) {
+            labels.push(`${year}年`);
+        }
+
         const cashList = [ [[${cashList}]] ];
         const securitiesList = [ [[${securitiesList}]] ];
         const ctx = document.getElementById("yearly");
         const chart = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: ["2020年", "2021年", "2022年", "2023年", "2024年", "2025年"],
+                labels: labels,
                 datasets: [
                     {
                         label: '現預金',
