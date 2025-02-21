@@ -10,7 +10,7 @@
 </head>
 <body>
     <header th:replace="~{header}"></header>
-    2020年～2025年
+    <span th:text="${startYear} + '年～' + ${endYear} + '年'"></span>
     <div class="chart-container">
         <canvas id="yearly"></canvas>
     </div>
