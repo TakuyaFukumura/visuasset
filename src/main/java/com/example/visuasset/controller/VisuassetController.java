@@ -40,6 +40,11 @@ public class VisuassetController {
         if (endYear < startYear) {
             endYear = startYear;
         }
+        // endYearが現在の年を超えないようにバリデーション
+        int currentYear = java.time.LocalDate.now().getYear();
+        if (endYear > currentYear) {
+            endYear = currentYear;
+        }
 
         List<AnnualAssets> annualAssetsList = service.getAssetsBetweenYears(startYear, endYear);
 
