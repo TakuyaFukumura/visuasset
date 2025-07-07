@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -27,8 +28,10 @@ public class VisuassetController {
     }
 
     @GetMapping("yearly")
-    public String yearly(Model model) {
-        int startYear = 2020;
+    public String yearly(@RequestParam(name = "startYear", required = false) Integer startYear, Model model) {
+        if (startYear == null) {
+            startYear = 2020; // デフォルト値
+        }
         int endYear = 2025;
 
         List<AnnualAssets> annualAssetsList = service.getAssetsBetweenYears(startYear, endYear);

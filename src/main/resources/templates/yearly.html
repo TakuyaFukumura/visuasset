@@ -10,6 +10,18 @@
 </head>
 <body>
     <header th:replace="~{header}"></header>
+    <form th:action="@{/yearly}" method="get" class="mb-3">
+        <input
+            type="number"
+            id="startYear"
+            name="startYear"
+            th:value="${startYear}"
+            min="1900"
+            max="2100"
+            onchange="this.form.submit()"
+        >
+        <label for="startYear">年～</label>
+    </form>
     <span th:text="${startYear} + '年～' + ${endYear} + '年'"></span>
     <div class="chart-container">
         <canvas id="yearly"></canvas>
