@@ -11,12 +11,12 @@
 <body>
     <header th:replace="~{header}"></header>
     <div style="display: flex; align-items: center; gap: 10px;">
-        <form th:action="@{/monthly}" method="post" style="display:inline;">
+        <form th:action="@{/monthly}" method="get" style="display:inline;">
             <input type="hidden" name="targetYear" th:value="${targetYear - 1}" />
             <button type="submit">−</button>
         </form>
         <span id="yearDisplay" th:text="${targetYear} + '年'"></span>
-        <form th:action="@{/monthly}" method="post" style="display:inline;">
+        <form th:action="@{/monthly}" method="get" style="display:inline;">
             <input type="hidden" name="targetYear" th:value="${targetYear + 1}" />
             <button type="submit">＋</button>
         </form>

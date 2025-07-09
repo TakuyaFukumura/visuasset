@@ -70,19 +70,7 @@ public class VisuassetController {
     }
 
     @GetMapping("monthly")
-    public String monthly(Model model) {
-        int currentYear = java.time.LocalDate.now().getYear();
-        model.addAttribute("targetYear", currentYear);
-        // 月別資産データ取得
-        var monthlyAssetsList = monthlyAssetsService.getAssetsByYear(currentYear);
-        model.addAttribute("cashList", monthlyAssetsService.getCashListAsString(monthlyAssetsList));
-        model.addAttribute("securitiesList", monthlyAssetsService.getSecuritiesListAsString(monthlyAssetsList));
-        model.addAttribute("cryptoList", monthlyAssetsService.getCryptoListAsString(monthlyAssetsList));
-        return "monthly";
-    }
-
-    @PostMapping("monthly")
-    public String monthlyPost(@RequestParam(name = "targetYear", required = false) Integer targetYear, Model model) {
+    public String monthly(@RequestParam(name = "targetYear", required = false) Integer targetYear, Model model) {
         if (targetYear == null) {
             targetYear = java.time.LocalDate.now().getYear();
         }
