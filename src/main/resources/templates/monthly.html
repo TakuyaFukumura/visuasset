@@ -30,6 +30,9 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
     <script>
+        const cashList = [ [[${cashList}]] ];
+        const securitiesList = [ [[${securitiesList}]] ];
+        const cryptoList = [ [[${cryptoList}]] ];
         const ctx = document.getElementById("monthly");
         const chart = new Chart(ctx, {
             type: 'bar',
@@ -38,17 +41,17 @@
                 datasets: [
                     {
                         label: '現預金',
-                        data: [201599, 1400000, 4000000, 1641599, 1641599, 1641599, 201599, 1400000, 4000000, 1641599, 1641599, 1641599],
+                        data: cashList,
                         backgroundColor: "rgba(130, 201, 169, 0.5)"
                     },
                     {
                         label: '有価証券',
-                        data: [64564, 1004564, 1604564, 5834564, 8304564, 9834564, 64564, 1004564, 1604564, 5834564, 8304564, 9834564],
+                        data: securitiesList,
                         backgroundColor: "rgba(255, 99, 132, 0.5)"
                     },
                     {
                         label: '暗号資産',
-                        data: [0, 0, 100000, 158192, 260000, 448192, 0, 0, 100000, 158192, 260000, 448192],
+                        data: cryptoList,
                         backgroundColor: "rgba(54, 162, 235, 0.5)"
                     }
                 ]
