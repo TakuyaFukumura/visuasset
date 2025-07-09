@@ -12,15 +12,14 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Entity
 @Table(name = "monthly_assets")
+@IdClass(MonthlyAssetsId.class)
 public class MonthlyAssets {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
     @Column(name = "target_year", nullable = false)
     private Integer targetYear; // 対象年
 
+    @Id
     @Column(name = "target_month", nullable = false)
     private Integer targetMonth; // 対象月
 
