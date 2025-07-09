@@ -71,8 +71,13 @@ public class VisuassetController {
 
     @GetMapping("monthly")
     public String monthly(@RequestParam(name = "targetYear", required = false) Integer targetYear, Model model) {
+        int currentYear = java.time.LocalDate.now().getYear();
         if (targetYear == null) {
-            targetYear = java.time.LocalDate.now().getYear();
+            targetYear = currentYear;
+        }
+        // 未来年にならないようにバリデーション
+        if (targetYear > currentYear) {
+            targetYear = currentYear;
         }
         model.addAttribute("targetYear", targetYear);
         // 月別資産データ取得
