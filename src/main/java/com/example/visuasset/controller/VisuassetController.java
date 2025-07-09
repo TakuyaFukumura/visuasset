@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -67,6 +68,14 @@ public class VisuassetController {
 
     @GetMapping("monthly")
     public String monthly(Model model) {
+        int currentYear = java.time.LocalDate.now().getYear();
+        model.addAttribute("year", currentYear);
+        return "monthly";
+    }
+
+    @PostMapping("monthly")
+    public String monthlyPost(@RequestParam(name = "year", required = false) Integer year, Model model) {
+        model.addAttribute("year", year);
         return "monthly";
     }
 }

@@ -12,16 +12,23 @@
     <header th:replace="~{header}"></header>
     <div style="display: flex; align-items: center; gap: 10px;">
         <button onclick="changeYear(-1)">−</button>
-        <span id="yearDisplay">2024年</span>
+        <span id="yearDisplay" th:text="${year} + '年'"></span>
         <button onclick="changeYear(1)">＋</button>
     </div>
+    <form th:action="@{/monthly}" method="post" id="yearForm">
+        <input type="hidden" name="year" id="yearInput" th:value="${year}">
+        <input type="submit" value="この年で表示" class="btn btn-success">
+    </form>
     <script>
-        let currentYear = 2024;
-    
+        let currentYear = /*[[${year}]]*/ 2024;
         function changeYear(delta) {
             currentYear += delta;
             document.getElementById("yearDisplay").textContent = currentYear + "年";
+            document.getElementById("yearInput").value = currentYear;
         }
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById("yearInput").value = currentYear;
+        });
     </script>
     <div class="chart-container">
         <canvas id="monthly"></canvas>
