@@ -37,11 +37,15 @@ public class VisuassetController {
         if (endYear == null) {
             endYear = 2025; // デフォルト値
         }
+        int currentYear = java.time.LocalDate.now().getYear();
+        // startYearが現在の年を超えないようにバリデーション
+        if (startYear > currentYear) {
+            startYear = currentYear;
+        }
         if (endYear < startYear) {
             endYear = startYear;
         }
         // endYearが現在の年を超えないようにバリデーション
-        int currentYear = java.time.LocalDate.now().getYear();
         if (endYear > currentYear) {
             endYear = currentYear;
         }
