@@ -18,17 +18,20 @@ public class MonthlyAssetsService {
     }
 
     /**
-     * 指定年の資産データ一覧を取得
+     * 指定した年の資産データ一覧を取得します。
      *
-     * @param year 年
-     * @return 資産データ一覧
+     * @param year 年（例：2024）
+     * @return 指定年のMonthlyAssetsリスト
      */
     public List<MonthlyAssets> getAssetsByYear(int year) {
         return repository.findByTargetYear(year);
     }
 
     /**
-     * 現預金一覧をカンマ区切りの文字列に変換する
+     * 現預金（cash）一覧をカンマ区切りの文字列に変換します。
+     *
+     * @param monthlyAssetsList MonthlyAssetsのリスト
+     * @return 現預金の値をカンマ区切りで連結した文字列
      */
     public String getCashListAsString(List<MonthlyAssets> monthlyAssetsList) {
         return monthlyAssetsList.stream()
@@ -39,7 +42,10 @@ public class MonthlyAssetsService {
     }
 
     /**
-     * 有価証券一覧をカンマ区切りの文字列に変換する
+     * 有価証券（securities）一覧をカンマ区切りの文字列に変換します。
+     *
+     * @param monthlyAssetsList MonthlyAssetsのリスト
+     * @return 有価証券の値をカンマ区切りで連結した文字列
      */
     public String getSecuritiesListAsString(List<MonthlyAssets> monthlyAssetsList) {
         return monthlyAssetsList.stream()
@@ -50,7 +56,10 @@ public class MonthlyAssetsService {
     }
 
     /**
-     * 暗号資産一覧をカンマ区切りの文字列に変換する
+     * 暗号資産（crypto）一覧をカンマ区切りの文字列に変換します。
+     *
+     * @param monthlyAssetsList MonthlyAssetsのリスト
+     * @return 暗号資産の値をカンマ区切りで連結した文字列
      */
     public String getCryptoListAsString(List<MonthlyAssets> monthlyAssetsList) {
         return monthlyAssetsList.stream()

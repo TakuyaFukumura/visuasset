@@ -10,6 +10,11 @@ import java.util.List;
 @Repository
 public interface MonthlyAssetsRepository extends JpaRepository<MonthlyAssets, MonthlyAssetsId> {
 
-    // 指定した年のデータをリストで取得
+    /**
+     * 指定した年の月次資産データをリストで取得します。
+     *
+     * @param targetYear 取得対象の年（西暦）
+     * @return 指定年の月次資産リスト
+     */
     List<MonthlyAssets> findByTargetYear(int targetYear);
 }
