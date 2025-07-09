@@ -2,10 +2,12 @@ package com.example.visuasset.controller;
 
 import com.example.visuasset.entity.AnnualAssets;
 import com.example.visuasset.service.VisuassetService;
+import com.example.visuasset.service.MonthlyAssetsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -16,10 +18,12 @@ import java.util.List;
 public class VisuassetController {
 
     private final VisuassetService service;
+    private final MonthlyAssetsService monthlyAssetsService;
 
     @Autowired
-    public VisuassetController(VisuassetService service) {
+    public VisuassetController(VisuassetService service, MonthlyAssetsService monthlyAssetsService) {
         this.service = service;
+        this.monthlyAssetsService = monthlyAssetsService;
     }
 
     @GetMapping // Getされた時の処理 Postは別
@@ -66,7 +70,21 @@ public class VisuassetController {
     }
 
     @GetMapping("monthly")
-    public String monthly(Model model) {
+    public String monthly(@RequestParam(name = "targetYear", required = false) Integer targetYear, Model model) {
+        int currentYear = java.time.LocalDate.now().getYear();
+        if (targetYear == null) {
+            targetYear = currentYear;
+        }
+        // 未来年にならないようにバリデーション
+        if (targetYear > currentYear) {
+            targetYear = currentYear;
+        }
+        model.addAttribute("targetYear", targetYear);
+        // 月別資産データ取得
+        var monthlyAssetsList = monthlyAssetsService.getAssetsByYear(targetYear);
+        model.addAttribute("cashList", monthlyAssetsService.getCashListAsString(monthlyAssetsList));
+        model.addAttribute("securitiesList", monthlyAssetsService.getSecuritiesListAsString(monthlyAssetsList));
+        model.addAttribute("cryptoList", monthlyAssetsService.getCryptoListAsString(monthlyAssetsList));
         return "monthly";
     }
 }
