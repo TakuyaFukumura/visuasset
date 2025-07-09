@@ -69,13 +69,13 @@ public class VisuassetController {
     @GetMapping("monthly")
     public String monthly(Model model) {
         int currentYear = java.time.LocalDate.now().getYear();
-        model.addAttribute("year", currentYear);
+        model.addAttribute("targetYear", currentYear);
         return "monthly";
     }
 
     @PostMapping("monthly")
-    public String monthlyPost(@RequestParam(name = "year", required = false) Integer year, Model model) {
-        model.addAttribute("year", year);
+    public String monthlyPost(@RequestParam(name = "targetYear", required = false) Integer targetYear, Model model) {
+        model.addAttribute("targetYear", targetYear);
         return "monthly";
     }
 }
