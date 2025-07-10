@@ -5,6 +5,7 @@ import com.example.visuasset.repository.MonthlyAssetsRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Slf4j
@@ -18,54 +19,63 @@ public class MonthlyAssetsService {
     }
 
     /**
-     * 指定した年の資産データ一覧を取得します。
+     * 指定した年の月次資産データ一覧を取得します。
      *
-     * @param year 年（例：2024）
-     * @return 指定年のMonthlyAssetsリスト
+     * @param year 取得対象の年（例：2024）
+     * @return 指定年のMonthlyAssetsエンティティのリスト
      */
     public List<MonthlyAssets> getAssetsByYear(int year) {
         return repository.findByTargetYear(year);
     }
 
     /**
-     * 現預金（cash）一覧をカンマ区切りの文字列に変換します。
+     * 月次資産リストから現預金の金額一覧を取得します。
      *
-     * @param monthlyAssetsList MonthlyAssetsのリスト
-     * @return 現預金の値をカンマ区切りで連結した文字列
+     * @param monthlyAssetsList 月次資産エンティティのリスト
+     * @return 各月の現預金金額一覧
      */
-    public String getCashListAsString(List<MonthlyAssets> monthlyAssetsList) {
+    public List<BigDecimal> getCashList(List<MonthlyAssets> monthlyAssetsList) {
         return monthlyAssetsList.stream()
                 .map(MonthlyAssets::getCash)
-                .map(Object::toString)
-                .reduce((s1, s2) -> s1 + ", " + s2)
-                .orElse("");
+                .toList();
     }
 
     /**
-     * 有価証券（securities）一覧をカンマ区切りの文字列に変換します。
+     * 月次資産リストから有価証券の金額一覧を取得します。
      *
-     * @param monthlyAssetsList MonthlyAssetsのリスト
-     * @return 有価証券の値をカンマ区切りで連結した文字列
+     * @param monthlyAssetsList 月次資産エンティティのリスト
+     * @return 各月の有価証券金額の一覧
      */
-    public String getSecuritiesListAsString(List<MonthlyAssets> monthlyAssetsList) {
+    public List<BigDecimal> getSecuritiesList(List<MonthlyAssets> monthlyAssetsList) {
         return monthlyAssetsList.stream()
                 .map(MonthlyAssets::getSecurities)
-                .map(Object::toString)
-                .reduce((s1, s2) -> s1 + ", " + s2)
-                .orElse("");
+                .toList();
     }
 
     /**
-     * 暗号資産（crypto）一覧をカンマ区切りの文字列に変換します。
+     * 月次資産リストから暗号資産の金額一覧を取得します。
      *
-     * @param monthlyAssetsList MonthlyAssetsのリスト
-     * @return 暗号資産の値をカンマ区切りで連結した文字列
+     * @param monthlyAssetsList 月次資産エンティティのリスト
+     * @return 各月の暗号資産金額の一覧
      */
-    public String getCryptoListAsString(List<MonthlyAssets> monthlyAssetsList) {
+    public List<BigDecimal> getCryptoList(List<MonthlyAssets> monthlyAssetsList) {
         return monthlyAssetsList.stream()
                 .map(MonthlyAssets::getCrypto)
-                .map(Object::toString)
-                .reduce((s1, s2) -> s1 + ", " + s2)
-                .orElse("");
+                .toList();
+    }
+
+    /**
+     * 月次資産リストからデータが存在する月のみのラベルリストを返す
+     *
+     * @param monthlyAssetsList 月次資産エンティティのリスト
+     * @return データが存在する月のラベルリスト（例: ["1月", "3月", ...]）
+     */
+    public List<String> getMonthLabels(List<MonthlyAssets> monthlyAssetsList) {
+        return monthlyAssetsList.stream()
+                .map(MonthlyAssets::getTargetMonth)
+                .distinct()
+                .sorted()
+                .map(i -> i + "月")
+                .toList();
     }
 }

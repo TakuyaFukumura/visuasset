@@ -82,9 +82,11 @@ public class VisuassetController {
         model.addAttribute("targetYear", targetYear);
         // 月別資産データ取得
         var monthlyAssetsList = monthlyAssetsService.getAssetsByYear(targetYear);
-        model.addAttribute("cashList", monthlyAssetsService.getCashListAsString(monthlyAssetsList));
-        model.addAttribute("securitiesList", monthlyAssetsService.getSecuritiesListAsString(monthlyAssetsList));
-        model.addAttribute("cryptoList", monthlyAssetsService.getCryptoListAsString(monthlyAssetsList));
+        model.addAttribute("cashList", monthlyAssetsService.getCashList(monthlyAssetsList));
+        model.addAttribute("securitiesList", monthlyAssetsService.getSecuritiesList(monthlyAssetsList));
+        model.addAttribute("cryptoList", monthlyAssetsService.getCryptoList(monthlyAssetsList));
+        // ラベル（データがある月のみ）をサーバー側で生成
+        model.addAttribute("labels", monthlyAssetsService.getMonthLabels(monthlyAssetsList));
         return "monthly";
     }
 }

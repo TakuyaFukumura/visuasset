@@ -29,15 +29,16 @@
     </form>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
-    <script>
-        const cashList = [ [[${cashList}]] ];
-        const securitiesList = [ [[${securitiesList}]] ];
-        const cryptoList = [ [[${cryptoList}]] ];
+    <script th:inline="javascript">
+        const cashList = /*[[${cashList}]]*/ [];
+        const securitiesList = /*[[${securitiesList}]]*/ [];
+        const cryptoList = /*[[${cryptoList}]]*/ [];
+        const labels = /*[[${labels}]]*/ [];
         const ctx = document.getElementById("monthly");
         const chart = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"],
+                labels: labels,
                 datasets: [
                     {
                         label: '現預金',
