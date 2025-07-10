@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.function.Function;
 
 @Slf4j
 @Service
@@ -29,15 +30,27 @@ public class MonthlyAssetsService {
     }
 
     /**
+     * 共通の金額リスト取得ヘルパーメソッド
+     *
+     * @param monthlyAssetsList 月次資産エンティティのリスト
+     * @param mapper 金額を取得する関数
+     * @return 各月の金額一覧
+     */
+    private List<BigDecimal> getAmountList(List<MonthlyAssets> monthlyAssetsList,
+                                           Function<MonthlyAssets, BigDecimal> mapper) {
+        return monthlyAssetsList.stream()
+                .map(mapper)
+                .toList();
+    }
+
+    /**
      * 月次資産リストから現預金の金額一覧を取得します。
      *
      * @param monthlyAssetsList 月次資産エンティティのリスト
      * @return 各月の現預金金額一覧
      */
     public List<BigDecimal> getCashList(List<MonthlyAssets> monthlyAssetsList) {
-        return monthlyAssetsList.stream()
-                .map(MonthlyAssets::getCash)
-                .toList();
+        return getAmountList(monthlyAssetsList, MonthlyAssets::getCash);
     }
 
     /**
@@ -47,9 +60,7 @@ public class MonthlyAssetsService {
      * @return 各月の有価証券金額の一覧
      */
     public List<BigDecimal> getSecuritiesList(List<MonthlyAssets> monthlyAssetsList) {
-        return monthlyAssetsList.stream()
-                .map(MonthlyAssets::getSecurities)
-                .toList();
+        return getAmountList(monthlyAssetsList, MonthlyAssets::getSecurities);
     }
 
     /**
@@ -59,9 +70,7 @@ public class MonthlyAssetsService {
      * @return 各月の暗号資産金額の一覧
      */
     public List<BigDecimal> getCryptoList(List<MonthlyAssets> monthlyAssetsList) {
-        return monthlyAssetsList.stream()
-                .map(MonthlyAssets::getCrypto)
-                .toList();
+        return getAmountList(monthlyAssetsList, MonthlyAssets::getCrypto);
     }
 
     /**
