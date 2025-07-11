@@ -7,7 +7,7 @@
 </head>
 <body>
 <h1 th:text="annualAssets.targetYear != null ? '年別資産データ編集' : '年別資産データ新規登録'"></h1>
-<form th:action="${annualAssets.targetYear != null} ? @{/annual-assets/update} : @{/annualAssets/insert}"
+<form th:action="${annualAssets.targetYear != null} ? @{/annualAssets/update} : @{/annualAssets/insert}"
       th:object="${annualAssets}" method="post">
     <div>
         <label>年:</label>

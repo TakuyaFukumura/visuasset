@@ -10,7 +10,7 @@
 <body>
     <div th:replace="header :: header"></div>
     <h1>年別資産データ一覧</h1>
-    <a th:href="@{/annual-assets/new}">新規登録</a>
+    <a th:href="@{/annualAssets/new}">新規登録</a>
     <table border="1">
         <thead>
         <tr>
@@ -28,8 +28,8 @@
             <td th:text="${asset.securities}"></td>
             <td th:text="${asset.crypto}"></td>
             <td>
-                <a th:href="@{'/annual-assets/edit/' + ${asset.targetYear}}">編集</a>
-                <form th:action="@{'/annual-assets/delete/' + ${asset.targetYear}}" method="post" style="display:inline;">
+                <a th:href="@{'/annualAssets/edit/' + ${asset.targetYear}}">編集</a>
+                <form th:action="@{'/annualAssets/delete/' + ${asset.targetYear}}" method="post" style="display:inline;">
                     <button type="submit" onclick="return confirm('本当に削除しますか？');">削除</button>
                 </form>
             </td>
