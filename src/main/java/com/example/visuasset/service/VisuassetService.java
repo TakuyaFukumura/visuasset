@@ -105,4 +105,12 @@ public class VisuassetService {
                 .reduce((s1, s2) -> s1 + ", " + s2)
                 .orElseThrow(() -> new RuntimeException("暗号資産一覧の文字列変換で例外が発生"));
     }
+
+    /**
+     * 年別資産データの全件取得
+     * @return 全ての年別資産データ一覧
+     */
+    public List<AnnualAssets> getAllAnnualAssets() {
+        return repository.findAll();
+    }
 }

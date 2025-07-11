@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>年別資産データ一覧</title>
+    <link rel="stylesheet" th:href="@{/css/basicChart.css}" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+</head>
+<body>
+    <div th:replace="header :: header"></div>
+    <h1>年別資産データ一覧</h1>
+    <a th:href="@{/annual-assets/new}">新規登録</a>
+    <table border="1">
+        <thead>
+        <tr>
+            <th>年</th>
+            <th>現預金</th>
+            <th>有価証券</th>
+            <th>暗号資産</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="asset : ${annualAssetsList}">
+            <td th:text="${asset.targetYear}"></td>
+            <td th:text="${asset.cash}"></td>
+            <td th:text="${asset.securities}"></td>
+            <td th:text="${asset.crypto}"></td>
+            <td>
+                <a th:href="@{'/annual-assets/edit/' + ${asset.targetYear}}">編集</a>
+                <form th:action="@{'/annual-assets/delete/' + ${asset.targetYear}}" method="post" style="display:inline;">
+                    <button type="submit" onclick="return confirm('本当に削除しますか？');">削除</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</body>
+</html>

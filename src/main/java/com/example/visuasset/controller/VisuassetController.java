@@ -6,9 +6,7 @@ import com.example.visuasset.service.VisuassetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -87,5 +85,13 @@ public class VisuassetController {
         // ラベル（データがある月のみ）をサーバー側で生成
         model.addAttribute("labels", monthlyAssetsService.getMonthLabels(monthlyAssetsList));
         return "monthly";
+    }
+
+    // 年別資産データ一覧画面
+    @GetMapping("annualAssets")
+    public String annualAssetsList(Model model) {
+        List<AnnualAssets> list = service.getAllAnnualAssets();
+        model.addAttribute("annualAssetsList", list);
+        return "annual_assets";
     }
 }
