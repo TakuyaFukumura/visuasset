@@ -95,6 +95,20 @@ public class VisuassetController {
         return "annual_assets";
     }
 
+    // 年別資産データ新規登録画面
+    @GetMapping("annual-assets/new")
+    public String showCreateForm(Model model) {
+        model.addAttribute("annualAssets", new AnnualAssets());
+        return "annual_assets_form";
+    }
+
+    // 年別資産データ新規登録処理
+    @PostMapping("annualAssets/insert")
+    public String createAnnualAssets(@ModelAttribute AnnualAssets annualAssets) {
+        service.saveAnnualAssets(annualAssets);
+        return "redirect:/annualAssets";
+    }
+
     // 年別資産データ編集画面
     @GetMapping("annual-assets/edit/{year}")
     public String showEditForm(@PathVariable("year") int year, Model model) {
