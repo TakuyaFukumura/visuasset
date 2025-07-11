@@ -112,14 +112,8 @@ public class VisuassetController {
     // 年別資産データ編集画面
     @GetMapping("annualAssets/edit/{year}")
     public String showEditForm(@PathVariable("year") int year, Model model) {
-        AnnualAssets assets = service
-                .getAssetsByYear(year)
-                .orElse(new AnnualAssets(
-                                year,
-                                java.math.BigDecimal.ZERO,
-                                java.math.BigDecimal.ZERO,
-                                java.math.BigDecimal.ZERO));
-        model.addAttribute("annualAssets", assets);
+        AnnualAssets annualAssets = service.getAssetsByYear(year).orElse(new AnnualAssets());
+        model.addAttribute("annualAssets", annualAssets);
         return "annual_assets_form";
     }
 
