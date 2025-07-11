@@ -23,6 +23,7 @@ public class VisuassetService {
 
     /**
      * 指定した年の資産データを取得する
+     *
      * @param year 指定した年
      * @return 資産データ
      */
@@ -118,6 +119,7 @@ public class VisuassetService {
 
     /**
      * 年別資産データの全件取得
+     *
      * @return 全ての年別資産データ一覧
      */
     public List<AnnualAssets> getAllAnnualAssets() {

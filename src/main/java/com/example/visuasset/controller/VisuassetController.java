@@ -30,8 +30,8 @@ public class VisuassetController {
 
     @GetMapping("yearly")
     public String yearly(@RequestParam(name = "startYear", required = false) Integer startYear,
-                        @RequestParam(name = "endYear", required = false) Integer endYear,
-                        Model model) {
+                         @RequestParam(name = "endYear", required = false) Integer endYear,
+                         Model model) {
         if (startYear == null) {
             startYear = 2020; // デフォルト値
         }
@@ -53,8 +53,8 @@ public class VisuassetController {
 
         List<AnnualAssets> annualAssetsList = service.getAssetsBetweenYears(startYear, endYear);
 
-        model.addAttribute("startYear", startYear );
-        model.addAttribute("endYear", endYear );
+        model.addAttribute("startYear", startYear);
+        model.addAttribute("endYear", endYear);
 
         String cashList = service.getCashListAsString(annualAssetsList);
         String securitiesList = service.getSecuritiesListAsString(annualAssetsList);
