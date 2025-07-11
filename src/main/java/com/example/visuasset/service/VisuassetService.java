@@ -23,6 +23,7 @@ public class VisuassetService {
 
     /**
      * 指定した年の資産データを取得する
+     *
      * @param year 指定した年
      * @return 資産データ
      */
@@ -104,5 +105,24 @@ public class VisuassetService {
                 .map(Object::toString)
                 .reduce((s1, s2) -> s1 + ", " + s2)
                 .orElseThrow(() -> new RuntimeException("暗号資産一覧の文字列変換で例外が発生"));
+    }
+
+    // 年別資産データの保存（登録・更新）
+    public void saveAnnualAssets(AnnualAssets annualAssets) {
+        repository.save(annualAssets);
+    }
+
+    // 年別資産データの削除
+    public void deleteAnnualAssets(int year) {
+        repository.findByTargetYear(year).ifPresent(repository::delete);
+    }
+
+    /**
+     * 年別資産データの全件取得
+     *
+     * @return 全ての年別資産データ一覧
+     */
+    public List<AnnualAssets> getAllAnnualAssets() {
+        return repository.findAll();
     }
 }
