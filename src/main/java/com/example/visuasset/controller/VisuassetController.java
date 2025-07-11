@@ -129,4 +129,11 @@ public class VisuassetController {
         service.saveAnnualAssets(annualAssets);
         return "redirect:/annualAssets";
     }
+
+    // 年別資産データ削除
+    @PostMapping("annual-assets/delete/{year}")
+    public String deleteAnnualAssets(@PathVariable("year") int year) {
+        service.deleteAnnualAssets(year);
+        return "redirect:/annualAssets";
+    }
 }

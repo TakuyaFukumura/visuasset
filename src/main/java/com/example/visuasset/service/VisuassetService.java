@@ -111,6 +111,11 @@ public class VisuassetService {
         repository.save(annualAssets);
     }
 
+    // 年別資産データの削除
+    public void deleteAnnualAssets(int year) {
+        repository.findByTargetYear(year).ifPresent(repository::delete);
+    }
+
     /**
      * 年別資産データの全件取得
      * @return 全ての年別資産データ一覧
