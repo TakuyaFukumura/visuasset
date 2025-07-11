@@ -30,7 +30,10 @@
             <td>
                 <a th:href="@{'/annualAssets/edit/' + ${asset.targetYear}}">編集</a>
                 <form th:action="@{'/annualAssets/delete/' + ${asset.targetYear}}" method="post" style="display:inline;">
-                    <button type="submit" onclick="return confirm('本当に削除しますか？');">削除</button>
+                    <button type="submit"
+                            th:onclick="|return confirm('本当に' + ${asset.targetYear} + '年のデータを削除しますか？');|">
+                        削除
+                    </button>
                 </form>
             </td>
         </tr>
