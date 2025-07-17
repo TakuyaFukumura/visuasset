@@ -72,7 +72,7 @@ public class YearlyAssetsController {
     // 年別資産データ一覧画面
     @GetMapping("yearly/list")
     public String annualAssetsList(Model model) {
-        List<YearlyAssets> list = service.getAllAnnualAssets();
+        List<YearlyAssets> list = service.getAllYearlyAssets();
         model.addAttribute("annualAssetsList", list);
         return "yearly_list";
     }
@@ -87,7 +87,7 @@ public class YearlyAssetsController {
     // 年別資産データ新規登録処理
     @PostMapping("yearly/insert")
     public String createYearlyAssets(@ModelAttribute YearlyAssets yearlyAssets) {
-        service.saveAnnualAssets(yearlyAssets);
+        service.saveYearlyAssets(yearlyAssets);
         return "redirect:/yearly/list";
     }
 
@@ -102,14 +102,14 @@ public class YearlyAssetsController {
     // 年別資産データ更新処理
     @PostMapping("yearly/update")
     public String updateYearlyAssets(@ModelAttribute YearlyAssets yearlyAssets) {
-        service.saveAnnualAssets(yearlyAssets);
+        service.saveYearlyAssets(yearlyAssets);
         return "redirect:/yearly/list";
     }
 
     // 年別資産データ削除
     @PostMapping("yearly/delete/{year}")
     public String deleteYearlyAssets(@PathVariable("year") int year) {
-        service.deleteAnnualAssets(year);
+        service.deleteYearlyAssets(year);
         return "redirect:/yearly/list";
     }
 }

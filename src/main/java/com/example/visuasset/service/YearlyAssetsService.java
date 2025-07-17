@@ -108,12 +108,12 @@ public class YearlyAssetsService {
     }
 
     // 年別資産データの保存（登録・更新）
-    public void saveAnnualAssets(YearlyAssets yearlyAssets) {
+    public void saveYearlyAssets(YearlyAssets yearlyAssets) {
         repository.save(yearlyAssets);
     }
 
     // 年別資産データの削除
-    public void deleteAnnualAssets(int year) {
+    public void deleteYearlyAssets(int year) {
         repository.findByTargetYear(year).ifPresent(repository::delete);
     }
 
@@ -122,7 +122,7 @@ public class YearlyAssetsService {
      *
      * @return 全ての年別資産データ一覧
      */
-    public List<YearlyAssets> getAllAnnualAssets() {
+    public List<YearlyAssets> getAllYearlyAssets() {
         return repository.findAll();
     }
 }
