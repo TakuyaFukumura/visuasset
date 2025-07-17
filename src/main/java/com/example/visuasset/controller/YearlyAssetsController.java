@@ -1,7 +1,7 @@
 package com.example.visuasset.controller;
 
 import com.example.visuasset.entity.YearlyAssets;
-import com.example.visuasset.service.VisuassetService;
+import com.example.visuasset.service.YearlyAssetsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,10 +19,10 @@ import java.util.List;
 @RequestMapping("/") // URLとの関連付け http://localhost:8080/ の時に呼ばれる
 public class YearlyAssetsController {
 
-    private final VisuassetService service;
+    private final YearlyAssetsService service;
 
     @Autowired
-    public YearlyAssetsController(VisuassetService service) {
+    public YearlyAssetsController(YearlyAssetsService service) {
         this.service = service;
     }
 

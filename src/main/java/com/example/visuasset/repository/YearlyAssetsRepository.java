@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface AnnualAssetsRepository extends JpaRepository<YearlyAssets, Integer> {
+public interface YearlyAssetsRepository extends JpaRepository<YearlyAssets, Integer> {
 
     // 指定した年のデータを取得（Optionalでラップ）
     Optional<YearlyAssets> findByTargetYear(int year);

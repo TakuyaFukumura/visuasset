@@ -1,7 +1,7 @@
 package com.example.visuasset.service;
 
 import com.example.visuasset.entity.YearlyAssets;
-import com.example.visuasset.repository.AnnualAssetsRepository;
+import com.example.visuasset.repository.YearlyAssetsRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -13,11 +13,11 @@ import java.util.Optional;
 
 @Slf4j
 @Service
-public class VisuassetService {
+public class YearlyAssetsService {
 
-    private final AnnualAssetsRepository repository;
+    private final YearlyAssetsRepository repository;
 
-    public VisuassetService(AnnualAssetsRepository repository) {
+    public YearlyAssetsService(YearlyAssetsRepository repository) {
         this.repository = repository;
     }
 
