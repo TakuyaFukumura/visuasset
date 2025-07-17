@@ -66,45 +66,53 @@ public class YearlyAssetsService {
     }
 
     /**
-     * 現預金一覧をカンマ区切りの文字列に変換する
+     * 年次資産リストから現預金の金額一覧を取得します。
      *
-     * @param yearlyAssetsList 資産データ一覧
-     * @return 現預金のカンマ区切り文字列
+     * @param yearlyAssetsList 年次資産エンティティのリスト
+     * @return 各年の現預金金額一覧
      */
-    public String getCashListAsString(List<YearlyAssets> yearlyAssetsList) {
+    public List<BigDecimal> getCashList(List<YearlyAssets> yearlyAssetsList) {
         return yearlyAssetsList.stream()
                 .map(YearlyAssets::getCash)
-                .map(Object::toString)
-                .reduce((s1, s2) -> s1 + ", " + s2)
-                .orElseThrow(() -> new RuntimeException("現預金一覧の文字列変換で例外が発生"));
+                .toList();
     }
 
     /**
-     * 有価証券一覧をカンマ区切りの文字列に変換する
+     * 年次資産リストから有価証券の金額一覧を取得します。
      *
-     * @param yearlyAssetsList 資産データ一覧
-     * @return 有価証券のカンマ区切り文字列
+     * @param yearlyAssetsList 年次資産エンティティのリスト
+     * @return 各年の有価証券金額一覧
      */
-    public String getSecuritiesListAsString(List<YearlyAssets> yearlyAssetsList) {
+    public List<BigDecimal> getSecuritiesList(List<YearlyAssets> yearlyAssetsList) {
         return yearlyAssetsList.stream()
                 .map(YearlyAssets::getSecurities)
-                .map(Object::toString)
-                .reduce((s1, s2) -> s1 + ", " + s2)
-                .orElseThrow(() -> new RuntimeException("有価証券一覧の文字列変換で例外が発生"));
+                .toList();
     }
 
     /**
-     * 暗号資産一覧をカンマ区切りの文字列に変換する
+     * 年次資産リストから暗号資産の金額一覧を取得します。
      *
-     * @param yearlyAssetsList 資産データ一覧
-     * @return 暗号資産のカンマ区切り文字列
+     * @param yearlyAssetsList 年次資産エンティティのリスト
+     * @return 各年の暗号資産金額一覧
      */
-    public String getCryptoListAsString(List<YearlyAssets> yearlyAssetsList) {
+    public List<BigDecimal> getCryptoList(List<YearlyAssets> yearlyAssetsList) {
         return yearlyAssetsList.stream()
                 .map(YearlyAssets::getCrypto)
-                .map(Object::toString)
-                .reduce((s1, s2) -> s1 + ", " + s2)
-                .orElseThrow(() -> new RuntimeException("暗号資産一覧の文字列変換で例外が発生"));
+                .toList();
+    }
+
+    /**
+     * 年次資産リストから年のラベルリストを取得します。
+     *
+     * @param yearlyAssetsList 年次資産エンティティのリスト
+     * @return 各年のラベルリスト（例: ["2020年", "2021年", ...]）
+     */
+    public List<String> getYearLabels(List<YearlyAssets> yearlyAssetsList) {
+        return yearlyAssetsList.stream()
+                .map(YearlyAssets::getTargetYear)
+                .sorted()
+                .map(year -> year + "年")
+                .toList();
     }
 
     // 年別資産データの保存（登録・更新）

@@ -58,14 +58,10 @@ public class YearlyAssetsController {
 
         model.addAttribute("startYear", startYear);
         model.addAttribute("endYear", endYear);
-
-        String cashList = service.getCashListAsString(yearlyAssetsList);
-        String securitiesList = service.getSecuritiesListAsString(yearlyAssetsList);
-        String cryptoList = service.getCryptoListAsString(yearlyAssetsList);
-
-        model.addAttribute("cashList", cashList);
-        model.addAttribute("securitiesList", securitiesList);
-        model.addAttribute("cryptoList", cryptoList);
+        model.addAttribute("cashList", service.getCashList(yearlyAssetsList));
+        model.addAttribute("securitiesList", service.getSecuritiesList(yearlyAssetsList));
+        model.addAttribute("cryptoList", service.getCryptoList(yearlyAssetsList));
+        model.addAttribute("labels", service.getYearLabels(yearlyAssetsList));
         return "yearly";
     }
 
