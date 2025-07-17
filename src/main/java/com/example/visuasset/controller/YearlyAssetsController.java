@@ -71,16 +71,16 @@ public class YearlyAssetsController {
 
     // 年別資産データ一覧画面
     @GetMapping("yearly/list")
-    public String annualAssetsList(Model model) {
+    public String yearlyAssetsList(Model model) {
         List<YearlyAssets> list = service.getAllYearlyAssets();
-        model.addAttribute("annualAssetsList", list);
+        model.addAttribute("yearlyAssetsList", list);
         return "yearly_list";
     }
 
     // 年別資産データ新規登録画面
     @GetMapping("yearly/new")
     public String showCreateForm(Model model) {
-        model.addAttribute("annualAssets", new YearlyAssets());
+        model.addAttribute("yearlyAssets", new YearlyAssets());
         return "yearly_form";
     }
 
@@ -95,7 +95,7 @@ public class YearlyAssetsController {
     @GetMapping("yearly/edit/{year}")
     public String showEditForm(@PathVariable("year") int year, Model model) {
         YearlyAssets yearlyAssets = service.getAssetsByYear(year).orElse(new YearlyAssets());
-        model.addAttribute("annualAssets", yearlyAssets);
+        model.addAttribute("yearlyAssets", yearlyAssets);
         return "yearly_form";
     }
 
