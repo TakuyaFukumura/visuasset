@@ -10,7 +10,7 @@
 <body>
     <div th:replace="header :: header"></div>
     <h1>年別資産データ一覧</h1>
-    <a th:href="@{/annualAssets/new}" class="btn btn-success mb-2">新規登録</a>
+    <a th:href="@{/yearly/new}" class="btn btn-success mb-2">新規登録</a>
     <table class="table table-bordered">
         <thead>
         <tr>
@@ -22,14 +22,14 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="asset : ${annualAssetsList}">
+        <tr th:each="asset : ${yearlyAssetsList}">
             <td th:text="${asset.targetYear}"></td>
             <td th:text="${asset.cash}"></td>
             <td th:text="${asset.securities}"></td>
             <td th:text="${asset.crypto}"></td>
             <td>
-                <a th:href="@{'/annualAssets/edit/' + ${asset.targetYear}}" class="btn btn-primary btn-sm">編集</a>
-                <form th:action="@{'/annualAssets/delete/' + ${asset.targetYear}}" method="post" style="display:inline;">
+                <a th:href="@{'/yearly/edit/' + ${asset.targetYear}}" class="btn btn-primary btn-sm">編集</a>
+                <form th:action="@{'/yearly/delete/' + ${asset.targetYear}}" method="post" style="display:inline;">
                     <button type="submit"
                             th:onclick="|return confirm('本当に' + ${asset.targetYear} + '年のデータを削除しますか？');|"
                             class="btn btn-danger btn-sm">

@@ -9,8 +9,8 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "annual_assets")
-public class AnnualAssets {
+@Table(name = "yearly_assets")
+public class YearlyAssets {
 
     @Id
     @Column(name = "target_year", nullable = false)

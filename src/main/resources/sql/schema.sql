@@ -11,9 +11,9 @@ CREATE TABLE IF NOT EXISTS `authorities` (
 );
 CREATE UNIQUE INDEX IF NOT EXISTS `ix_auth_username` ON `authorities` (`username`, `authority`);
 
--- DROP TABLE annual_assets;
+-- DROP TABLE yearly_assets;
 
-CREATE TABLE IF NOT EXISTS annual_assets (
+CREATE TABLE IF NOT EXISTS yearly_assets (
     target_year  INT PRIMARY KEY,         -- 記録する年
     cash DECIMAL(15,2) NOT NULL,  -- 現預金
     securities DECIMAL(15,2) NOT NULL,  -- 有価証券

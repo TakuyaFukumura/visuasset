@@ -1,7 +1,7 @@
 package com.example.visuasset.controller;
 
-import com.example.visuasset.entity.AnnualAssets;
-import com.example.visuasset.service.VisuassetService;
+import com.example.visuasset.entity.YearlyAssets;
+import com.example.visuasset.service.YearlyAssetsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,16 +12,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller
 @RequestMapping("/") // URLとの関連付け http://localhost:8080/ の時に呼ばれる
-public class VisuassetController {
+public class YearlyAssetsController {
 
-    private final VisuassetService service;
+    private final YearlyAssetsService service;
 
     @Autowired
-    public VisuassetController(VisuassetService service) {
+    public YearlyAssetsController(YearlyAssetsService service) {
         this.service = service;
     }
 
@@ -40,7 +41,7 @@ public class VisuassetController {
         if (endYear == null) {
             endYear = 2025; // デフォルト値
         }
-        int currentYear = java.time.LocalDate.now().getYear();
+        int currentYear = LocalDate.now().getYear();
         // startYearが現在の年を超えないようにバリデーション
         if (startYear > currentYear) {
             startYear = currentYear;
@@ -53,14 +54,14 @@ public class VisuassetController {
             endYear = currentYear;
         }
 
-        List<AnnualAssets> annualAssetsList = service.getAssetsBetweenYears(startYear, endYear);
+        List<YearlyAssets> yearlyAssetsList = service.getAssetsBetweenYears(startYear, endYear);
 
         model.addAttribute("startYear", startYear);
         model.addAttribute("endYear", endYear);
 
-        String cashList = service.getCashListAsString(annualAssetsList);
-        String securitiesList = service.getSecuritiesListAsString(annualAssetsList);
-        String cryptoList = service.getCryptoListAsString(annualAssetsList);
+        String cashList = service.getCashListAsString(yearlyAssetsList);
+        String securitiesList = service.getSecuritiesListAsString(yearlyAssetsList);
+        String cryptoList = service.getCryptoListAsString(yearlyAssetsList);
 
         model.addAttribute("cashList", cashList);
         model.addAttribute("securitiesList", securitiesList);
@@ -69,46 +70,46 @@ public class VisuassetController {
     }
 
     // 年別資産データ一覧画面
-    @GetMapping("annualAssets")
-    public String annualAssetsList(Model model) {
-        List<AnnualAssets> list = service.getAllAnnualAssets();
-        model.addAttribute("annualAssetsList", list);
-        return "annual_assets";
+    @GetMapping("yearly/list")
+    public String yearlyAssetsList(Model model) {
+        List<YearlyAssets> list = service.getAllYearlyAssets();
+        model.addAttribute("yearlyAssetsList", list);
+        return "yearly_list";
     }
 
     // 年別資産データ新規登録画面
-    @GetMapping("annualAssets/new")
+    @GetMapping("yearly/new")
     public String showCreateForm(Model model) {
-        model.addAttribute("annualAssets", new AnnualAssets());
-        return "annual_assets_form";
+        model.addAttribute("yearlyAssets", new YearlyAssets());
+        return "yearly_form";
     }
 
     // 年別資産データ新規登録処理
-    @PostMapping("annualAssets/insert")
-    public String createAnnualAssets(@ModelAttribute AnnualAssets annualAssets) {
-        service.saveAnnualAssets(annualAssets);
-        return "redirect:/annualAssets";
+    @PostMapping("yearly/insert")
+    public String createYearlyAssets(@ModelAttribute YearlyAssets yearlyAssets) {
+        service.saveYearlyAssets(yearlyAssets);
+        return "redirect:/yearly/list";
     }
 
     // 年別資産データ編集画面
-    @GetMapping("annualAssets/edit/{year}")
+    @GetMapping("yearly/edit/{year}")
     public String showEditForm(@PathVariable("year") int year, Model model) {
-        AnnualAssets annualAssets = service.getAssetsByYear(year).orElse(new AnnualAssets());
-        model.addAttribute("annualAssets", annualAssets);
-        return "annual_assets_form";
+        YearlyAssets yearlyAssets = service.getAssetsByYear(year).orElse(new YearlyAssets());
+        model.addAttribute("yearlyAssets", yearlyAssets);
+        return "yearly_form";
     }
 
     // 年別資産データ更新処理
-    @PostMapping("annualAssets/update")
-    public String updateAnnualAssets(@ModelAttribute AnnualAssets annualAssets) {
-        service.saveAnnualAssets(annualAssets);
-        return "redirect:/annualAssets";
+    @PostMapping("yearly/update")
+    public String updateYearlyAssets(@ModelAttribute YearlyAssets yearlyAssets) {
+        service.saveYearlyAssets(yearlyAssets);
+        return "redirect:/yearly/list";
     }
 
     // 年別資産データ削除
-    @PostMapping("annualAssets/delete/{year}")
-    public String deleteAnnualAssets(@PathVariable("year") int year) {
-        service.deleteAnnualAssets(year);
-        return "redirect:/annualAssets";
+    @PostMapping("yearly/delete/{year}")
+    public String deleteYearlyAssets(@PathVariable("year") int year) {
+        service.deleteYearlyAssets(year);
+        return "redirect:/yearly/list";
     }
 }
