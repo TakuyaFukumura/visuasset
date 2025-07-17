@@ -10,7 +10,7 @@
 <body>
 <div th:replace="header :: header"></div>
 <h1 th:text="${annualAssets.targetYear != null} ? '年別資産データ編集' : '年別資産データ新規登録'"></h1>
-<form th:action="${annualAssets.targetYear != null} ? @{/annualAssets/update} : @{/annualAssets/insert}"
+<form th:action="${annualAssets.targetYear != null} ? @{/yearly/update} : @{/yearly/insert}"
       th:object="${annualAssets}" method="post">
     <div>
         <label>年:</label>
@@ -30,7 +30,7 @@
     </div>
     <div>
         <button type="submit" class="btn btn-primary">保存</button>
-        <a th:href="@{/annualAssets}" class="btn btn-secondary ms-2">一覧へ戻る</a>
+        <a th:href="@{/yearly/list}" class="btn btn-secondary ms-2">一覧へ戻る</a>
     </div>
 </form>
 </body>
