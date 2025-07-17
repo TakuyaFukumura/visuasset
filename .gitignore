@@ -31,3 +31,6 @@ replay_pid*
 
 # DB
 /.db/
+
+# Docker database volume
+/db-data/
