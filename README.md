@@ -31,6 +31,7 @@ visuassetは、個人の資産状況を可視化するためのWebアプリケ�
 - **ビルドツール**: Maven
 - **テストフレームワーク**: Spock Framework（Groovy）
 - **その他**: Lombok（定型コード削減）
+
 ## Docker開発環境でのセットアップ
 
 ### 前提条件
