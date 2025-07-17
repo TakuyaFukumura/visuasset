@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -40,7 +41,7 @@ public class VisuassetController {
         if (endYear == null) {
             endYear = 2025; // デフォルト値
         }
-        int currentYear = java.time.LocalDate.now().getYear();
+        int currentYear = LocalDate.now().getYear();
         // startYearが現在の年を超えないようにバリデーション
         if (startYear > currentYear) {
             startYear = currentYear;
