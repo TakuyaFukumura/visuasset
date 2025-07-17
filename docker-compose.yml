@@ -1,0 +1,12 @@
+services:
+  visuasset:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: visuasset-app
+    ports:
+      - "8080:8080"
+    volumes:
+      # Mount database directory for persistence
+      - ./db-data:/app/.db
+    restart: unless-stopped
