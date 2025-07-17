@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Entity
 @Table(name = "annual_assets")
-public class AnnualAssets {
+public class YearlyAssets {
 
     @Id
     @Column(name = "target_year", nullable = false)
