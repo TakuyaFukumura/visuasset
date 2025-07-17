@@ -12,9 +12,9 @@ INSERT INTO `authorities`
 (`username`, `authority`) VALUES
 (   'admin', 'ROLE_USER');
 
-DELETE FROM `annual_assets`;
+DELETE FROM `yearly_assets`;
 
-INSERT INTO `annual_assets` (`target_year`, `cash`, `securities`, `crypto`)
+INSERT INTO `yearly_assets` (`target_year`, `cash`, `securities`, `crypto`)
 VALUES (2020, 201599, 64564, 0),
        (2021, 1400000, 1004564, 0),
        (2022, 4000000, 1604564, 100000),
