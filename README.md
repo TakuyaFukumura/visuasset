@@ -13,6 +13,11 @@ visuassetは、個人の資産状況を可視化するためのWebアプリケ�
 
 ## 必要な環境
 
+### Docker開発環境の場合
+- **Docker**: 最新版
+- **Docker Compose**: 最新版
+
+### ローカル開発の場合
 - **Java**: 17以上
 - **Maven**: 3.6以上（付属のMaven Wrapperでも実行可能）
 - **メモリ**: 最低512MB（推奨1GB以上）
@@ -27,79 +32,77 @@ visuassetは、個人の資産状況を可視化するためのWebアプリケ�
 - **テストフレームワーク**: Spock Framework（Groovy）
 - **その他**: Lombok（定型コード削減）
 
-## 起動方法
+## Docker開発環境でのセットアップ
 
-### 開発環境での起動
+### 前提条件
+- Docker
+- Docker Compose
+
+### セットアップと起動手順
+
+1. リポジトリをクローン
+```bash
+git clone https://github.com/TakuyaFukumura/visuasset.git
+cd visuasset
+```
+
+2. アプリケーションをビルド
+```bash
+./mvnw clean package -DskipTests
+```
+
+3. Dockerコンテナをビルドして起動
+```bash
+docker compose up --build
+```
+
+4. アプリケーションにアクセス
+- アプリケーション: http://localhost:8080
+- H2データベースコンソール: http://localhost:8080/h2-console
+  - JDBC URL: `jdbc:h2:mem:testdb`
+  - ユーザー名: `sa`
+  - パスワード: (空白)
+
+### コンテナの停止
+```bash
+docker compose down
+```
+
+### データベースファイルについて
+- H2データベースファイルは `db-data` フォルダに永続化されます
+- 初回起動時に自動でデータベースが初期化されます
+
+### 開発時のワークフロー
+1. ソースコードを変更
+2. `./mvnw clean package -DskipTests` でリビルド
+3. `docker compose up --build` でコンテナを再起動
+
+## ローカル開発（Docker不使用）
+
+### 起動
 ```bash
 ./mvnw spring-boot:run
 ```
 
 アプリケーションが起動したら、以下のURLにアクセスできます：
-- メインアプリケーション: `http://localhost:8080`
-- H2データベースコンソール: `http://localhost:8080/h2-console`
-  - JDBC URL: `jdbc:h2:./.db/dev/h2`
-  - ユーザー名: `super`
+- メインアプリケーション: http://localhost:8080
+- H2データベースコンソール: http://localhost:8080/h2-console
+  - JDBC URL: `jdbc:h2:mem:testdb`
+  - ユーザー名: `sa`
   - パスワード: (空白)
 
-### 本番環境での起動
-
-1. アプリケーションをビルド:
+### コンパイルと実行
 ```bash
 ./mvnw clean package
 ```
-
-2. JARファイルを実行:
 ```bash
 java -jar target/visuasset.jar
 ```
-
-## 開発者向け情報
 
 ### テストの実行
 ```bash
 ./mvnw test
 ```
-
-### コードの整形とチェック
-```bash
-./mvnw clean compile
-```
-
-### プロジェクト構成
-```
-src/
-├── main/
-│   ├── java/
-│   │   └── com/example/visuasset/
-│   │       ├── controller/    # コントローラー層
-│   │       ├── service/       # サービス層
-│   │       ├── entity/        # エンティティ層
-│   │       └── Visuasset.java # メインクラス
-│   └── resources/
-│       ├── static/            # 静的ファイル
-│       ├── templates/         # Thymeleafテンプレート
-│       ├── sql/               # SQLファイル
-│       └── application.properties # 設定ファイル
-└── test/
-    └── groovy/                # Spockテスト
-```
-
-## トラブルシューティング
-
-### よくある問題
-
-**Q: アプリケーションが起動しない**
-- Java 17がインストールされていることを確認してください
-- ポート8080が使用されていないことを確認してください
-- `./mvnw clean package` でビルドエラーがないことを確認してください
-
-**Q: データベースに接続できない**
-- H2データベースのファイルが正しく作成されているか確認してください (`.db/dev/h2.mv.db`)
-- H2コンソールにアクセスして接続設定を確認してください
-
-**Q: テストが失敗する**
-- `./mvnw clean test` でテストのみを実行してください
-- Groovy 4.0.27とSpock 2.4-M6-groovy-4.0の互換性を確認してください
 
 ## 機能
 
@@ -119,8 +122,52 @@ src/
 
 - **データベース管理**
   - H2データベースによる開発環境
-  - H2コンソールへのアクセス (`http://localhost:8080/h2-console`)
+  - H2コンソールへのアクセス
   - 自動的なスキーマ・データ初期化
+
+## プロジェクト構成
+
+```
+src/
+├── main/
+│   ├── java/
+│   │   └── com/example/visuasset/
+│   │       ├── controller/    # コントローラー層
+│   │       ├── service/       # サービス層
+│   │       ├── entity/        # エンティティ層
+│   │       ├── repository/    # リポジトリ層
+│   │       └── Visuasset.java # メインクラス
+│   └── resources/
+│       ├── static/            # 静的ファイル
+│       ├── templates/         # Thymeleafテンプレート
+│       ├── sql/               # SQLファイル
+│       └── application.properties # 設定ファイル
+└── test/
+    └── groovy/                # Spockテスト
+```
+
+## トラブルシューティング
+
+### よくある問題
+
+**Q: アプリケーションが起動しない**
+- Java 17がインストールされていることを確認してください
+- ポート8080が使用されていないことを確認してください
+- `./mvnw clean package` でビルドエラーがないことを確認してください
+
+**Q: Docker環境で問題が発生する**
+- Docker Desktopが起動していることを確認してください
+- `docker compose down` でコンテナを停止してから再試行してください
+- Docker Composeのログを確認してください：`docker compose logs`
+
+**Q: データベースに接続できない**
+- H2データベースのファイルが正しく作成されているか確認してください
+- H2コンソールにアクセスして接続設定を確認してください
+- Docker環境では `db-data` フォルダの権限を確認してください
+
+**Q: テストが失敗する**
+- `./mvnw clean test` でテストのみを実行してください
+- Groovy 4.0.27とSpock 2.4-M6-groovy-4.0の互換性を確認してください
 
 ## 貢献
 
