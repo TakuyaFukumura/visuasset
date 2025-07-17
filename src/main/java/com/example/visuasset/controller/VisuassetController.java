@@ -74,14 +74,14 @@ public class VisuassetController {
     public String annualAssetsList(Model model) {
         List<AnnualAssets> list = service.getAllAnnualAssets();
         model.addAttribute("annualAssetsList", list);
-        return "annual_assets";
+        return "yearly_list";
     }
 
     // 年別資産データ新規登録画面
     @GetMapping("yearly/new")
     public String showCreateForm(Model model) {
         model.addAttribute("annualAssets", new AnnualAssets());
-        return "annual_assets_form";
+        return "yearly_form";
     }
 
     // 年別資産データ新規登録処理
@@ -96,7 +96,7 @@ public class VisuassetController {
     public String showEditForm(@PathVariable("year") int year, Model model) {
         AnnualAssets annualAssets = service.getAssetsByYear(year).orElse(new AnnualAssets());
         model.addAttribute("annualAssets", annualAssets);
-        return "annual_assets_form";
+        return "yearly_form";
     }
 
     // 年別資産データ更新処理
