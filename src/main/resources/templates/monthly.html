@@ -15,7 +15,16 @@
             <input type="hidden" name="targetYear" th:value="${targetYear - 1}" />
             <button type="submit">−</button>
         </form>
-        <span id="yearDisplay" th:text="${targetYear} + '年'"></span>
+        <form id="yearForm" th:action="@{/monthly}" method="get" style="display:inline;">
+            <input type="number" 
+                   name="targetYear" 
+                   th:value="${targetYear}" 
+                   id="yearInput"
+                   min="2000" 
+                   max="2100"
+                   style="width: 80px; text-align: center; border: 1px solid #ccc; padding: 2px 5px;"
+                   onchange="document.getElementById('yearForm').submit();" />年
+        </form>
         <form th:action="@{/monthly}" method="get" style="display:inline;">
             <input type="hidden" name="targetYear" th:value="${targetYear + 1}" />
             <button type="submit">＋</button>

@@ -77,4 +77,26 @@ class MonthlyAssetsControllerSpec extends Specification {
         1 * model.addAttribute("labels", [])
         result == "monthly"
     }
+
+    def "monthly 直接年入力で指定された年を使用する"() {
+        given:
+        def directInputYear = 2020
+        def monthlyAssetsList = []
+        
+        when:
+        def result = controller.monthly(directInputYear, model)
+        
+        then:
+        1 * service.getAssetsByYear(directInputYear) >> monthlyAssetsList
+        1 * service.getCashList(monthlyAssetsList) >> []
+        1 * service.getSecuritiesList(monthlyAssetsList) >> []
+        1 * service.getCryptoList(monthlyAssetsList) >> []
+        1 * service.getMonthLabels(monthlyAssetsList) >> []
+        1 * model.addAttribute("targetYear", directInputYear)
+        1 * model.addAttribute("cashList", [])
+        1 * model.addAttribute("securitiesList", [])
+        1 * model.addAttribute("cryptoList", [])
+        1 * model.addAttribute("labels", [])
+        result == "monthly"
+    }
 }
