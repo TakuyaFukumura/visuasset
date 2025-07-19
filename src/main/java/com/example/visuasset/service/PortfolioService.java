@@ -1,0 +1,138 @@
+package com.example.visuasset.service;
+
+import com.example.visuasset.entity.YearlyAssets;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.Year;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
+@Slf4j
+@Service
+public class PortfolioService {
+
+    private final YearlyAssetsService yearlyAssetsService;
+
+    public PortfolioService(YearlyAssetsService yearlyAssetsService) {
+        this.yearlyAssetsService = yearlyAssetsService;
+    }
+
+    /**
+     * 指定した年の資産ポートフォリオデータを取得する
+     *
+     * @param year 指定した年
+     * @return PortfolioData または null（データが存在しない場合）
+     */
+    public PortfolioData getPortfolioData(int year) {
+        Optional<YearlyAssets> assetsOpt = yearlyAssetsService.getAssetsByYear(year);
+        
+        if (assetsOpt.isEmpty()) {
+            return null;
+        }
+
+        YearlyAssets assets = assetsOpt.get();
+        
+        // 総資産を計算
+        BigDecimal totalAssets = assets.getCash()
+                .add(assets.getSecurities())
+                .add(assets.getCrypto());
+        
+        // 総資産が0の場合は空のポートフォリオを返す
+        if (totalAssets.compareTo(BigDecimal.ZERO) == 0) {
+            return new PortfolioData(
+                    year,
+                    Arrays.asList(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO),
+                    Arrays.asList(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO),
+                    BigDecimal.ZERO
+            );
+        }
+        
+        // パーセンテージを計算（小数点第1位まで）
+        BigDecimal cashPercentage = assets.getCash()
+                .multiply(BigDecimal.valueOf(100))
+                .divide(totalAssets, 1, RoundingMode.HALF_UP);
+        
+        BigDecimal securitiesPercentage = assets.getSecurities()
+                .multiply(BigDecimal.valueOf(100))
+                .divide(totalAssets, 1, RoundingMode.HALF_UP);
+        
+        BigDecimal cryptoPercentage = assets.getCrypto()
+                .multiply(BigDecimal.valueOf(100))
+                .divide(totalAssets, 1, RoundingMode.HALF_UP);
+        
+        List<BigDecimal> amounts = Arrays.asList(assets.getCash(), assets.getSecurities(), assets.getCrypto());
+        List<BigDecimal> percentages = Arrays.asList(cashPercentage, securitiesPercentage, cryptoPercentage);
+        
+        return new PortfolioData(year, amounts, percentages, totalAssets);
+    }
+
+    /**
+     * 年の妥当性をチェックし、適切な年を返す
+     *
+     * @param year チェックする年
+     * @return 妥当な年（現在年以下）
+     */
+    public int validateYear(Integer year) {
+        int currentYear = Year.now().getValue();
+        
+        if (year == null) {
+            return currentYear;
+        }
+        
+        // 上限は現在年
+        if (year > currentYear) {
+            return currentYear;
+        }
+        
+        // 下限は1900年
+        if (year < 1900) {
+            return 1900;
+        }
+        
+        return year;
+    }
+
+    /**
+     * ポートフォリオデータクラス
+     */
+    public static class PortfolioData {
+        private final int year;
+        private final List<BigDecimal> amounts;
+        private final List<BigDecimal> percentages;
+        private final BigDecimal totalAssets;
+
+        public PortfolioData(int year, List<BigDecimal> amounts, List<BigDecimal> percentages, BigDecimal totalAssets) {
+            this.year = year;
+            this.amounts = amounts;
+            this.percentages = percentages;
+            this.totalAssets = totalAssets;
+        }
+
+        public int getYear() {
+            return year;
+        }
+
+        public List<BigDecimal> getAmounts() {
+            return amounts;
+        }
+
+        public List<BigDecimal> getPercentages() {
+            return percentages;
+        }
+
+        public BigDecimal getTotalAssets() {
+            return totalAssets;
+        }
+
+        /**
+         * Chart.js用のラベルリストを取得
+         */
+        public List<String> getLabels() {
+            return Arrays.asList("現預金", "有価証券", "暗号資産");
+        }
+    }
+}

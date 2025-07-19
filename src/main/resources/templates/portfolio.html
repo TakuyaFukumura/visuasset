@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>資産ポートフォリオ</title>
+    <link th:href="@{/css/basicChart.css}" rel="styleSheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+</head>
+<body>
+    <header th:replace="~{header}"></header>
+    
+    <div class="container mt-4">
+        <!-- 年選択部分 -->
+        <div class="row mb-3">
+            <div class="col-12">
+                <div class="d-flex align-items-center justify-content-center">
+                    <button 
+                        th:disabled="${!canGoPrevious}"
+                        th:onclick="|window.location.href='@{/portfolio(year=${targetYear - 1})}'|"
+                        class="btn btn-outline-primary me-3"
+                        type="button">
+                        ‹ 前年
+                    </button>
+                    
+                    <div class="mx-3">
+                        <span class="fs-4 fw-bold" th:text="${targetYear} + '年'"></span>
+                    </div>
+                    
+                    <button 
+                        th:disabled="${!canGoNext}"
+                        th:onclick="|window.location.href='@{/portfolio(year=${targetYear + 1})}'|"
+                        class="btn btn-outline-primary ms-3"
+                        type="button">
+                        翌年 ›
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- データ表示部分 -->
+        <div th:if="${hasData}" class="row">
+            <div class="col-lg-8 offset-lg-2">
+                <!-- 総資産表示 -->
+                <div class="text-center mb-4">
+                    <h3>総資産: <span th:text="${#numbers.formatInteger(totalAssets, 0, 'COMMA')} + '円'"></span></h3>
+                </div>
+                
+                <!-- 円グラフ -->
+                <div class="chart-container">
+                    <canvas id="portfolioChart"></canvas>
+                </div>
+                
+                <!-- 詳細データテーブル -->
+                <div class="mt-4">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>資産種別</th>
+                                <th class="text-end">金額</th>
+                                <th class="text-end">構成比</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>現預金</td>
+                                <td class="text-end" th:text="${#numbers.formatInteger(amounts[0], 0, 'COMMA')} + '円'"></td>
+                                <td class="text-end" th:text="${percentages[0]} + '%'"></td>
+                            </tr>
+                            <tr>
+                                <td>有価証券</td>
+                                <td class="text-end" th:text="${#numbers.formatInteger(amounts[1], 0, 'COMMA')} + '円'"></td>
+                                <td class="text-end" th:text="${percentages[1]} + '%'"></td>
+                            </tr>
+                            <tr>
+                                <td>暗号資産</td>
+                                <td class="text-end" th:text="${#numbers.formatInteger(amounts[2], 0, 'COMMA')} + '円'"></td>
+                                <td class="text-end" th:text="${percentages[2]} + '%'"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- データなしの場合 -->
+        <div th:unless="${hasData}" class="row">
+            <div class="col-12 text-center">
+                <div class="alert alert-info" role="alert">
+                    <h4 class="alert-heading">データがありません</h4>
+                    <p th:text="${targetYear} + '年の資産データが見つかりませんでした。'"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script th:if="${hasData}" th:inline="javascript">
+        const amounts = /*[[${amounts}]]*/ [];
+        const labels = /*[[${labels}]]*/ [];
+        const percentages = /*[[${percentages}]]*/ [];
+        
+        const ctx = document.getElementById("portfolioChart");
+        const chart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: amounts,
+                    backgroundColor: [
+                        "rgba(130, 201, 169, 0.8)",   // 現預金 - 緑
+                        "rgba(255, 99, 132, 0.8)",    // 有価証券 - 赤
+                        "rgba(54, 162, 235, 0.8)"     // 暗号資産 - 青
+                    ],
+                    borderColor: [
+                        "rgba(130, 201, 169, 1)",
+                        "rgba(255, 99, 132, 1)",
+                        "rgba(54, 162, 235, 1)"
+                    ],
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: /*[[${targetYear}]]*/ + '年 資産ポートフォリオ',
+                        font: {
+                            size: 18
+                        }
+                    },
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            padding: 20
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const label = context.label || '';
+                                const value = context.parsed;
+                                const percentage = percentages[context.dataIndex];
+                                return label + ': ' + value.toLocaleString() + '円 (' + percentage + '%)';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+            crossorigin="anonymous">
+    </script>
+</body>
+</html>
