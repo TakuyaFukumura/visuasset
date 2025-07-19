@@ -53,18 +53,10 @@ public class PortfolioService {
         }
         
         // パーセンテージを計算（小数点第1位まで）
-        BigDecimal cashPercentage = assets.getCash()
-                .multiply(BigDecimal.valueOf(100))
-                .divide(totalAssets, 1, RoundingMode.HALF_UP);
-        
-        BigDecimal securitiesPercentage = assets.getSecurities()
-                .multiply(BigDecimal.valueOf(100))
-                .divide(totalAssets, 1, RoundingMode.HALF_UP);
-        
-        BigDecimal cryptoPercentage = assets.getCrypto()
-                .multiply(BigDecimal.valueOf(100))
-                .divide(totalAssets, 1, RoundingMode.HALF_UP);
-        
+        BigDecimal cashPercentage = calculatePercentage(assets.getCash(), totalAssets);
+        BigDecimal securitiesPercentage = calculatePercentage(assets.getSecurities(), totalAssets);
+        BigDecimal cryptoPercentage = calculatePercentage(assets.getCrypto(), totalAssets);
+
         List<BigDecimal> amounts = Arrays.asList(assets.getCash(), assets.getSecurities(), assets.getCrypto());
         List<BigDecimal> percentages = Arrays.asList(cashPercentage, securitiesPercentage, cryptoPercentage);
         
@@ -95,5 +87,17 @@ public class PortfolioService {
         }
         
         return year;
+    }
+
+    /**
+     * 指定された資産額が総資産に対して占める割合（パーセンテージ）を計算します。
+     *
+     * @param asset       個別の資産額
+     * @param totalAssets 総資産額
+     * @return 資産額が総資産に占める割合（小数点第1位まで四捨五入されたパーセンテージ）
+     */
+    private BigDecimal calculatePercentage(BigDecimal asset, BigDecimal totalAssets) {
+        return asset.multiply(BigDecimal.valueOf(100))
+                .divide(totalAssets, 1, RoundingMode.HALF_UP);
     }
 }
