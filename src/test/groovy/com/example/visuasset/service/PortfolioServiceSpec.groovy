@@ -1,7 +1,7 @@
 package com.example.visuasset.service
 
+import com.example.visuasset.dto.PortfolioData
 import com.example.visuasset.entity.YearlyAssets
-import com.example.visuasset.service.PortfolioService.PortfolioData
 import spock.lang.Specification
 
 import java.time.Year
