@@ -1,12 +1,14 @@
 package com.example.visuasset.service;
 
 import com.example.visuasset.entity.MonthlyAssets;
+import com.example.visuasset.entity.MonthlyAssetsId;
 import com.example.visuasset.repository.MonthlyAssetsRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 
 @Slf4j
@@ -86,5 +88,46 @@ public class MonthlyAssetsService {
                 .sorted()
                 .map(i -> i + "月")
                 .toList();
+    }
+
+    /**
+     * 指定した年と月の月次資産データを取得する
+     *
+     * @param year 指定した年
+     * @param month 指定した月（1-12）
+     * @return 月次資産データ
+     */
+    public Optional<MonthlyAssets> getAssetsByYearAndMonth(int year, int month) {
+        MonthlyAssetsId id = new MonthlyAssetsId(year, month);
+        return repository.findById(id);
+    }
+
+    /**
+     * 月次資産データの保存（登録・更新）
+     *
+     * @param monthlyAssets 保存する月次資産データ
+     */
+    public void saveMonthlyAssets(MonthlyAssets monthlyAssets) {
+        repository.save(monthlyAssets);
+    }
+
+    /**
+     * 月次資産データの削除
+     *
+     * @param year 削除対象の年
+     * @param month 削除対象の月（1-12）
+     */
+    public void deleteMonthlyAssets(int year, int month) {
+        MonthlyAssetsId id = new MonthlyAssetsId(year, month);
+        repository.deleteById(id);
+    }
+
+    /**
+     * 全ての月次資産データの取得
+     *
+     * @return 全ての月次資産データ一覧
+     */
+    public List<MonthlyAssets> getAllMonthlyAssets() {
+        return repository.findAll();
     }
 }
