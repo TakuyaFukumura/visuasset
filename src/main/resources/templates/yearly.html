@@ -39,110 +39,203 @@
     <div class="chart-container mt-4">
         <canvas id="yearlyTotal"></canvas>
     </div>
+    
+    <!-- Chart.js読み込み失敗時の代替表示用 -->
+    <div id="fallbackDisplay" style="display: none;" class="mt-4">
+        <div class="card">
+            <div class="card-header">
+                <h5>年別総資産推移（データ表示）</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>年</th>
+                                <th>現預金</th>
+                                <th>有価証券</th>
+                                <th>暗号資産</th>
+                                <th>総資産</th>
+                            </tr>
+                        </thead>
+                        <tbody id="assetTableBody">
+                            <!-- データはJavaScriptで挿入 -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="https://unpkg.com/chart.js@4.4.0/dist/chart.umd.js"></script>
     <script th:inline="javascript">
+        // データ定義
         const cashList = /*[[${cashList}]]*/ [];
         const securitiesList = /*[[${securitiesList}]]*/ [];
         const cryptoList = /*[[${cryptoList}]]*/ [];
         const totalAssetsList = /*[[${totalAssetsList}]]*/ [];
         const labels = /*[[${labels}]]*/ [];
         
-        // デバッグ用：データをコンソールに出力
+        // 常に実行される処理
         console.log("Cash List:", cashList);
         console.log("Securities List:", securitiesList);
         console.log("Crypto List:", cryptoList);
         console.log("Total Assets List:", totalAssetsList);
         console.log("Labels:", labels);
         
-        // Chart.jsが読み込まれているかチェック
-        if (typeof Chart !== 'undefined') {
-            console.log("Chart.js is loaded successfully");
+        // 代替表示関数（Chart.js無しでも動作）
+        function showFallbackDisplay() {
+            console.log("Showing fallback display");
+            
+            // チャート領域にメッセージ表示
+            const yearlyCanvas = document.getElementById("yearly");
+            const totalCanvas = document.getElementById("yearlyTotal");
+            
+            if (yearlyCanvas) {
+                yearlyCanvas.style.display = 'none';
+                const message1 = document.createElement('p');
+                message1.style.cssText = 'text-align: center; padding: 20px; color: #666;';
+                message1.innerHTML = '年別資産グラフ<br/>Chart.jsライブラリが読み込まれていないため、グラフを表示できません。';
+                yearlyCanvas.parentNode.appendChild(message1);
+            }
+            
+            if (totalCanvas) {
+                totalCanvas.style.display = 'none';
+                const message2 = document.createElement('p');
+                message2.style.cssText = 'text-align: center; padding: 20px; color: #666;';
+                message2.innerHTML = '年別総資産推移<br/>Chart.jsライブラリが読み込まれていないため、グラフを表示できません。';
+                totalCanvas.parentNode.appendChild(message2);
+            }
+            
+            // 代替テーブル表示
+            const fallbackDiv = document.getElementById("fallbackDisplay");
+            const tableBody = document.getElementById("assetTableBody");
+            
+            if (fallbackDiv && tableBody && labels.length > 0) {
+                let tableHtml = "";
+                for (let i = 0; i < labels.length; i++) {
+                    const cash = cashList[i] || 0;
+                    const securities = securitiesList[i] || 0;
+                    const crypto = cryptoList[i] || 0;
+                    const total = totalAssetsList[i] || 0;
+                    
+                    tableHtml += '<tr>' +
+                        '<td>' + labels[i] + '</td>' +
+                        '<td>' + cash.toLocaleString() + '円</td>' +
+                        '<td>' + securities.toLocaleString() + '円</td>' +
+                        '<td>' + crypto.toLocaleString() + '円</td>' +
+                        '<td style="font-weight: bold; color: #0066cc;">' + total.toLocaleString() + '円</td>' +
+                        '</tr>';
+                }
+                tableBody.innerHTML = tableHtml;
+                fallbackDiv.style.display = "block";
+            }
+        }
+        
+        // Chart.js初期化関数
+        function initializeCharts() {
+            if (typeof Chart === 'undefined') {
+                console.log("Chart.js not available, showing fallback");
+                showFallbackDisplay();
+                return;
+            }
+            
+            console.log("Chart.js is available, initializing charts");
             
             // 年別資産構成グラフ（既存の棒グラフ）
             const ctx = document.getElementById("yearly");
-            const chart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: labels,
-                    datasets: [
-                        {
-                            label: '現預金',
-                            data: cashList,
-                            backgroundColor: "rgba(130, 201, 169, 0.5)"
-                        },
-                        {
-                            label: '有価証券',
-                            data: securitiesList,
-                            backgroundColor: "rgba(255, 99, 132, 0.5)"
-                        },
-                        {
-                            label: '暗号資産',
-                            data: cryptoList,
-                            backgroundColor: "rgba(54, 162, 235, 0.5)"
-                        }
-                    ]
-                },
-                options: {
-                    plugins: {
-                        title: {
-                            display: true,
-                            text: '年別資産グラフ'
-                        }
-                    },
-                    scales: {
-                        x: {
-                            stacked: true
-                        },
-                        y: {
-                            stacked: true,
-                            ticks: {
-                                callback: (value) => `${value.toLocaleString()}円`
+            if (ctx) {
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [
+                            {
+                                label: '現預金',
+                                data: cashList,
+                                backgroundColor: "rgba(130, 201, 169, 0.5)"
+                            },
+                            {
+                                label: '有価証券',
+                                data: securitiesList,
+                                backgroundColor: "rgba(255, 99, 132, 0.5)"
+                            },
+                            {
+                                label: '暗号資産',
+                                data: cryptoList,
+                                backgroundColor: "rgba(54, 162, 235, 0.5)"
                             }
-                        }
+                        ]
                     },
-                    maintainAspectRatio: false
-                }
-            });
+                    options: {
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: '年別資産グラフ'
+                            }
+                        },
+                        scales: {
+                            x: { stacked: true },
+                            y: {
+                                stacked: true,
+                                ticks: {
+                                    callback: function(value) {
+                                        return value.toLocaleString() + '円';
+                                    }
+                                }
+                            }
+                        },
+                        maintainAspectRatio: false
+                    }
+                });
+            }
 
             // 年別総資産折れ線グラフ（新規追加）
             const ctxTotal = document.getElementById("yearlyTotal");
-            const totalChart = new Chart(ctxTotal, {
-                type: 'line',
-                data: {
-                    labels: labels,
-                    datasets: [
-                        {
-                            label: '総資産',
-                            data: totalAssetsList,
-                            borderColor: "rgba(54, 162, 235, 1)",
-                            backgroundColor: "rgba(54, 162, 235, 0.2)",
-                            fill: true,
-                            tension: 0.2
-                        }
-                    ]
-                },
-                options: {
-                    plugins: {
-                        title: {
-                            display: true,
-                            text: '年別総資産推移'
-                        }
-                    },
-                    scales: {
-                        y: {
-                            ticks: {
-                                callback: (value) => `${value.toLocaleString()}円`
+            if (ctxTotal) {
+                new Chart(ctxTotal, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [
+                            {
+                                label: '総資産',
+                                data: totalAssetsList,
+                                borderColor: "rgba(54, 162, 235, 1)",
+                                backgroundColor: "rgba(54, 162, 235, 0.2)",
+                                fill: true,
+                                tension: 0.2
                             }
-                        }
+                        ]
                     },
-                    maintainAspectRatio: false
-                }
+                    options: {
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: '年別総資産推移'
+                            }
+                        },
+                        scales: {
+                            y: {
+                                ticks: {
+                                    callback: function(value) {
+                                        return value.toLocaleString() + '円';
+                                    }
+                                }
+                            }
+                        },
+                        maintainAspectRatio: false
+                    }
+                });
+            }
+        }
+        
+        // 初期化実行
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', function() {
+                setTimeout(initializeCharts, 500);
             });
         } else {
-            console.error("Chart.js is not loaded. Charts will not be displayed.");
-            // Chart.jsが読み込まれていない場合の代替表示
-            document.getElementById("yearly").innerHTML = "<p style='text-align: center; padding: 20px; color: #666;'>年別資産グラフ<br/>Chart.jsライブラリが読み込まれていないため、グラフを表示できません。</p>";
-            document.getElementById("yearlyTotal").innerHTML = "<p style='text-align: center; padding: 20px; color: #666;'>年別総資産推移<br/>Chart.jsライブラリが読み込まれていないため、グラフを表示できません。<br/>総資産データ: " + totalAssetsList.join(", ") + "</p>";
+            setTimeout(initializeCharts, 500);
         }
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
