@@ -40,32 +40,6 @@
         <canvas id="yearlyTotal"></canvas>
     </div>
     
-    <!-- Chart.js読み込み失敗時の代替表示用 -->
-    <div id="fallbackDisplay" style="display: none;" class="mt-4">
-        <div class="card">
-            <div class="card-header">
-                <h5>年別総資産推移（データ表示）</h5>
-            </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>年</th>
-                                <th>現預金</th>
-                                <th>有価証券</th>
-                                <th>暗号資産</th>
-                                <th>総資産</th>
-                            </tr>
-                        </thead>
-                        <tbody id="assetTableBody">
-                            <!-- データはJavaScriptで挿入 -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
     <script src="https://unpkg.com/chart.js@4.4.0/dist/chart.umd.js"></script>
     <script th:inline="javascript">
         // データ定義
