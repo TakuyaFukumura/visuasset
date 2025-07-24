@@ -75,73 +75,9 @@
         const totalAssetsList = /*[[${totalAssetsList}]]*/ [];
         const labels = /*[[${labels}]]*/ [];
         
-        // 常に実行される処理
-        console.log("Cash List:", cashList);
-        console.log("Securities List:", securitiesList);
-        console.log("Crypto List:", cryptoList);
-        console.log("Total Assets List:", totalAssetsList);
-        console.log("Labels:", labels);
-        
-        // 代替表示関数（Chart.js無しでも動作）
-        function showFallbackDisplay() {
-            console.log("Showing fallback display");
-            
-            // チャート領域にメッセージ表示
-            const yearlyCanvas = document.getElementById("yearly");
-            const totalCanvas = document.getElementById("yearlyTotal");
-            
-            if (yearlyCanvas) {
-                yearlyCanvas.style.display = 'none';
-                const message1 = document.createElement('p');
-                message1.style.cssText = 'text-align: center; padding: 20px; color: #666;';
-                message1.innerHTML = '年別資産グラフ<br/>Chart.jsライブラリが読み込まれていないため、グラフを表示できません。';
-                yearlyCanvas.parentNode.appendChild(message1);
-            }
-            
-            if (totalCanvas) {
-                totalCanvas.style.display = 'none';
-                const message2 = document.createElement('p');
-                message2.style.cssText = 'text-align: center; padding: 20px; color: #666;';
-                message2.innerHTML = '年別総資産推移<br/>Chart.jsライブラリが読み込まれていないため、グラフを表示できません。';
-                totalCanvas.parentNode.appendChild(message2);
-            }
-            
-            // 代替テーブル表示
-            const fallbackDiv = document.getElementById("fallbackDisplay");
-            const tableBody = document.getElementById("assetTableBody");
-            
-            if (fallbackDiv && tableBody && labels.length > 0) {
-                let tableHtml = "";
-                for (let i = 0; i < labels.length; i++) {
-                    const cash = cashList[i] || 0;
-                    const securities = securitiesList[i] || 0;
-                    const crypto = cryptoList[i] || 0;
-                    const total = totalAssetsList[i] || 0;
-                    
-                    tableHtml += '<tr>' +
-                        '<td>' + labels[i] + '</td>' +
-                        '<td>' + cash.toLocaleString() + '円</td>' +
-                        '<td>' + securities.toLocaleString() + '円</td>' +
-                        '<td>' + crypto.toLocaleString() + '円</td>' +
-                        '<td style="font-weight: bold; color: #0066cc;">' + total.toLocaleString() + '円</td>' +
-                        '</tr>';
-                }
-                tableBody.innerHTML = tableHtml;
-                fallbackDiv.style.display = "block";
-            }
-        }
-        
         // Chart.js初期化関数
         function initializeCharts() {
-            if (typeof Chart === 'undefined') {
-                console.log("Chart.js not available, showing fallback");
-                showFallbackDisplay();
-                return;
-            }
-            
-            console.log("Chart.js is available, initializing charts");
-            
-            // 年別資産構成グラフ（既存の棒グラフ）
+            // 年別資産構成グラフ
             const ctx = document.getElementById("yearly");
             if (ctx) {
                 new Chart(ctx, {
@@ -189,7 +125,7 @@
                 });
             }
 
-            // 年別総資産折れ線グラフ（新規追加）
+            // 年別総資産折れ線グラフ
             const ctxTotal = document.getElementById("yearlyTotal");
             if (ctxTotal) {
                 new Chart(ctxTotal, {
