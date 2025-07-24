@@ -102,10 +102,10 @@ public class YearlyAssetsService {
     }
 
     /**
-     * 年次資産リストから総資産の金額一覧を取得します。
+     * 年別資産一覧から総資産の金額一覧を取得します。
      *
-     * @param yearlyAssetsList 年次資産エンティティのリスト
-     * @return 各年の総資産金額一覧（現預金+有価証券+暗号資産の合計）
+     * @param yearlyAssetsList 年別資産一覧
+     * @return 年別総資産金額一覧（現預金+有価証券+暗号資産の合計）
      */
     public List<BigDecimal> getTotalAssetsList(List<YearlyAssets> yearlyAssetsList) {
         return yearlyAssetsList.stream()
