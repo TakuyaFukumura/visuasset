@@ -3,6 +3,7 @@ package com.example.visuasset.controller;
 import com.example.visuasset.entity.MonthlyAssets;
 import com.example.visuasset.service.MonthlyAssetsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.Year;
 import java.util.List;
@@ -94,7 +96,9 @@ public class MonthlyAssetsController {
     @GetMapping("monthly/edit/{year}/{month}")
     public String showEditForm(@PathVariable("year") int year, @PathVariable("month") int month, Model model) {
         MonthlyAssets monthlyAssets = monthlyAssetsService.getAssetsByYearAndMonth(year, month)
-                .orElse(new MonthlyAssets());
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "月別資産データが見つかりません。年: " + year + ", 月: " + month
+                ));
         model.addAttribute("monthlyAssets", monthlyAssets);
         model.addAttribute("targetYear", year);
         return "monthly_form";
