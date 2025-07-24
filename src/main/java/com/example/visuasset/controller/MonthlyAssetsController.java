@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
+import java.time.Year;
 import java.util.List;
 
 @Controller
@@ -48,7 +49,7 @@ public class MonthlyAssetsController {
     // 月別資産データ一覧画面（年で絞り込み）
     @GetMapping("monthly/list")
     public String monthlyAssetsList(@RequestParam(name = "targetYear", required = false) Integer targetYear, Model model) {
-        int currentYear = LocalDate.now().getYear();
+        int currentYear = Year.now().getValue();
         if (targetYear == null) {
             targetYear = currentYear;
         }
