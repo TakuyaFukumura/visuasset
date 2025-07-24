@@ -11,8 +11,8 @@ class YearlyAssetsServiceSpec extends Specification {
 
     def "getTotalAssetsList should return correct total amounts"() {
         given:
-        def yearlyAssets1 = new YearlyAssets(2020, 1000000, 2000000, 500000)
-        def yearlyAssets2 = new YearlyAssets(2021, 1500000, 2500000, 1000000)
+        def yearlyAssets1 = new YearlyAssets(2020, 1000000 as BigDecimal, 2000000 as BigDecimal, 500000 as BigDecimal)
+        def yearlyAssets2 = new YearlyAssets(2021, 1500000 as BigDecimal, 2500000 as BigDecimal, 1000000 as BigDecimal)
         def yearlyAssetsList = [yearlyAssets1, yearlyAssets2]
 
         when:
@@ -37,7 +37,7 @@ class YearlyAssetsServiceSpec extends Specification {
 
     def "getTotalAssetsList should handle zero values"() {
         given:
-        def yearlyAssets = new YearlyAssets(2020, 0, 0, 0)
+        def yearlyAssets = new YearlyAssets(2020, 0 as BigDecimal, 0 as BigDecimal, 0 as BigDecimal)
         def yearlyAssetsList = [yearlyAssets]
 
         when:
