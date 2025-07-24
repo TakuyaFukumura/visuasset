@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.time.LocalDate;
 import java.time.Year;
 import java.util.List;
 
@@ -58,8 +57,8 @@ public class MonthlyAssetsController {
             targetYear = currentYear;
         }
         
-        List<MonthlyAssets> list = monthlyAssetsService.getAssetsByYear(targetYear);
-        model.addAttribute("monthlyAssetsList", list);
+        List<MonthlyAssets> monthlyAssetsList = monthlyAssetsService.getAssetsByYear(targetYear);
+        model.addAttribute("monthlyAssetsList", monthlyAssetsList);
         model.addAttribute("targetYear", targetYear);
         return "monthly_list";
     }
@@ -70,7 +69,7 @@ public class MonthlyAssetsController {
         MonthlyAssets monthlyAssets = new MonthlyAssets();
         
         // デフォルトの年を設定
-        int currentYear = LocalDate.now().getYear();
+        int currentYear = Year.now().getValue();
         if (targetYear == null) {
             targetYear = currentYear;
         }
