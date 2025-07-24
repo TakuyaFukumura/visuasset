@@ -20,10 +20,8 @@
                     <input type="number" id="targetYear" name="targetYear" 
                            th:value="${targetYear}" 
                            min="2000" th:max="${#temporals.year(#temporals.createNow())}" 
-                           class="form-control">
-                </div>
-                <div class="col-md-2">
-                    <button type="submit" class="btn btn-primary">絞り込み</button>
+                           class="form-control"
+                           onchange="this.form.submit()">
                 </div>
                 <div class="col-md-2">
                     <a th:href="@{'/monthly/list?targetYear=' + (${targetYear} - 1)}" class="btn btn-outline-secondary">前年</a>
