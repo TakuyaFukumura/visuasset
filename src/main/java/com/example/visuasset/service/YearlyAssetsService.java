@@ -168,10 +168,10 @@ public class YearlyAssetsService {
             // データ行を追加
             for (YearlyAssets asset : yearlyAssetsList) {
                 String[] row = {
-                    asset.getTargetYear().toString(),
-                    asset.getCash().toString(),
-                    asset.getSecurities().toString(),
-                    asset.getCrypto().toString()
+                        asset.getTargetYear().toString(),
+                        asset.getCash().toString(),
+                        asset.getSecurities().toString(),
+                        asset.getCrypto().toString()
                 };
                 csvWriter.writeNext(row);
             }
