@@ -26,7 +26,7 @@ public class AssetGoalsService {
      * @return 最新の目標金額設定
      */
     public Optional<AssetGoals> getLatestGoal() {
-        return repository.findLatestGoal();
+        return repository.findFirstByOrderByUpdatedAtDesc();
     }
 
     /**
