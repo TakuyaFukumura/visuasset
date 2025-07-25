@@ -21,6 +21,8 @@ import java.util.Optional;
 @RequestMapping("/goal-achievement")
 public class GoalAchievementController {
 
+    final static int DEFAULT_GOAL_AMOUNT = 15000000; // デフォルトの目標金額
+
     private final YearlyAssetsService yearlyAssetsService;
     private final AssetGoalsService assetGoalsService;
 
@@ -35,7 +37,7 @@ public class GoalAchievementController {
                                   Model model) {
         // 最新の目標金額を取得
         Optional<AssetGoals> latestGoal = assetGoalsService.getLatestGoal();
-        BigDecimal goalAmount = latestGoal.map(AssetGoals::getGoalAmount).orElse(BigDecimal.valueOf(15000000));
+        BigDecimal goalAmount = latestGoal.map(AssetGoals::getGoalAmount).orElse(BigDecimal.valueOf(DEFAULT_GOAL_AMOUNT));
 
         // 対象年が指定されていない場合、データが存在する最新年を取得
         if (targetYear == null) {
