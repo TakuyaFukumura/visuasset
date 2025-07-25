@@ -8,10 +8,10 @@ import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 
 /**
- * 月次資産情報を表すエンティティクラス。
+ * 月別資産情報
  * <p>
  * 対象年（targetYear）と対象月（targetMonth）を複合主キーとし、
- * 現預金（cash）、有価証券（securities）、暗号資産（crypto）の月次残高を管理します。
+ * 現預金（cash）、有価証券（securities）、暗号資産（crypto）の月別残高を管理します。
  * </p>
  */
 @Data

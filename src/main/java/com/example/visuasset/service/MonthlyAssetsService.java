@@ -22,7 +22,7 @@ public class MonthlyAssetsService {
     }
 
     /**
-     * 指定した年の月次資産データ一覧を取得します。
+     * 指定した年の月別資産一覧を取得します。
      *
      * @param year 取得対象の年（例：2024）
      * @return 指定年のMonthlyAssetsエンティティのリスト
@@ -34,7 +34,7 @@ public class MonthlyAssetsService {
     /**
      * 共通の金額リスト取得ヘルパーメソッド
      *
-     * @param monthlyAssetsList 月次資産エンティティのリスト
+     * @param monthlyAssetsList 月別資産一覧
      * @param mapper 金額を取得する関数
      * @return 各月の金額一覧
      */
@@ -46,9 +46,9 @@ public class MonthlyAssetsService {
     }
 
     /**
-     * 月次資産リストから現預金の金額一覧を取得します。
+     * 月別資産一覧から現預金の金額一覧を取得します。
      *
-     * @param monthlyAssetsList 月次資産エンティティのリスト
+     * @param monthlyAssetsList 月別資産エンティティのリスト
      * @return 各月の現預金金額一覧
      */
     public List<BigDecimal> getCashList(List<MonthlyAssets> monthlyAssetsList) {
@@ -56,9 +56,9 @@ public class MonthlyAssetsService {
     }
 
     /**
-     * 月次資産リストから有価証券の金額一覧を取得します。
+     * 月別資産一覧から有価証券の金額一覧を取得します。
      *
-     * @param monthlyAssetsList 月次資産エンティティのリスト
+     * @param monthlyAssetsList 月別資産エンティティのリスト
      * @return 各月の有価証券金額の一覧
      */
     public List<BigDecimal> getSecuritiesList(List<MonthlyAssets> monthlyAssetsList) {
@@ -66,9 +66,9 @@ public class MonthlyAssetsService {
     }
 
     /**
-     * 月次資産リストから暗号資産の金額一覧を取得します。
+     * 月別資産一覧から暗号資産の金額一覧を取得します。
      *
-     * @param monthlyAssetsList 月次資産エンティティのリスト
+     * @param monthlyAssetsList 月別資産エンティティのリスト
      * @return 各月の暗号資産金額の一覧
      */
     public List<BigDecimal> getCryptoList(List<MonthlyAssets> monthlyAssetsList) {
@@ -76,9 +76,9 @@ public class MonthlyAssetsService {
     }
 
     /**
-     * 月次資産リストからデータが存在する月のみのラベルリストを返す
+     * 月別資産一覧からデータが存在する月のみのラベルリストを返す
      *
-     * @param monthlyAssetsList 月次資産エンティティのリスト
+     * @param monthlyAssetsList 月別資産エンティティのリスト
      * @return データが存在する月のラベルリスト（例: ["1月", "3月", ...]）
      */
     public List<String> getMonthLabels(List<MonthlyAssets> monthlyAssetsList) {
@@ -91,11 +91,11 @@ public class MonthlyAssetsService {
     }
 
     /**
-     * 指定した年と月の月次資産データを取得する
+     * 指定した年と月の月別資産データを取得する
      *
      * @param year 指定した年
      * @param month 指定した月（1-12）
-     * @return 月次資産データ
+     * @return 月別資産データ
      */
     public Optional<MonthlyAssets> getAssetsByYearAndMonth(int year, int month) {
         MonthlyAssetsId id = new MonthlyAssetsId(year, month);
@@ -103,16 +103,16 @@ public class MonthlyAssetsService {
     }
 
     /**
-     * 月次資産データの保存（登録・更新）
+     * 月別資産データの保存（登録・更新）
      *
-     * @param monthlyAssets 保存する月次資産データ
+     * @param monthlyAssets 保存する月別資産データ
      */
     public void saveMonthlyAssets(MonthlyAssets monthlyAssets) {
         repository.save(monthlyAssets);
     }
 
     /**
-     * 月次資産データの削除
+     * 月別資産データの削除
      *
      * @param year 削除対象の年
      * @param month 削除対象の月（1-12）
@@ -123,9 +123,9 @@ public class MonthlyAssetsService {
     }
 
     /**
-     * 全ての月次資産データの取得
+     * 全ての月別資産データの取得
      *
-     * @return 全ての月次資産データ一覧
+     * @return 全ての月別資産データ一覧
      */
     public List<MonthlyAssets> getAllMonthlyAssets() {
         return repository.findAll();
