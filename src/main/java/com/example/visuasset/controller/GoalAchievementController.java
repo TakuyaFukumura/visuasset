@@ -21,7 +21,7 @@ import java.util.Optional;
 @RequestMapping("/goal-achievement")
 public class GoalAchievementController {
 
-    final static int DEFAULT_GOAL_AMOUNT = 15000000; // デフォルトの目標金額
+    static final int DEFAULT_GOAL_AMOUNT = 15000000; // デフォルトの目標金額
 
     private final YearlyAssetsService yearlyAssetsService;
     private final AssetGoalsService assetGoalsService;
@@ -55,7 +55,9 @@ public class GoalAchievementController {
 
         // 指定年の資産データを取得
         Optional<YearlyAssets> yearlyAssetsOpt = yearlyAssetsService.getAssetsByYear(targetYear);
-        YearlyAssets yearlyAssets = yearlyAssetsOpt.orElse(new YearlyAssets(targetYear, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO));
+        YearlyAssets yearlyAssets = yearlyAssetsOpt.orElse(
+                new YearlyAssets(targetYear, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO)
+        );
 
         // 総資産と達成率を計算
         BigDecimal totalAssets = assetGoalsService.calculateTotalAssets(yearlyAssets);
