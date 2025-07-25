@@ -30,12 +30,10 @@
             <button type="submit">＋</button>
         </form>
     </div>
+    <a th:href="@{/monthly/list}" class="btn btn-primary">管理</a>
     <div class="chart-container">
         <canvas id="monthly"></canvas>
     </div>
-    <form th:action="@{/}" method="post">
-        <input type="submit" value="管理" class="btn btn-primary">
-    </form>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
     <script th:inline="javascript">
