@@ -44,10 +44,10 @@ public class PortfolioController {
         
         if (portfolioData != null) {
             model.addAttribute("portfolioData", portfolioData);
-            model.addAttribute("amounts", portfolioData.getAmounts());
-            model.addAttribute("percentages", portfolioData.getPercentages());
+            model.addAttribute("amounts", portfolioData.amounts());
+            model.addAttribute("percentages", portfolioData.percentages());
             model.addAttribute("labels", portfolioData.getLabels());
-            model.addAttribute("totalAssets", portfolioData.getTotalAssets());
+            model.addAttribute("totalAssets", portfolioData.totalAssets());
             model.addAttribute("hasData", true);
         } else {
             model.addAttribute("hasData", false);
