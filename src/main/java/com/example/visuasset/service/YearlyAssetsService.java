@@ -2,11 +2,15 @@ package com.example.visuasset.service;
 
 import com.example.visuasset.entity.YearlyAssets;
 import com.example.visuasset.repository.YearlyAssetsRepository;
+import com.opencsv.CSVWriter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.io.StringWriter;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.time.Year;
+import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -102,6 +106,18 @@ public class YearlyAssetsService {
     }
 
     /**
+     * 年別資産一覧から総資産の金額一覧を取得します。
+     *
+     * @param yearlyAssetsList 年別資産一覧
+     * @return 年別総資産金額一覧（現預金+有価証券+暗号資産の合計）
+     */
+    public List<BigDecimal> getTotalAssetsList(List<YearlyAssets> yearlyAssetsList) {
+        return yearlyAssetsList.stream()
+                .map(assets -> assets.getCash().add(assets.getSecurities()).add(assets.getCrypto()))
+                .toList();
+    }
+
+    /**
      * 年次資産リストから年のラベルリストを取得します。
      *
      * @param yearlyAssetsList 年次資産エンティティのリスト
@@ -132,5 +148,49 @@ public class YearlyAssetsService {
      */
     public List<YearlyAssets> getAllYearlyAssets() {
         return repository.findAll();
+    }
+
+    /**
+     * 年別資産データをCSV形式で出力する
+     *
+     * @return CSV形式の文字列
+     */
+    public String exportToCSV() {
+        List<YearlyAssets> yearlyAssetsList = repository.findAll();
+        yearlyAssetsList.sort(Comparator.comparing(YearlyAssets::getTargetYear));
+
+        StringWriter stringWriter = new StringWriter();
+        try (CSVWriter csvWriter = new CSVWriter(stringWriter)) {
+            // ヘッダー行を追加
+            String[] header = {"年", "現預金", "有価証券", "暗号資産"};
+            csvWriter.writeNext(header);
+
+            // データ行を追加
+            for (YearlyAssets asset : yearlyAssetsList) {
+                String[] row = {
+                        asset.getTargetYear().toString(),
+                        asset.getCash().toString(),
+                        asset.getSecurities().toString(),
+                        asset.getCrypto().toString()
+                };
+                csvWriter.writeNext(row);
+            }
+        } catch (Exception e) {
+            log.error("CSV出力中にエラーが発生しました", e);
+            throw new RuntimeException("CSV出力に失敗しました", e);
+        }
+
+        return stringWriter.toString();
+    }
+
+    /**
+     * CSVファイル名を生成する
+     *
+     * @return ファイル名（例: yearly_assets_20231221_143000.csv）
+     */
+    public String generateCSVFileName() {
+        LocalDateTime now = LocalDateTime.now();
+        String timestamp = now.format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
+        return "yearly_assets_" + timestamp + ".csv";
     }
 }
