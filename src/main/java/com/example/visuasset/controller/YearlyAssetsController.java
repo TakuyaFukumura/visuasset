@@ -2,7 +2,12 @@ package com.example.visuasset.controller;
 
 import com.example.visuasset.entity.YearlyAssets;
 import com.example.visuasset.service.YearlyAssetsService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -20,6 +26,8 @@ import java.util.List;
 public class YearlyAssetsController {
 
     private final YearlyAssetsService service;
+
+    private static final Logger logger = LoggerFactory.getLogger(YearlyAssetsController.class);
 
     @Autowired
     public YearlyAssetsController(YearlyAssetsService service) {
@@ -108,5 +116,25 @@ public class YearlyAssetsController {
     public String deleteYearlyAssets(@PathVariable("year") int year) {
         service.deleteYearlyAssets(year);
         return "redirect:/yearly/list";
+    }
+
+    // 年別資産データのCSV出力
+    @GetMapping("yearly/export/csv")
+    public ResponseEntity<byte[]> exportYearlyAssetsToCSV() {
+        try {
+            String csvContent = service.exportToCSV();
+            String fileName = service.generateCSVFileName();
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+            headers.setContentDispositionFormData("attachment", fileName);
+
+            return ResponseEntity.ok()
+                    .headers(headers)
+                    .body(csvContent.getBytes(StandardCharsets.UTF_8));
+        } catch (Exception e) {
+            logger.error("CSV出力中にエラーが発生しました", e);
+            return ResponseEntity.badRequest().build();
+        }
     }
 }
