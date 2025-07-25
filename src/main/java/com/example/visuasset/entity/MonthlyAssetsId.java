@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * 月次資産IDを表すクラス。
+ * 月別資産ID
  * <p>
  * targetYear（対象年）とtargetMonth（対象月）の複合主キーとして利用されます。
  * JPAの@Embeddableクラスや@IdClassとして利用されることを想定しています。
