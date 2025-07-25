@@ -48,6 +48,11 @@ public class GoalAchievementController {
                     .orElse(LocalDate.now().getYear());
         }
 
+        int currentYear = LocalDate.now().getYear();
+        if (targetYear > currentYear) {
+            targetYear = currentYear;
+        }
+
         // 指定年の資産データを取得
         Optional<YearlyAssets> yearlyAssetsOpt = yearlyAssetsService.getAssetsByYear(targetYear);
         YearlyAssets yearlyAssets = yearlyAssetsOpt.orElse(new YearlyAssets(targetYear, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO));
