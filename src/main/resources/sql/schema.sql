@@ -28,3 +28,10 @@ CREATE TABLE IF NOT EXISTS monthly_assets (
     crypto DECIMAL(15,2) NOT NULL,  -- 暗号資産
     PRIMARY KEY (target_year, target_month)     -- 年月の組み合わせをユニークに
 );
+
+CREATE TABLE IF NOT EXISTS asset_goals (
+    id INT PRIMARY KEY AUTO_INCREMENT,     -- 主キー
+    goal_amount DECIMAL(15,2) NOT NULL,    -- 目標金額
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  -- 作成日時
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP  -- 更新日時
+);

@@ -1,6 +1,6 @@
 package com.example.visuasset.service
 
-import com.example.visuasset.dto.PortfolioData
+
 import com.example.visuasset.entity.YearlyAssets
 import spock.lang.Specification
 

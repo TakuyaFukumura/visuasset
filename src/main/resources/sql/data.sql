@@ -62,6 +62,11 @@ VALUES (2022, 8, 1300000, 4584429, 200000),
        (2025, 6, 1300000, 9960074, 200000),
        (2025, 7, 1300000, 9714108, 200000);
 
+DELETE FROM `asset_goals`;
+
+INSERT INTO `asset_goals` (`goal_amount`)
+VALUES (15000000);
+
 --DELETE FROM `authorities`
 --WHERE `username` = 'guest';
 --
