@@ -14,6 +14,8 @@ import java.util.Optional;
 @Service
 public class AssetGoalsService {
 
+    static final int DIVISION_SCALE = 4; // 小数点以下の桁数を指定
+
     private final AssetGoalsRepository repository;
 
     public AssetGoalsService(AssetGoalsRepository repository) {
@@ -59,7 +61,7 @@ public class AssetGoalsService {
                 .add(yearlyAssets.getCrypto());
 
         // 達成率を計算（パーセント）
-        return totalAssets.divide(goalAmount, 4, RoundingMode.HALF_UP)
+        return totalAssets.divide(goalAmount, DIVISION_SCALE, RoundingMode.HALF_UP)
                 .multiply(BigDecimal.valueOf(100))
                 .setScale(2, RoundingMode.HALF_UP);
     }
