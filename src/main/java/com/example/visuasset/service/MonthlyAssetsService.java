@@ -121,13 +121,4 @@ public class MonthlyAssetsService {
         MonthlyAssetsId id = new MonthlyAssetsId(year, month);
         repository.deleteById(id);
     }
-
-    /**
-     * 全ての月別資産データの取得
-     *
-     * @return 全ての月別資産データ一覧
-     */
-    public List<MonthlyAssets> getAllMonthlyAssets() {
-        return repository.findAll();
-    }
 }
