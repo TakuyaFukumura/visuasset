@@ -55,10 +55,7 @@ public class AssetGoalsService {
             return BigDecimal.ZERO;
         }
 
-        // 総資産額を計算
-        BigDecimal totalAssets = yearlyAssets.getCash()
-                .add(yearlyAssets.getSecurities())
-                .add(yearlyAssets.getCrypto());
+        BigDecimal totalAssets = calculateTotalAssets(yearlyAssets);
 
         // 達成率を計算（パーセント）
         return totalAssets.divide(goalAmount, DIVISION_SCALE, RoundingMode.HALF_UP)
