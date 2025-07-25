@@ -2,6 +2,8 @@ package com.example.visuasset.controller;
 
 import com.example.visuasset.entity.YearlyAssets;
 import com.example.visuasset.service.YearlyAssetsService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -24,6 +26,8 @@ import java.util.List;
 public class YearlyAssetsController {
 
     private final YearlyAssetsService service;
+
+    private static final Logger logger = LoggerFactory.getLogger(YearlyAssetsController.class);
 
     @Autowired
     public YearlyAssetsController(YearlyAssetsService service) {
@@ -129,6 +133,7 @@ public class YearlyAssetsController {
                     .headers(headers)
                     .body(csvContent.getBytes(StandardCharsets.UTF_8));
         } catch (Exception e) {
+            logger.error("CSV出力中にエラーが発生しました", e);
             return ResponseEntity.badRequest().build();
         }
     }
