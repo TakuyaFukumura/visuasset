@@ -45,7 +45,7 @@ public class AssetGoalsService {
      * 指定年の資産データから目標達成率を計算する
      *
      * @param yearlyAssets 年別資産データ
-     * @param goalAmount 目標金額
+     * @param goalAmount   目標金額
      * @return 目標達成率（パーセント）
      */
     public BigDecimal calculateAchievementRate(YearlyAssets yearlyAssets, BigDecimal goalAmount) {
