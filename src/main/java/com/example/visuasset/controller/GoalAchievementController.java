@@ -67,9 +67,9 @@ public class GoalAchievementController {
 
     @PostMapping("/update-goal")
     public String updateGoal(@RequestParam("goalAmount") BigDecimal goalAmount,
-                           @RequestParam(name = "targetYear", required = false) Integer targetYear) {
+                             @RequestParam(name = "targetYear", required = false) Integer targetYear) {
         assetGoalsService.saveGoal(goalAmount);
-        
+
         // 現在の対象年を維持してリダイレクト
         if (targetYear != null) {
             return "redirect:/goal-achievement?targetYear=" + targetYear;
