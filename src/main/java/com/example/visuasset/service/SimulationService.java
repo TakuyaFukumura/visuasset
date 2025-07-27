@@ -23,7 +23,7 @@ public class SimulationService {
     private final YearlyAssetsRepository yearlyAssetsRepository;
 
     public SimulationService(SimulationConditionRepository simulationConditionRepository,
-                           YearlyAssetsRepository yearlyAssetsRepository) {
+                             YearlyAssetsRepository yearlyAssetsRepository) {
         this.simulationConditionRepository = simulationConditionRepository;
         this.yearlyAssetsRepository = yearlyAssetsRepository;
     }
@@ -61,18 +61,18 @@ public class SimulationService {
      */
     public BigDecimal getCurrentTotalAssets() {
         int currentYear = LocalDate.now().getYear();
-        
+
         // 現在年から過去に向かって検索
         for (int year = currentYear; year >= currentYear - 10; year--) {
             Optional<YearlyAssets> assets = yearlyAssetsRepository.findByTargetYear(year);
             if (assets.isPresent()) {
                 YearlyAssets yearlyAssets = assets.get();
                 return yearlyAssets.getCash()
-                    .add(yearlyAssets.getSecurities())
-                    .add(yearlyAssets.getCrypto());
+                        .add(yearlyAssets.getSecurities())
+                        .add(yearlyAssets.getCrypto());
             }
         }
-        
+
         // データが見つからない場合は0を返す
         return BigDecimal.ZERO;
     }
@@ -82,48 +82,48 @@ public class SimulationService {
      */
     public List<SimulationResult> runSimulation(SimulationCondition condition) {
         List<SimulationResult> results = new ArrayList<>();
-        
-        BigDecimal currentAmount = condition.getInitialAmount() != null 
-            ? condition.getInitialAmount() 
-            : getCurrentTotalAssets();
-        
+
+        BigDecimal currentAmount = condition.getInitialAmount() != null
+                ? condition.getInitialAmount()
+                : getCurrentTotalAssets();
+
         BigDecimal monthlyInvestment = condition.getMonthlyInvestment();
         BigDecimal monthlyReturnRate = condition.getAnnualReturnRate()
-            .divide(BigDecimal.valueOf(12), 6, RoundingMode.HALF_UP);
-        
+                .divide(BigDecimal.valueOf(12), 6, RoundingMode.HALF_UP);
+
         int totalMonths = condition.getInvestmentPeriodYears() * 12;
         BigDecimal totalInvested = currentAmount; // 初期投資額も投資元本に含める
-        
+
         // 初期状態を追加
         results.add(new SimulationResult(
-            0, 
-            currentAmount, 
-            currentAmount, 
-            BigDecimal.ZERO
+                0,
+                currentAmount,
+                currentAmount,
+                BigDecimal.ZERO
         ));
-        
+
         // 月次で複利計算
         for (int month = 1; month <= totalMonths; month++) {
             // 運用利益の計算（既存の総資産に対する利息）
             BigDecimal monthlyReturn = currentAmount.multiply(monthlyReturnRate);
-            
+
             // 総資産の更新（既存資産 + 月次利益 + 新規投資）
             currentAmount = currentAmount.add(monthlyReturn).add(monthlyInvestment);
-            
+
             // 投資元本の更新
             totalInvested = totalInvested.add(monthlyInvestment);
-            
+
             // 運用利益の計算
             BigDecimal returnAmount = currentAmount.subtract(totalInvested);
-            
+
             results.add(new SimulationResult(
-                month,
-                currentAmount.setScale(2, RoundingMode.HALF_UP),
-                totalInvested,
-                returnAmount.setScale(2, RoundingMode.HALF_UP)
+                    month,
+                    currentAmount.setScale(2, RoundingMode.HALF_UP),
+                    totalInvested,
+                    returnAmount.setScale(2, RoundingMode.HALF_UP)
             ));
         }
-        
+
         return results;
     }
 
@@ -149,8 +149,8 @@ public class SimulationService {
      */
     public List<BigDecimal> getTotalAmountList(List<SimulationResult> results) {
         return results.stream()
-            .map(SimulationResult::getTotalAmount)
-            .toList();
+                .map(SimulationResult::getTotalAmount)
+                .toList();
     }
 
     /**
@@ -158,8 +158,8 @@ public class SimulationService {
      */
     public List<BigDecimal> getInvestedAmountList(List<SimulationResult> results) {
         return results.stream()
-            .map(SimulationResult::getInvestedAmount)
-            .toList();
+                .map(SimulationResult::getInvestedAmount)
+                .toList();
     }
 
     /**
@@ -167,7 +167,7 @@ public class SimulationService {
      */
     public List<BigDecimal> getReturnAmountList(List<SimulationResult> results) {
         return results.stream()
-            .map(SimulationResult::getReturnAmount)
-            .toList();
+                .map(SimulationResult::getReturnAmount)
+                .toList();
     }
 }

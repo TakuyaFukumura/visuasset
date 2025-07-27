@@ -5,7 +5,11 @@ import com.example.visuasset.entity.SimulationCondition;
 import com.example.visuasset.service.SimulationService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -35,11 +39,11 @@ public class SimulationController {
 
         model.addAttribute("simulationCondition", defaultCondition);
         model.addAttribute("savedConditions", simulationService.getAllSimulationConditions());
-        
+
         // デフォルト条件でシミュレーション実行
         List<SimulationResult> results = simulationService.runSimulation(defaultCondition);
         addSimulationResultsToModel(model, results);
-        
+
         return "simulation";
     }
 
@@ -52,13 +56,13 @@ public class SimulationController {
         if (simulationCondition.getInitialAmount() == null) {
             simulationCondition.setInitialAmount(simulationService.getCurrentTotalAssets());
         }
-        
+
         List<SimulationResult> results = simulationService.runSimulation(simulationCondition);
-        
+
         model.addAttribute("simulationCondition", simulationCondition);
         model.addAttribute("savedConditions", simulationService.getAllSimulationConditions());
         addSimulationResultsToModel(model, results);
-        
+
         return "simulation";
     }
 
@@ -71,7 +75,7 @@ public class SimulationController {
         if (simulationCondition.getInitialAmount() == null) {
             simulationCondition.setInitialAmount(simulationService.getCurrentTotalAssets());
         }
-        
+
         simulationService.saveSimulationCondition(simulationCondition);
         return "redirect:/simulation";
     }
@@ -82,17 +86,17 @@ public class SimulationController {
     @GetMapping("/load/{id}")
     public String loadSimulationCondition(@PathVariable Long id, Model model) {
         SimulationCondition condition = simulationService.getSimulationConditionById(id)
-            .orElseThrow(() -> new IllegalArgumentException("Invalid condition id: " + id));
-            
+                .orElseThrow(() -> new IllegalArgumentException("Invalid condition id: " + id));
+
         // 現在の総資産額で初期金額を更新
         condition.setInitialAmount(simulationService.getCurrentTotalAssets());
-        
+
         List<SimulationResult> results = simulationService.runSimulation(condition);
-        
+
         model.addAttribute("simulationCondition", condition);
         model.addAttribute("savedConditions", simulationService.getAllSimulationConditions());
         addSimulationResultsToModel(model, results);
-        
+
         return "simulation";
     }
 
@@ -114,19 +118,19 @@ public class SimulationController {
         model.addAttribute("totalAmountList", simulationService.getTotalAmountList(results));
         model.addAttribute("investedAmountList", simulationService.getInvestedAmountList(results));
         model.addAttribute("returnAmountList", simulationService.getReturnAmountList(results));
-        
+
         // 最終結果のサマリー
         if (!results.isEmpty()) {
             SimulationResult finalResult = results.get(results.size() - 1);
             model.addAttribute("finalTotalAmount", finalResult.getTotalAmount());
             model.addAttribute("finalInvestedAmount", finalResult.getInvestedAmount());
             model.addAttribute("finalReturnAmount", finalResult.getReturnAmount());
-            
+
             // 利回り効果の計算
             if (finalResult.getInvestedAmount().compareTo(BigDecimal.ZERO) > 0) {
                 BigDecimal returnPercentage = finalResult.getReturnAmount()
-                    .multiply(BigDecimal.valueOf(100))
-                    .divide(finalResult.getInvestedAmount(), 2, java.math.RoundingMode.HALF_UP);
+                        .multiply(BigDecimal.valueOf(100))
+                        .divide(finalResult.getInvestedAmount(), 2, java.math.RoundingMode.HALF_UP);
                 model.addAttribute("returnPercentage", returnPercentage);
             } else {
                 model.addAttribute("returnPercentage", BigDecimal.ZERO);
