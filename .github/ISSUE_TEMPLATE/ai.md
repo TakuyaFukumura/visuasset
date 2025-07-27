@@ -1,12 +1,13 @@
 ---
-name: 一般的なissue
-about: 一般的なissue作成用テンプレート
-labels: ''
+name: AI指示テンプレ
+about: GitHub Copilot Coding Agent への指示文
 ---
 
 # 概要
 
+
 # 実装イメージ
+
 
 # 備考
 - セマンティックバージョニングに基づいて適切なバージョンアップをおこなってください
