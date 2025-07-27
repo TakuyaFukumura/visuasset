@@ -157,19 +157,19 @@ class SimulationServiceSpec extends Specification {
 
         then:
         results.size() == 13 // 初期 + 12ヶ月
-        
+
         // 初期状態
         results[0].month == 0
         results[0].totalAmount == 1000000
         results[0].investedAmount == 1000000
         results[0].returnAmount == BigDecimal.ZERO
-        
+
         // 1ヶ月後: (1,000,000 * 1.01) + 100,000 = 1,110,000
         results[1].month == 1
         results[1].totalAmount == 1110000.00
         results[1].investedAmount == 1100000
         results[1].returnAmount == 10000.00
-        
+
         // 12ヶ月後の計算確認（複利効果）
         results[12].month == 12
         results[12].investedAmount == 2200000 // 1,000,000 + (100,000 * 12)

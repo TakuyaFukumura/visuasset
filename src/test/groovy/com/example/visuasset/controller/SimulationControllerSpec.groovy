@@ -41,10 +41,10 @@ class SimulationControllerSpec extends Specification {
 
         1 * model.addAttribute("simulationCondition", { SimulationCondition condition ->
             condition.conditionName == "デフォルト条件" &&
-            condition.monthlyInvestment == 70000 as BigDecimal &&
-            condition.annualReturnRate == 0.05 as BigDecimal &&
-            condition.investmentPeriodYears == 20 &&
-            condition.initialAmount == currentTotalAssets
+                    condition.monthlyInvestment == 70000 as BigDecimal &&
+                    condition.annualReturnRate == 0.05 as BigDecimal &&
+                    condition.investmentPeriodYears == 20 &&
+                    condition.initialAmount == currentTotalAssets
         })
         1 * model.addAttribute("savedConditions", savedConditions)
         1 * model.addAttribute("simulationResults", simulationResults)
