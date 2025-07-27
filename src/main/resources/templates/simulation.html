@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>資産推移シミュレート</title>
+    <link th:href="@{/css/basicChart.css}" rel="styleSheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+</head>
+<body>
+    <header th:replace="~{header}"></header>
+    
+    <div class="container mt-4">
+        <h1>資産推移シミュレート</h1>
+        
+        <!-- シミュレーション条件入力フォーム -->
+        <div class="row">
+            <div class="col-md-6">
+                <h3>シミュレーション条件</h3>
+                <form th:action="@{/simulation/run}" method="post" th:object="${simulationCondition}">
+                    <div class="mb-3">
+                        <label for="conditionName" class="form-label">条件名</label>
+                        <input type="text" class="form-control" id="conditionName" th:field="*{conditionName}" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="initialAmount" class="form-label">初期資産額（円）</label>
+                        <input type="number" class="form-control" id="initialAmount" th:field="*{initialAmount}" step="0.01" readonly>
+                        <div class="form-text">現在の総資産額が自動設定されます</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="monthlyInvestment" class="form-label">毎月の追加投資額（円）</label>
+                        <input type="number" class="form-control" id="monthlyInvestment" th:field="*{monthlyInvestment}" step="0.01" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="annualReturnRate" class="form-label">年間運用利回り（%）</label>
+                        <input type="number" class="form-control" id="annualReturnRate" th:value="${simulationCondition.annualReturnRate * 100}" step="0.01" required onchange="updateReturnRate(this.value)">
+                        <input type="hidden" th:field="*{annualReturnRate}">
+                        <div class="form-text">例: 5% の場合は 5 と入力</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="investmentPeriodYears" class="form-label">投資期間（年）</label>
+                        <input type="number" class="form-control" id="investmentPeriodYears" th:field="*{investmentPeriodYears}" min="1" max="50" required>
+                    </div>
+                    
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">シミュレーション実行</button>
+                        <button type="submit" class="btn btn-success" formaction="/simulation/save">条件を保存</button>
+                    </div>
+                </form>
+                
+                <!-- 保存済み条件一覧 -->
+                <div class="mt-4" th:if="${savedConditions != null and !savedConditions.empty}">
+                    <h4>保存済み条件</h4>
+                    <div class="list-group">
+                        <div th:each="condition : ${savedConditions}" class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong th:text="${condition.conditionName}">条件名</strong>
+                                <br>
+                                <small class="text-muted">
+                                    月額: <span th:text="${#numbers.formatInteger(condition.monthlyInvestment, 0, 'COMMA')}">70,000</span>円 | 
+                                    利回り: <span th:text="${#numbers.formatDecimal(condition.annualReturnRate * 100, 1, 2)}">5.00</span>% | 
+                                    期間: <span th:text="${condition.investmentPeriodYears}">20</span>年
+                                </small>
+                            </div>
+                            <div>
+                                <a th:href="@{/simulation/load/{id}(id=${condition.id})}" class="btn btn-sm btn-outline-primary">読込</a>
+                                <form th:action="@{/simulation/delete/{id}(id=${condition.id})}" method="post" style="display: inline;">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('削除しますか？')">削除</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- シミュレーション結果サマリー -->
+            <div class="col-md-6">
+                <h3>シミュレーション結果</h3>
+                <div th:if="${finalTotalAmount != null}" class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">最終結果（<span th:text="${simulationCondition.investmentPeriodYears}">20</span>年後）</h5>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="text-center p-3 bg-light rounded">
+                                    <h6 class="text-muted">総資産額</h6>
+                                    <h4 class="text-primary" th:text="${#numbers.formatInteger(finalTotalAmount, 0, 'COMMA')} + '円'">0円</h4>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="text-center p-3 bg-light rounded">
+                                    <h6 class="text-muted">運用利益</h6>
+                                    <h4 class="text-success" th:text="${#numbers.formatInteger(finalReturnAmount, 0, 'COMMA')} + '円'">0円</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-sm-6">
+                                <div class="text-center p-3 bg-light rounded">
+                                    <h6 class="text-muted">投資元本</h6>
+                                    <h4 class="text-info" th:text="${#numbers.formatInteger(finalInvestedAmount, 0, 'COMMA')} + '円'">0円</h4>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="text-center p-3 bg-light rounded">
+                                    <h6 class="text-muted">利回り効果</h6>
+                                    <h4 class="text-warning" th:text="${#numbers.formatDecimal(returnPercentage ?: 0, 1, 2)} + '%'">0.00%</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- シミュレーション結果グラフ -->
+        <div class="mt-4" th:if="${simulationResults != null}">
+            <h3>資産推移グラフ</h3>
+            <div class="chart-container">
+                <canvas id="simulationChart"></canvas>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://unpkg.com/chart.js@4.4.0/dist/chart.umd.js"></script>
+    <script th:inline="javascript">
+        // 利回り入力の変換処理
+        function updateReturnRate(percentage) {
+            const decimalValue = parseFloat(percentage) / 100;
+            document.querySelector('input[name="annualReturnRate"]').value = decimalValue;
+        }
+        
+        // データ定義（シミュレーション結果がある場合のみ）
+        /*[# th:if="${simulationResults != null}"]*/
+        const monthLabels = /*[[${monthLabels}]]*/ [];
+        const totalAmountList = /*[[${totalAmountList}]]*/ [];
+        const investedAmountList = /*[[${investedAmountList}]]*/ [];
+        const returnAmountList = /*[[${returnAmountList}]]*/ [];
+        
+        // グラフの描画
+        const ctx = document.getElementById('simulationChart').getContext('2d');
+        const simulationChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: monthLabels,
+                datasets: [
+                    {
+                        label: '総資産額',
+                        data: totalAmountList,
+                        borderColor: 'rgb(54, 162, 235)',
+                        backgroundColor: 'rgba(54, 162, 235, 0.1)',
+                        tension: 0.1,
+                        fill: true
+                    },
+                    {
+                        label: '投資元本',
+                        data: investedAmountList,
+                        borderColor: 'rgb(255, 99, 132)',
+                        backgroundColor: 'rgba(255, 99, 132, 0.1)',
+                        tension: 0.1,
+                        fill: false
+                    },
+                    {
+                        label: '運用利益',
+                        data: returnAmountList,
+                        borderColor: 'rgb(75, 192, 192)',
+                        backgroundColor: 'rgba(75, 192, 192, 0.1)',
+                        tension: 0.1,
+                        fill: false
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: '資産推移シミュレーション'
+                    },
+                    legend: {
+                        display: true,
+                        position: 'top'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value, index, values) {
+                                return new Intl.NumberFormat('ja-JP', {
+                                    style: 'currency',
+                                    currency: 'JPY',
+                                    minimumFractionDigits: 0
+                                }).format(value);
+                            }
+                        }
+                    }
+                },
+                interaction: {
+                    intersect: false,
+                    mode: 'index'
+                }
+            }
+        });
+        /*[/]*/
+    </script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+            crossorigin="anonymous"></script>
+</body>
+</html>

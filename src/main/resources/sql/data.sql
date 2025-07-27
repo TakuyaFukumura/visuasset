@@ -67,6 +67,11 @@ DELETE FROM `asset_goals`;
 INSERT INTO `asset_goals` (`goal_amount`)
 VALUES (15000000);
 
+DELETE FROM `simulation_conditions`;
+
+INSERT INTO `simulation_conditions` (`condition_name`, `monthly_investment`, `annual_return_rate`, `investment_period_years`, `initial_amount`)
+VALUES ('標準プラン', 70000.00, 0.0500, 20, 11924355.00);
+
 --DELETE FROM `authorities`
 --WHERE `username` = 'guest';
 --
