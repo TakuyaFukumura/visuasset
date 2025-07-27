@@ -6,12 +6,30 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
+/**
+ * シミュレーション結果
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class SimulationResult {
-    private Integer month;             // 経過月数
-    private BigDecimal totalAmount;    // 総資産額
-    private BigDecimal investedAmount; // 投資元本
-    private BigDecimal returnAmount;   // 運用利益
+    /**
+     * 経過月数
+     */
+    private Integer month;
+
+    /**
+     * 総資産額
+     */
+    private BigDecimal totalAmount;
+
+    /**
+     * 投資元本
+     */
+    private BigDecimal investedAmount;
+
+    /**
+     * 運用利益
+     */
+    private BigDecimal returnAmount;
 }
