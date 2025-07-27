@@ -15,7 +15,7 @@ class SimulationServiceSpec extends Specification {
     def yearlyAssetsRepository = Mock(YearlyAssetsRepository)
     def service = new SimulationService(simulationConditionRepository, yearlyAssetsRepository)
 
-    def "saveSimulationCondition should save and return simulation condition"() {
+    def "saveSimulationCondition シミュレーション条件を保存して返却する"() {
         given:
         def condition = new SimulationCondition(
                 conditionName: "テスト条件",
@@ -41,7 +41,7 @@ class SimulationServiceSpec extends Specification {
         result == savedCondition
     }
 
-    def "getAllSimulationConditions should return all conditions"() {
+    def "getAllSimulationConditions 全ての条件を返却する"() {
         given:
         def conditions = [
                 new SimulationCondition(id: 1L, conditionName: "条件1"),
@@ -56,7 +56,7 @@ class SimulationServiceSpec extends Specification {
         result == conditions
     }
 
-    def "getSimulationConditionById should return condition when exists"() {
+    def "getSimulationConditionById 存在する条件をIDで取得する"() {
         given:
         def id = 1L
         def condition = new SimulationCondition(id: id, conditionName: "テスト条件")
@@ -70,7 +70,7 @@ class SimulationServiceSpec extends Specification {
         result.get() == condition
     }
 
-    def "getSimulationConditionById should return empty when not exists"() {
+    def "getSimulationConditionById 存在しない場合は空を返却する"() {
         given:
         def id = 999L
 
@@ -82,7 +82,7 @@ class SimulationServiceSpec extends Specification {
         !result.isPresent()
     }
 
-    def "deleteSimulationCondition should call repository delete"() {
+    def "deleteSimulationCondition リポジトリの削除を呼び出す"() {
         given:
         def id = 1L
 
@@ -93,7 +93,7 @@ class SimulationServiceSpec extends Specification {
         1 * simulationConditionRepository.deleteById(id)
     }
 
-    def "getCurrentTotalAssets should return total of current year assets"() {
+    def "getCurrentTotalAssets 現在年の総資産額を返却する"() {
         given:
         def currentYear = LocalDate.now().getYear()
         def yearlyAssets = new YearlyAssets(
@@ -111,7 +111,7 @@ class SimulationServiceSpec extends Specification {
         result == 3500000
     }
 
-    def "getCurrentTotalAssets should return zero when no data found"() {
+    def "getCurrentTotalAssets データが見つからない場合はゼロを返却する"() {
         given:
         def currentYear = LocalDate.now().getYear()
 
@@ -123,7 +123,7 @@ class SimulationServiceSpec extends Specification {
         result == BigDecimal.ZERO
     }
 
-    def "getCurrentTotalAssets should find data from previous years when current year has no data"() {
+    def "getCurrentTotalAssets 今年のデータがない場合は過去年のデータを取得する"() {
         given:
         def currentYear = LocalDate.now().getYear()
         def lastYear = currentYear - 1
@@ -143,7 +143,7 @@ class SimulationServiceSpec extends Specification {
         result == 2600000
     }
 
-    def "runSimulation should calculate compound interest correctly"() {
+    def "runSimulation 複利計算を正しく実行する"() {
         given:
         def condition = new SimulationCondition(
                 initialAmount: 1000000 as BigDecimal,
@@ -177,7 +177,7 @@ class SimulationServiceSpec extends Specification {
         results[12].totalAmount > results[12].investedAmount // 総資産 > 投資元本
     }
 
-    def "runSimulation should handle zero monthly investment"() {
+    def "runSimulation 毎月投資額ゼロを処理する"() {
         given:
         def condition = new SimulationCondition(
                 initialAmount: 1000000 as BigDecimal,
@@ -195,7 +195,7 @@ class SimulationServiceSpec extends Specification {
         results[12].totalAmount > 1000000 // 運用利益で増加
     }
 
-    def "runSimulation should handle zero return rate"() {
+    def "runSimulation 利回りゼロを処理する"() {
         given:
         def condition = new SimulationCondition(
                 initialAmount: 1000000 as BigDecimal,
@@ -214,7 +214,7 @@ class SimulationServiceSpec extends Specification {
         results[12].returnAmount == BigDecimal.ZERO
     }
 
-    def "runSimulation should use getCurrentTotalAssets when initialAmount is null"() {
+    def "runSimulation 初期額がnullの場合は現在の総資産額を使用する"() {
         given:
         def condition = new SimulationCondition(
                 initialAmount: null,
@@ -239,7 +239,7 @@ class SimulationServiceSpec extends Specification {
         results[0].investedAmount == 1000000
     }
 
-    def "getMonthLabels should return correct labels"() {
+    def "getMonthLabels 正しいラベルを返却する"() {
         given:
         def results = [
                 new SimulationResult(0, null, null, null),
@@ -256,7 +256,7 @@ class SimulationServiceSpec extends Specification {
         labels == ["開始", "1ヶ月", "6ヶ月", "1年", "2年"]
     }
 
-    def "getTotalAmountList should return list of total amounts"() {
+    def "getTotalAmountList 総資産額のリストを返却する"() {
         given:
         def results = [
                 new SimulationResult(0, 1000000 as BigDecimal, null, null),
@@ -271,7 +271,7 @@ class SimulationServiceSpec extends Specification {
         amounts == [1000000 as BigDecimal, 1100000 as BigDecimal, 1200000 as BigDecimal]
     }
 
-    def "getInvestedAmountList should return list of invested amounts"() {
+    def "getInvestedAmountList 投資元本のリストを返却する"() {
         given:
         def results = [
                 new SimulationResult(0, null, 1000000 as BigDecimal, null),
@@ -286,7 +286,7 @@ class SimulationServiceSpec extends Specification {
         amounts == [1000000 as BigDecimal, 1100000 as BigDecimal, 1200000 as BigDecimal]
     }
 
-    def "getReturnAmountList should return list of return amounts"() {
+    def "getReturnAmountList 運用利益のリストを返却する"() {
         given:
         def results = [
                 new SimulationResult(0, null, null, BigDecimal.ZERO),

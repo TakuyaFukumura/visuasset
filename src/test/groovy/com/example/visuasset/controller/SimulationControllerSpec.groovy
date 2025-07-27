@@ -12,7 +12,7 @@ class SimulationControllerSpec extends Specification {
     def controller = new SimulationController(service)
     def model = Mock(Model)
 
-    def "simulation should display page with default conditions and run simulation"() {
+    def "simulation デフォルト条件でページを表示してシミュレーションを実行する"() {
         given:
         def currentTotalAssets = 10000000 as BigDecimal
         def simulationResults = [
@@ -62,7 +62,7 @@ class SimulationControllerSpec extends Specification {
         result == "simulation"
     }
 
-    def "runSimulation should execute simulation with provided conditions"() {
+    def "runSimulation 指定された条件でシミュレーションを実行する"() {
         given:
         def simulationCondition = new SimulationCondition(
                 conditionName: "カスタム条件",
@@ -95,7 +95,7 @@ class SimulationControllerSpec extends Specification {
         result == "simulation"
     }
 
-    def "runSimulation should use getCurrentTotalAssets when initialAmount is null"() {
+    def "runSimulation 初期額がnullの場合は現在の総資産額を使用する"() {
         given:
         def currentTotalAssets = 8000000 as BigDecimal
         def simulationCondition = new SimulationCondition(
@@ -121,7 +121,7 @@ class SimulationControllerSpec extends Specification {
         1 * service.getReturnAmountList(simulationResults) >> []
     }
 
-    def "saveSimulationCondition should save condition and redirect"() {
+    def "saveSimulationCondition 条件を保存してリダイレクトする"() {
         given:
         def currentTotalAssets = 6000000 as BigDecimal
         def simulationCondition = new SimulationCondition(
@@ -143,7 +143,7 @@ class SimulationControllerSpec extends Specification {
         result == "redirect:/simulation"
     }
 
-    def "saveSimulationCondition should not overwrite existing initialAmount"() {
+    def "saveSimulationCondition 既存の初期額を上書きしない"() {
         given:
         def existingInitialAmount = 15000000 as BigDecimal
         def simulationCondition = new SimulationCondition(
@@ -165,7 +165,7 @@ class SimulationControllerSpec extends Specification {
         result == "redirect:/simulation"
     }
 
-    def "loadSimulationCondition should load condition and run simulation"() {
+    def "loadSimulationCondition 条件を読み込んでシミュレーションを実行する"() {
         given:
         def conditionId = 1L
         def currentTotalAssets = 7000000 as BigDecimal
@@ -202,7 +202,7 @@ class SimulationControllerSpec extends Specification {
         result == "simulation"
     }
 
-    def "loadSimulationCondition should throw exception when condition not found"() {
+    def "loadSimulationCondition 条件が見つからない場合は例外をスローする"() {
         given:
         def conditionId = 999L
 
@@ -214,7 +214,7 @@ class SimulationControllerSpec extends Specification {
         thrown(IllegalArgumentException)
     }
 
-    def "deleteSimulationCondition should delete condition and redirect"() {
+    def "deleteSimulationCondition 条件を削除してリダイレクトする"() {
         given:
         def conditionId = 1L
 
@@ -227,7 +227,7 @@ class SimulationControllerSpec extends Specification {
         result == "redirect:/simulation"
     }
 
-    def "simulation should handle zero return percentage correctly"() {
+    def "simulation 利回り率ゼロを正しく処理する"() {
         given:
         def currentTotalAssets = 1000000 as BigDecimal
         def simulationResults = [
@@ -250,7 +250,7 @@ class SimulationControllerSpec extends Specification {
         1 * model.addAttribute("returnPercentage", BigDecimal.ZERO) // ゼロ除算を避ける
     }
 
-    def "simulation should handle empty results correctly"() {
+    def "simulation 空の結果を正しく処理する"() {
         given:
         def currentTotalAssets = 1000000 as BigDecimal
         def simulationResults = []
