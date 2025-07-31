@@ -230,7 +230,7 @@ class SimulationControllerSpec extends Specification {
         def currentTotalAssets = 1000000 as BigDecimal
         def simulationResults = [
                 new SimulationResult(0, 1000000 as BigDecimal, 1000000 as BigDecimal, BigDecimal.ZERO),
-                new SimulationResult(12, 1600000 as BigDecimal, BigDecimal.ZERO, 1600000 as BigDecimal)
+                new SimulationResult(12, 1600000 as BigDecimal, 1600000 as BigDecimal, BigDecimal.ZERO)
         ]
 
         when:
