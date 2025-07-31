@@ -119,7 +119,7 @@ class SimulationServiceSpec extends Specification {
         def result = service.getCurrentTotalAssets()
 
         then:
-        (1..11) * yearlyAssetsRepository.findByTargetYear(_ as Integer) >> Optional.empty()
+        (1..10) * yearlyAssetsRepository.findByTargetYear(_ as Integer) >> Optional.empty()
         result == BigDecimal.ZERO
     }
 
