@@ -61,9 +61,10 @@ public class SimulationService {
      */
     public BigDecimal getCurrentTotalAssets() {
         int currentYear = LocalDate.now().getYear();
+        int yearRange = 10; // 過去10年分のデータを検索
 
         // 現在年から過去に向かって検索
-        for (int year = currentYear; year >= currentYear - 10; year--) {
+        for (int year = currentYear; year >= currentYear - yearRange; year--) {
             Optional<YearlyAssets> assets = yearlyAssetsRepository.findByTargetYear(year);
             if (assets.isPresent()) {
                 YearlyAssets yearlyAssets = assets.get();
