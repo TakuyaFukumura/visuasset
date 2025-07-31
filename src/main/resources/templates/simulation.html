@@ -27,8 +27,8 @@
                 <div class="mb-3">
                     <label for="initialAmount" class="form-label">初期資産額（円）</label>
                     <input type="number" class="form-control" id="initialAmount"
-                           th:field="*{initialAmount}" step="0.01" readonly>
-                    <div class="form-text">現在の総資産額が自動設定されます</div>
+                           th:field="*{initialAmount}" step="0.01" required>
+                    <div class="form-text">デフォルトは現在の総資産額です。自由に変更できます。</div>
                 </div>
 
                 <div class="mb-3">

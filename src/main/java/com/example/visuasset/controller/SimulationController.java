@@ -88,8 +88,7 @@ public class SimulationController {
         SimulationCondition condition = simulationService.getSimulationConditionById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid condition id: " + id));
 
-        // 現在の総資産額で初期金額を更新
-        condition.setInitialAmount(simulationService.getCurrentTotalAssets());
+        // 保存された初期金額をそのまま使用する（自動更新しない）
 
         List<SimulationResult> results = simulationService.runSimulation(condition);
 

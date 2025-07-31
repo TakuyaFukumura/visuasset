@@ -168,17 +168,16 @@ class SimulationControllerSpec extends Specification {
     def "loadSimulationCondition 条件を読み込んでシミュレーションを実行する"() {
         given:
         def conditionId = 1L
-        def currentTotalAssets = 7000000 as BigDecimal
         def savedCondition = new SimulationCondition(
                 id: conditionId,
                 conditionName: "保存済み条件",
                 monthlyInvestment: 90000 as BigDecimal,
                 annualReturnRate: 0.08 as BigDecimal,
                 investmentPeriodYears: 12,
-                initialAmount: 5000000 as BigDecimal // 古い初期金額
+                initialAmount: 5000000 as BigDecimal // 保存された初期金額をそのまま使用
         )
         def simulationResults = [
-                new SimulationResult(0, 7000000 as BigDecimal, 7000000 as BigDecimal, BigDecimal.ZERO)
+                new SimulationResult(0, 5000000 as BigDecimal, 5000000 as BigDecimal, BigDecimal.ZERO)
         ]
         def allConditions = [savedCondition]
 
@@ -187,8 +186,7 @@ class SimulationControllerSpec extends Specification {
 
         then:
         1 * service.getSimulationConditionById(conditionId) >> Optional.of(savedCondition)
-        1 * service.getCurrentTotalAssets() >> currentTotalAssets
-        savedCondition.initialAmount == currentTotalAssets // 現在の総資産額で更新される
+        savedCondition.initialAmount == 5000000 as BigDecimal // 保存された初期金額をそのまま使用
         1 * service.runSimulation(savedCondition) >> simulationResults
         1 * service.getAllSimulationConditions() >> allConditions
         1 * service.getMonthLabels(simulationResults) >> []
