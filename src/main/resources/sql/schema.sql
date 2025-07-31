@@ -35,3 +35,12 @@ CREATE TABLE IF NOT EXISTS asset_goals (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  -- 作成日時
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP  -- 更新日時
 );
+
+CREATE TABLE IF NOT EXISTS simulation_conditions (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,     -- 主キー
+    condition_name VARCHAR(100) NOT NULL,     -- シミュレーション条件名
+    monthly_investment DECIMAL(15,2) NOT NULL, -- 毎月の追加投資金額
+    annual_return_rate DECIMAL(5,4) NOT NULL,  -- 年間運用利回り（0.05 = 5%）
+    investment_period_years INT NOT NULL,      -- 投資期間（年）
+    initial_amount DECIMAL(15,2)              -- 初期投資額（現在の総資産額）
+);
