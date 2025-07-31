@@ -52,10 +52,6 @@ public class SimulationController {
      */
     @PostMapping("/run")
     public String runSimulation(@ModelAttribute SimulationCondition simulationCondition, Model model) {
-        // 初期金額が設定されていない場合は現在の総資産額を使用
-        if (simulationCondition.getInitialAmount() == null) {
-            simulationCondition.setInitialAmount(simulationService.getCurrentTotalAssets());
-        }
 
         List<SimulationResult> results = simulationService.runSimulation(simulationCondition);
 
@@ -71,11 +67,6 @@ public class SimulationController {
      */
     @PostMapping("/save")
     public String saveSimulationCondition(@ModelAttribute SimulationCondition simulationCondition) {
-        // 初期金額が設定されていない場合は現在の総資産額を使用
-        if (simulationCondition.getInitialAmount() == null) {
-            simulationCondition.setInitialAmount(simulationService.getCurrentTotalAssets());
-        }
-
         simulationService.saveSimulationCondition(simulationCondition);
         return "redirect:/simulation";
     }
@@ -87,8 +78,6 @@ public class SimulationController {
     public String loadSimulationCondition(@PathVariable Long id, Model model) {
         SimulationCondition condition = simulationService.getSimulationConditionById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid condition id: " + id));
-
-        // 保存された初期金額をそのまま使用する（自動更新しない）
 
         List<SimulationResult> results = simulationService.runSimulation(condition);
 
