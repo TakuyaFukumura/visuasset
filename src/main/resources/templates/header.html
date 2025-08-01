@@ -1,5 +1,5 @@
 <header th:fragment="header">
-        <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
             <div class="container-fluid">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                         data-bs-target="#navbarToggle" aria-controls="navbarToggle"
@@ -10,33 +10,37 @@
                     <a th:href="@{/}" class="navbar-brand">
                         visuasset
                     </a>
-                    <ul class="navbar-nav nav-underline">
+                    <ul class="navbar-nav nav-underline me-auto">
                         <li class="nav-item">
-                            <a th:href="@{/yearly}" class="nav-link" style="color:white;">
+                            <a th:href="@{/yearly}" class="nav-link">
                                 年別資産グラフ
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a th:href="@{/monthly}" class="nav-link" style="color:white;">
+                            <a th:href="@{/monthly}" class="nav-link">
                                 月別資産グラフ
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a th:href="@{/portfolio}" class="nav-link" style="color:white;">
+                            <a th:href="@{/portfolio}" class="nav-link">
                                 資産ポートフォリオ
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a th:href="@{/goal-achievement}" class="nav-link" style="color:white;">
+                            <a th:href="@{/goal-achievement}" class="nav-link">
                                 目標達成率
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a th:href="@{/simulation}" class="nav-link" style="color:white;">
+                            <a th:href="@{/simulation}" class="nav-link">
                                 資産推移シミュレート
                             </a>
                         </li>
                     </ul>
+                    <button id="dark-mode-toggle" class="btn btn-outline-secondary ms-auto" type="button" 
+                            aria-label="ダークモード切替" title="ダークモード切替">
+                        🌙
+                    </button>
                 </div>
             </div>
         </nav>
