@@ -104,14 +104,14 @@
                             th:text="${simulationCondition.investmentPeriodYears}">20</span>年後）</h5>
                     <div class="row">
                         <div class="col-sm-6">
-                            <div class="text-center p-3 bg-light rounded">
+                            <div class="text-center p-3 bg-body-secondary rounded">
                                 <h6 class="text-muted">総資産額</h6>
                                 <h4 class="text-primary"
                                     th:text="${#numbers.formatInteger(finalTotalAmount, 0, 'COMMA')} + '円'">0円</h4>
                             </div>
                         </div>
                         <div class="col-sm-6">
-                            <div class="text-center p-3 bg-light rounded">
+                            <div class="text-center p-3 bg-body-secondary rounded">
                                 <h6 class="text-muted">運用利益</h6>
                                 <h4 class="text-success"
                                     th:text="${#numbers.formatInteger(finalReturnAmount, 0, 'COMMA')} + '円'">0円</h4>
@@ -120,14 +120,14 @@
                     </div>
                     <div class="row mt-2">
                         <div class="col-sm-6">
-                            <div class="text-center p-3 bg-light rounded">
+                            <div class="text-center p-3 bg-body-secondary rounded">
                                 <h6 class="text-muted">投資元本</h6>
                                 <h4 class="text-info"
                                     th:text="${#numbers.formatInteger(finalInvestedAmount, 0, 'COMMA')} + '円'">0円</h4>
                             </div>
                         </div>
                         <div class="col-sm-6">
-                            <div class="text-center p-3 bg-light rounded">
+                            <div class="text-center p-3 bg-body-secondary rounded">
                                 <h6 class="text-muted">利回り効果</h6>
                                 <h4 class="text-warning"
                                     th:text="${#numbers.formatDecimal(returnPercentage ?: 0, 1, 2)} + '%'">0.00%</h4>
