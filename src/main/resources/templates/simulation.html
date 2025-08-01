@@ -106,14 +106,14 @@
                         <div class="col-sm-6">
                             <div class="text-center p-3 bg-body-secondary rounded">
                                 <h6 class="text-muted">総資産額</h6>
-                                <h4 class="text-primary"
+                                <h4 class="text-muted"
                                     th:text="${#numbers.formatInteger(finalTotalAmount, 0, 'COMMA')} + '円'">0円</h4>
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="text-center p-3 bg-body-secondary rounded">
                                 <h6 class="text-muted">運用利益</h6>
-                                <h4 class="text-success"
+                                <h4 class="text-muted"
                                     th:text="${#numbers.formatInteger(finalReturnAmount, 0, 'COMMA')} + '円'">0円</h4>
                             </div>
                         </div>
@@ -122,14 +122,14 @@
                         <div class="col-sm-6">
                             <div class="text-center p-3 bg-body-secondary rounded">
                                 <h6 class="text-muted">投資元本</h6>
-                                <h4 class="text-info"
+                                <h4 class="text-muted"
                                     th:text="${#numbers.formatInteger(finalInvestedAmount, 0, 'COMMA')} + '円'">0円</h4>
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="text-center p-3 bg-body-secondary rounded">
                                 <h6 class="text-muted">利回り効果</h6>
-                                <h4 class="text-warning"
+                                <h4 class="text-muted"
                                     th:text="${#numbers.formatDecimal(returnPercentage ?: 0, 1, 2)} + '%'">0.00%</h4>
                             </div>
                         </div>
