@@ -1,5 +1,5 @@
 # Dockerfile for Spring Boot application
-FROM openjdk:17-jdk-slim
+FROM openjdk:18-jdk-slim
 
 # Set working directory
 WORKDIR /app
