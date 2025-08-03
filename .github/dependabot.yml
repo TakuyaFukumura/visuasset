@@ -8,11 +8,6 @@ updates:
       day: "monday"
       time: "09:00"
       timezone: "Asia/Tokyo"
-    # PRに自動的に追加するラベル
-    labels:
-      - "dependencies"
-      - "java"
-      - "maven"
     # PRの割り当て設定
     assignees:
       - "TakuyaFukumura"
@@ -33,9 +28,6 @@ updates:
       day: "monday"
       time: "09:00"
       timezone: "Asia/Tokyo"
-    labels:
-      - "dependencies"
-      - "github-actions"
     assignees:
       - "TakuyaFukumura"
     open-pull-requests-limit: 5
@@ -47,9 +39,6 @@ updates:
       day: "monday"
       time: "09:00"
       timezone: "Asia/Tokyo"
-    labels:
-      - "dependencies"
-      - "docker"
     assignees:
       - "TakuyaFukumura"
     open-pull-requests-limit: 5
