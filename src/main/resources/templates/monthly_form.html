@@ -10,8 +10,8 @@
 <body>
 <div th:replace="header :: header"></div>
 <div class="container mt-4">
-    <h1 th:text="${monthlyAssets.targetYear != null && monthlyAssets.targetMonth != null} ? '月別資産データ編集' : '月別資産データ新規登録'"></h1>
-    <form th:action="${monthlyAssets.targetYear != null && monthlyAssets.targetMonth != null} ? @{/monthly/update} : @{/monthly/insert}"
+    <h1 th:text="${monthlyAssets.targetYear == null or monthlyAssets.targetMonth == null} ? '月別資産データ新規登録' : '月別資産データ編集'"></h1>
+    <form th:action="${monthlyAssets.targetYear == null or monthlyAssets.targetMonth == null} ? @{/monthly/insert} : @{/monthly/update}"
           th:object="${monthlyAssets}" method="post">
         <div class="mb-3">
             <label class="form-label">年:</label>
