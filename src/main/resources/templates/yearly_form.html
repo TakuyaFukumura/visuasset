@@ -14,7 +14,8 @@
       th:object="${yearlyAssets}" method="post">
     <div>
         <label>年:</label>
-        <input type="number" th:field="*{targetYear}" th:readonly="${yearlyAssets.targetYear != null}" required min="1900" max="2100" />
+        <input type="number" th:field="*{targetYear}" th:readonly="${yearlyAssets.targetYear != null}"
+               required min="1900" max="2100" />
     </div>
     <div>
         <label>現預金:</label>
