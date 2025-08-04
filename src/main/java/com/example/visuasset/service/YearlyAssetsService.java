@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.Year;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -129,6 +130,35 @@ public class YearlyAssetsService {
                 .sorted()
                 .map(year -> year + "年")
                 .toList();
+    }
+
+    /**
+     * 年別資産一覧から前年比資産増加額のリストを取得します。
+     *
+     * @param yearlyAssetsList 年別資産一覧（年順でソート済みであることを前提）
+     * @return 前年比資産増加額のリスト（最初の年は0）
+     */
+    public List<BigDecimal> getYearOverYearIncreaseList(List<YearlyAssets> yearlyAssetsList) {
+        if (yearlyAssetsList.isEmpty()) {
+            return List.of();
+        }
+
+        List<BigDecimal> totalAssetsList = getTotalAssetsList(yearlyAssetsList);
+        List<BigDecimal> yearOverYearIncreases = new ArrayList<>();
+
+        for (int i = 0; i < totalAssetsList.size(); i++) {
+            if (i == 0) {
+                // 最初の年は前年データがないため0とする
+                yearOverYearIncreases.add(BigDecimal.ZERO);
+            } else {
+                BigDecimal currentYearTotal = totalAssetsList.get(i);
+                BigDecimal previousYearTotal = totalAssetsList.get(i - 1);
+                BigDecimal increase = currentYearTotal.subtract(previousYearTotal);
+                yearOverYearIncreases.add(increase);
+            }
+        }
+
+        return yearOverYearIncreases;
     }
 
     // 年別資産データの保存（登録・更新）

@@ -39,6 +39,9 @@
     <div class="chart-container mt-4">
         <canvas id="yearlyTotal"></canvas>
     </div>
+    <div class="chart-container mt-4">
+        <canvas id="yearlyIncrease"></canvas>
+    </div>
     
     <script src="https://unpkg.com/chart.js@4.4.0/dist/chart.umd.js"></script>
     <script th:inline="javascript">
@@ -47,6 +50,7 @@
         const securitiesList = /*[[${securitiesList}]]*/ [];
         const cryptoList = /*[[${cryptoList}]]*/ [];
         const totalAssetsList = /*[[${totalAssetsList}]]*/ [];
+        const yearOverYearIncreaseList = /*[[${yearOverYearIncreaseList}]]*/ [];
         const labels = /*[[${labels}]]*/ [];
         
         // Chart.js初期化関数
@@ -122,6 +126,50 @@
                             title: {
                                 display: true,
                                 text: '年別総資産推移'
+                            }
+                        },
+                        scales: {
+                            y: {
+                                ticks: {
+                                    callback: function(value) {
+                                        return value.toLocaleString() + '円';
+                                    }
+                                }
+                            }
+                        },
+                        maintainAspectRatio: false
+                    }
+                });
+            }
+
+            // 前年比資産増加額棒グラフ
+            const ctxIncrease = document.getElementById("yearlyIncrease");
+            if (ctxIncrease) {
+                new Chart(ctxIncrease, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [
+                            {
+                                label: '前年比増加額',
+                                data: yearOverYearIncreaseList,
+                                backgroundColor: function(context) {
+                                    const value = context.parsed.y;
+                                    return value >= 0 ? "rgba(75, 192, 192, 0.6)" : "rgba(255, 99, 132, 0.6)";
+                                },
+                                borderColor: function(context) {
+                                    const value = context.parsed.y;
+                                    return value >= 0 ? "rgba(75, 192, 192, 1)" : "rgba(255, 99, 132, 1)";
+                                },
+                                borderWidth: 1
+                            }
+                        ]
+                    },
+                    options: {
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: '前年比資産増加額'
                             }
                         },
                         scales: {
