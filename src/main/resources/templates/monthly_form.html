@@ -45,15 +45,15 @@
         </div>
         <div class="mb-3">
             <label class="form-label">現預金:</label>
-            <input type="number" th:field="*{cash}" step="0.01" required class="form-control" />
+            <input type="number" th:field="*{cash}" step="1" required class="form-control" />
         </div>
         <div class="mb-3">
             <label class="form-label">有価証券:</label>
-            <input type="number" th:field="*{securities}" step="0.01" required class="form-control" />
+            <input type="number" th:field="*{securities}" step="1" required class="form-control" />
         </div>
         <div class="mb-3">
             <label class="form-label">暗号資産:</label>
-            <input type="number" th:field="*{crypto}" step="0.01" required class="form-control" />
+            <input type="number" th:field="*{crypto}" step="1" required class="form-control" />
         </div>
         <div>
             <button type="submit" class="btn btn-primary">保存</button>
