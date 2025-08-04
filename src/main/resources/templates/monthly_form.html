@@ -40,8 +40,10 @@
                 <option value="12">12月</option>
             </select>
             <!-- Hidden fields for editing to ensure year and month are submitted -->
-            <input type="hidden" th:field="*{targetYear}" th:if="${monthlyAssets.targetYear != null && monthlyAssets.targetMonth != null}" />
-            <input type="hidden" th:field="*{targetMonth}" th:if="${monthlyAssets.targetYear != null && monthlyAssets.targetMonth != null}" />
+            <input type="hidden" th:field="*{targetYear}"
+                   th:if="${monthlyAssets.targetYear != null && monthlyAssets.targetMonth != null}" />
+            <input type="hidden" th:field="*{targetMonth}"
+                   th:if="${monthlyAssets.targetYear != null && monthlyAssets.targetMonth != null}" />
         </div>
         <div class="mb-3">
             <label class="form-label">現預金:</label>
