@@ -70,6 +70,7 @@ public class YearlyAssetsController {
         model.addAttribute("securitiesList", service.getSecuritiesList(yearlyAssetsList));
         model.addAttribute("cryptoList", service.getCryptoList(yearlyAssetsList));
         model.addAttribute("totalAssetsList", service.getTotalAssetsList(yearlyAssetsList));
+        model.addAttribute("yearOverYearIncreaseList", service.getYearOverYearIncreaseList(yearlyAssetsList));
         model.addAttribute("labels", service.getYearLabels(yearlyAssetsList));
         return "yearly";
     }

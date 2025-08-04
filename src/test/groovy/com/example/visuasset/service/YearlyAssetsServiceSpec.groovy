@@ -76,4 +76,60 @@ class YearlyAssetsServiceSpec extends Specification {
         fileName.endsWith(".csv")
         fileName.matches("yearly_assets_\\d{8}_\\d{6}\\.csv")
     }
+
+    def "getYearOverYearIncreaseList should return correct year-over-year increases"() {
+        given:
+        def yearlyAssets1 = new YearlyAssets(2020, 1000000 as BigDecimal, 2000000 as BigDecimal, 500000 as BigDecimal) // total: 3500000
+        def yearlyAssets2 = new YearlyAssets(2021, 1500000 as BigDecimal, 2500000 as BigDecimal, 1000000 as BigDecimal) // total: 5000000
+        def yearlyAssets3 = new YearlyAssets(2022, 1200000 as BigDecimal, 3000000 as BigDecimal, 800000 as BigDecimal) // total: 5000000
+        def yearlyAssetsList = [yearlyAssets1, yearlyAssets2, yearlyAssets3]
+
+        when:
+        def result = service.getYearOverYearIncreaseList(yearlyAssetsList)
+
+        then:
+        result.size() == 3
+        result[0] == 0           // 最初の年は0
+        result[1] == 1500000     // 5000000 - 3500000
+        result[2] == 0           // 5000000 - 5000000
+    }
+
+    def "getYearOverYearIncreaseList should handle empty list"() {
+        given:
+        def yearlyAssetsList = []
+
+        when:
+        def result = service.getYearOverYearIncreaseList(yearlyAssetsList)
+
+        then:
+        result.size() == 0
+    }
+
+    def "getYearOverYearIncreaseList should handle single year"() {
+        given:
+        def yearlyAssets = new YearlyAssets(2020, 1000000 as BigDecimal, 2000000 as BigDecimal, 500000 as BigDecimal)
+        def yearlyAssetsList = [yearlyAssets]
+
+        when:
+        def result = service.getYearOverYearIncreaseList(yearlyAssetsList)
+
+        then:
+        result.size() == 1
+        result[0] == 0  // 最初の年は0
+    }
+
+    def "getYearOverYearIncreaseList should handle negative increases"() {
+        given:
+        def yearlyAssets1 = new YearlyAssets(2020, 2000000 as BigDecimal, 3000000 as BigDecimal, 1000000 as BigDecimal) // total: 6000000
+        def yearlyAssets2 = new YearlyAssets(2021, 1000000 as BigDecimal, 2000000 as BigDecimal, 500000 as BigDecimal) // total: 3500000
+        def yearlyAssetsList = [yearlyAssets1, yearlyAssets2]
+
+        when:
+        def result = service.getYearOverYearIncreaseList(yearlyAssetsList)
+
+        then:
+        result.size() == 2
+        result[0] == 0
+        result[1] == -2500000  // 3500000 - 6000000
+    }
 }
