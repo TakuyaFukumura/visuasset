@@ -15,10 +15,10 @@
         <!-- 年選択部分 -->
         <div class="mb-3 d-flex align-items-center">
             <button class="btn btn-outline-secondary me-2" 
-                    onclick="changeYear(-1)" type="button">←</button>
+                    onclick="changeYear(-1)" type="button">＜</button>
             <span class="fs-5 me-2"><span th:text="${targetYear}">2024</span>年</span>
             <button class="btn btn-outline-secondary me-3" 
-                    onclick="changeYear(1)" type="button">→</button>
+                    onclick="changeYear(1)" type="button">＞</button>
             
             <!-- 目標金額設定 -->
             <form th:action="@{/goal-achievement/update-goal}" method="post" class="d-flex align-items-center">
