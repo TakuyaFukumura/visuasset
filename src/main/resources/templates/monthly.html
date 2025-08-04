@@ -16,10 +16,11 @@
             <button type="submit" class="btn btn-outline-secondary px-3">＜</button>
         </form>
         <form id="yearForm" th:action="@{/monthly}" method="get" class="d-inline">
+            <label for="targetYear" class="visually-hidden">対象年</label>
             <input type="number"
                    name="targetYear" 
                    th:value="${targetYear}" 
-                   id="yearInput"
+                   id="targetYear"
                    min="2000" 
                    max="2100"
                    class="form-control text-center d-inline-block"
