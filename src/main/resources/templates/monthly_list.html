@@ -46,7 +46,6 @@
         <table class="table table-bordered" th:unless="${#lists.isEmpty(monthlyAssetsList)}">
             <thead>
             <tr>
-                <th>年</th>
                 <th>月</th>
                 <th>現預金</th>
                 <th>有価証券</th>
@@ -56,7 +55,6 @@
             </thead>
             <tbody>
             <tr th:each="asset : ${monthlyAssetsList}">
-                <td th:text="${asset.targetYear} + '年'"></td>
                 <td th:text="${asset.targetMonth} + '月'"></td>
                 <td th:text="${asset.cash} + '円'"></td>
                 <td th:text="${asset.securities} + '円'"></td>
