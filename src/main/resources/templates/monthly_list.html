@@ -56,11 +56,11 @@
             </thead>
             <tbody>
             <tr th:each="asset : ${monthlyAssetsList}">
-                <td th:text="${asset.targetYear}"></td>
+                <td th:text="${asset.targetYear} + '年'"></td>
                 <td th:text="${asset.targetMonth} + '月'"></td>
-                <td th:text="${asset.cash}"></td>
-                <td th:text="${asset.securities}"></td>
-                <td th:text="${asset.crypto}"></td>
+                <td th:text="${asset.cash} + '円'"></td>
+                <td th:text="${asset.securities} + '円'"></td>
+                <td th:text="${asset.crypto} + '円'"></td>
                 <td>
                     <a th:href="@{'/monthly/edit/' + ${asset.targetYear} + '/' + ${asset.targetMonth}}" 
                        class="btn btn-primary btn-sm">編集</a>
