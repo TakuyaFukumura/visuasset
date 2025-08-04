@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="ja" xml:lang="ja">
 <head>
     <meta charset="UTF-8">
     <title>月別資産データ 登録・編集</title>
@@ -10,19 +10,19 @@
 <body>
 <div th:replace="header :: header"></div>
 <div class="container mt-4">
-    <h1 th:text="${monthlyAssets.targetYear != null && monthlyAssets.targetMonth != null} ? '月別資産データ編集' : '月別資産データ新規登録'"></h1>
-    <form th:action="${monthlyAssets.targetYear != null && monthlyAssets.targetMonth != null} ? @{/monthly/update} : @{/monthly/insert}"
+    <h1 th:text="${monthlyAssets.targetYear == null or monthlyAssets.targetMonth == null} ? '月別資産データ新規登録' : '月別資産データ編集'"></h1>
+    <form th:action="${monthlyAssets.targetYear == null or monthlyAssets.targetMonth == null} ? @{/monthly/insert} : @{/monthly/update}"
           th:object="${monthlyAssets}" method="post">
         <div class="mb-3">
-            <label class="form-label">年:</label>
-            <input type="number" th:field="*{targetYear}" 
-                   th:readonly="${monthlyAssets.targetYear != null && monthlyAssets.targetMonth != null}" 
-                   required min="2000" th:max="${#temporals.year(#temporals.createNow())}" 
+            <label class="form-label" for="targetYear">年:</label>
+            <input type="number" th:field="*{targetYear}" id="targetYear"
+                   th:readonly="${monthlyAssets.targetYear != null && monthlyAssets.targetMonth != null}"
+                   required min="2000" th:max="${#temporals.year(#temporals.createNow())}"
                    class="form-control" />
         </div>
         <div class="mb-3">
-            <label class="form-label">月:</label>
-            <select th:field="*{targetMonth}" 
+            <label class="form-label" for="targetMonth">月:</label>
+            <select th:field="*{targetMonth}" id="targetMonth"
                     th:disabled="${monthlyAssets.targetYear != null && monthlyAssets.targetMonth != null}" 
                     required class="form-control">
                 <option value="">月を選択してください</option>
@@ -40,20 +40,22 @@
                 <option value="12">12月</option>
             </select>
             <!-- Hidden fields for editing to ensure year and month are submitted -->
-            <input type="hidden" th:field="*{targetYear}" th:if="${monthlyAssets.targetYear != null && monthlyAssets.targetMonth != null}" />
-            <input type="hidden" th:field="*{targetMonth}" th:if="${monthlyAssets.targetYear != null && monthlyAssets.targetMonth != null}" />
+            <input type="hidden" th:field="*{targetYear}"
+                   th:if="${monthlyAssets.targetYear != null && monthlyAssets.targetMonth != null}" />
+            <input type="hidden" th:field="*{targetMonth}"
+                   th:if="${monthlyAssets.targetYear != null && monthlyAssets.targetMonth != null}" />
         </div>
         <div class="mb-3">
-            <label class="form-label">現預金:</label>
-            <input type="number" th:field="*{cash}" step="0.01" required class="form-control" />
+            <label class="form-label" for="cash">現預金:</label>
+            <input type="number" th:field="*{cash}" id="cash" step="1" required class="form-control" />
         </div>
         <div class="mb-3">
-            <label class="form-label">有価証券:</label>
-            <input type="number" th:field="*{securities}" step="0.01" required class="form-control" />
+            <label class="form-label" for="securities">有価証券:</label>
+            <input type="number" th:field="*{securities}" id="securities" step="1" required class="form-control" />
         </div>
         <div class="mb-3">
-            <label class="form-label">暗号資産:</label>
-            <input type="number" th:field="*{crypto}" step="0.01" required class="form-control" />
+            <label class="form-label" for="crypto">暗号資産:</label>
+            <input type="number" th:field="*{crypto}" id="crypto" step="1" required class="form-control" />
         </div>
         <div>
             <button type="submit" class="btn btn-primary">保存</button>

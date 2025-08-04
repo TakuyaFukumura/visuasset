@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="ja" xml:lang="ja">
 <head>
     <meta charset="UTF-8">
     <title>月別資産データ一覧</title>
     <link rel="stylesheet" th:href="@{/css/basicChart.css}" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 </head>
 <body>
     <div th:replace="header :: header"></div>
@@ -17,7 +18,7 @@
             <div class="row justify-content-center align-items-end">
                 <div class="col-md-2 text-end">
                     <a th:href="@{/monthly/list(targetYear=${targetYear - 1})}" class="btn btn-outline-secondary">
-                        <i class="bi bi-chevron-left"></i>◀
+                        <i class="bi bi-caret-left"></i>
                     </a>
                 </div>
                 <div class="col-md-2 text-center">
@@ -30,7 +31,7 @@
                 </div>
                 <div class="col-md-2 text-start">
                     <a th:href="@{/monthly/list(targetYear=${targetYear + 1})}" class="btn btn-outline-secondary">
-                        ▶<i class="bi bi-chevron-right"></i>
+                        <i class="bi bi-caret-right"></i>
                     </a>
                 </div>
             </div>
@@ -45,7 +46,6 @@
         <table class="table table-bordered" th:unless="${#lists.isEmpty(monthlyAssetsList)}">
             <thead>
             <tr>
-                <th>年</th>
                 <th>月</th>
                 <th>現預金</th>
                 <th>有価証券</th>
@@ -55,11 +55,10 @@
             </thead>
             <tbody>
             <tr th:each="asset : ${monthlyAssetsList}">
-                <td th:text="${asset.targetYear}"></td>
                 <td th:text="${asset.targetMonth} + '月'"></td>
-                <td th:text="${asset.cash}"></td>
-                <td th:text="${asset.securities}"></td>
-                <td th:text="${asset.crypto}"></td>
+                <td th:text="${#numbers.formatInteger(asset.cash, 1, 'COMMA')} + '円'"></td>
+                <td th:text="${#numbers.formatInteger(asset.securities, 1, 'COMMA')} + '円'"></td>
+                <td th:text="${#numbers.formatInteger(asset.crypto, 1, 'COMMA')} + '円'"></td>
                 <td>
                     <a th:href="@{'/monthly/edit/' + ${asset.targetYear} + '/' + ${asset.targetMonth}}" 
                        class="btn btn-primary btn-sm">編集</a>

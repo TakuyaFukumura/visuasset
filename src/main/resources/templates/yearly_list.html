@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="ja" xml:lang="ja">
 <head>
     <meta charset="UTF-8">
     <title>年別資産データ一覧</title>
@@ -24,9 +24,9 @@
         <tbody>
         <tr th:each="asset : ${yearlyAssetsList}">
             <td th:text="${asset.targetYear}"></td>
-            <td th:text="${asset.cash}"></td>
-            <td th:text="${asset.securities}"></td>
-            <td th:text="${asset.crypto}"></td>
+            <td th:text="${#numbers.formatInteger(asset.cash, 1, 'COMMA')} + '円'"></td>
+            <td th:text="${#numbers.formatInteger(asset.securities, 1, 'COMMA')} + '円'"></td>
+            <td th:text="${#numbers.formatInteger(asset.crypto, 1, 'COMMA')} + '円'"></td>
             <td>
                 <a th:href="@{'/yearly/edit/' + ${asset.targetYear}}" class="btn btn-primary btn-sm">編集</a>
                 <form th:action="@{'/yearly/delete/' + ${asset.targetYear}}" method="post" style="display:inline;">

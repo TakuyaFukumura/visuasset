@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="ja" xml:lang="ja">
 <head>
     <meta charset="UTF-8">
     <title>年別資産データ 登録・編集</title>
@@ -13,20 +13,21 @@
 <form th:action="${yearlyAssets.targetYear != null} ? @{/yearly/update} : @{/yearly/insert}"
       th:object="${yearlyAssets}" method="post">
     <div>
-        <label>年:</label>
-        <input type="number" th:field="*{targetYear}" th:readonly="${yearlyAssets.targetYear != null}" required min="1900" max="2100" />
+        <label for="targetYear">年:</label>
+        <input type="number" id="targetYear" th:field="*{targetYear}" th:readonly="${yearlyAssets.targetYear != null}"
+               required min="1900" max="2100" />
     </div>
     <div>
-        <label>現預金:</label>
-        <input type="number" th:field="*{cash}" step="0.01" required />
+        <label for="cash">現預金:</label>
+        <input type="number" id="cash" th:field="*{cash}" step="1" required />
     </div>
     <div>
-        <label>有価証券:</label>
-        <input type="number" th:field="*{securities}" step="0.01" required />
+        <label for="securities">有価証券:</label>
+        <input type="number" id="securities" th:field="*{securities}" step="1" required />
     </div>
     <div>
-        <label>暗号資産:</label>
-        <input type="number" th:field="*{crypto}" step="0.01" required />
+        <label for="crypto">暗号資産:</label>
+        <input type="number" id="crypto" th:field="*{crypto}" step="1" required />
     </div>
     <div>
         <button type="submit" class="btn btn-primary">保存</button>

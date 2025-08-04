@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja" xmlns:th="https://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="ja" xml:lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,28 +10,30 @@
 </head>
 <body>
     <header th:replace="~{header}"></header>
-    <div style="display: flex; align-items: center; gap: 10px;">
-        <form th:action="@{/monthly}" method="get" style="display:inline;">
+    <div class="d-flex align-items-center gap-2">
+        <form th:action="@{/monthly}" method="get" class="d-inline">
             <input type="hidden" name="targetYear" th:value="${targetYear - 1}" />
-            <button type="submit">−</button>
+            <button type="submit" class="btn btn-outline-secondary px-3">＜</button>
         </form>
-        <form id="yearForm" th:action="@{/monthly}" method="get" style="display:inline;">
-            <input type="number" 
+        <form id="yearForm" th:action="@{/monthly}" method="get" class="d-inline">
+            <label for="targetYear" class="visually-hidden">対象年</label>
+            <input type="number"
                    name="targetYear" 
                    th:value="${targetYear}" 
-                   id="yearInput"
+                   id="targetYear"
                    min="2000" 
                    max="2100"
-                   style="width: 80px; text-align: center; border: 1px solid #ccc; padding: 2px 5px;"
+                   class="form-control text-center d-inline-block"
+                   style="width: 80px; display: inline-block;"
                    onchange="document.getElementById('yearForm').submit();" />年
         </form>
-        <form th:action="@{/monthly}" method="get" style="display:inline;">
+        <form th:action="@{/monthly}" method="get" class="d-inline">
             <input type="hidden" name="targetYear" th:value="${targetYear + 1}" />
-            <button type="submit">＋</button>
+            <button type="submit" class="btn btn-outline-secondary px-3">＞</button>
         </form>
     </div>
-    <a th:href="@{/monthly/list}" class="btn btn-primary">管理</a>
-    <div class="chart-container">
+    <a th:href="@{/monthly/list}" class="btn btn-primary mt-2">管理</a>
+    <div class="chart-container mt-3">
         <canvas id="monthly"></canvas>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
