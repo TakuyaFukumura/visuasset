@@ -19,9 +19,9 @@
                     <button 
                         th:disabled="${!canGoPrevious}"
                         th:onclick="|window.location.href='@{/portfolio(year=${targetYear - 1})}'|"
-                        class="btn btn-outline-primary me-3"
+                        class="btn btn-outline-secondary me-3"
                         type="button">
-                        ‹ 前年
+                        ＜
                     </button>
                     
                     <div class="mx-3">
@@ -31,9 +31,9 @@
                     <button 
                         th:disabled="${!canGoNext}"
                         th:onclick="|window.location.href='@{/portfolio(year=${targetYear + 1})}'|"
-                        class="btn btn-outline-primary ms-3"
+                        class="btn btn-outline-secondary ms-3"
                         type="button">
-                        翌年 ›
+                        ＞
                     </button>
                 </div>
             </div>
