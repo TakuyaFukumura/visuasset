@@ -24,9 +24,9 @@
         <tbody>
         <tr th:each="asset : ${yearlyAssetsList}">
             <td th:text="${asset.targetYear}"></td>
-            <td th:text="${#numbers.formatInteger(asset.cash, 3, 'COMMA')} + '円'"></td>
-            <td th:text="${#numbers.formatInteger(asset.securities, 3, 'COMMA')} + '円'"></td>
-            <td th:text="${#numbers.formatInteger(asset.crypto, 3, 'COMMA')} + '円'"></td>
+            <td th:text="${#numbers.formatInteger(asset.cash, 1, 'COMMA')} + '円'"></td>
+            <td th:text="${#numbers.formatInteger(asset.securities, 1, 'COMMA')} + '円'"></td>
+            <td th:text="${#numbers.formatInteger(asset.crypto, 1, 'COMMA')} + '円'"></td>
             <td>
                 <a th:href="@{'/yearly/edit/' + ${asset.targetYear}}" class="btn btn-primary btn-sm">編集</a>
                 <form th:action="@{'/yearly/delete/' + ${asset.targetYear}}" method="post" style="display:inline;">
