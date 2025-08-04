@@ -48,13 +48,13 @@
                             <div class="col-md-3">
                                 <div class="text-center">
                                     <div class="h6 text-muted">総資産</div>
-                                    <div class="h4" th:text="${#numbers.formatInteger(totalAssets, 3, 'COMMA')} + '円'"></div>
+                                    <div class="h4" th:text="${#numbers.formatInteger(totalAssets, 1, 'COMMA')} + '円'"></div>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="text-center">
                                     <div class="h6 text-muted">目標金額</div>
-                                    <div class="h4" th:text="${#numbers.formatInteger(goalAmount, 3, 'COMMA')} + '円'"></div>
+                                    <div class="h4" th:text="${#numbers.formatInteger(goalAmount, 1, 'COMMA')} + '円'"></div>
                                 </div>
                             </div>
                             <div class="col-md-3">
@@ -66,7 +66,7 @@
                             <div class="col-md-3">
                                 <div class="text-center">
                                     <div class="h6 text-muted">不足額</div>
-                                    <div class="h4" th:text="${#numbers.formatInteger(goalAmount - totalAssets, 3, 'COMMA')} + '円'"></div>
+                                    <div class="h4" th:text="${#numbers.formatInteger(goalAmount - totalAssets, 1, 'COMMA')} + '円'"></div>
                                 </div>
                             </div>
                         </div>

@@ -56,9 +56,9 @@
             <tbody>
             <tr th:each="asset : ${monthlyAssetsList}">
                 <td th:text="${asset.targetMonth} + '月'"></td>
-                <td th:text="${#numbers.formatInteger(asset.cash, 3, 'COMMA')} + '円'"></td>
-                <td th:text="${#numbers.formatInteger(asset.securities, 3, 'COMMA')} + '円'"></td>
-                <td th:text="${#numbers.formatInteger(asset.crypto, 3, 'COMMA')} + '円'"></td>
+                <td th:text="${#numbers.formatInteger(asset.cash, 1, 'COMMA')} + '円'"></td>
+                <td th:text="${#numbers.formatInteger(asset.securities, 1, 'COMMA')} + '円'"></td>
+                <td th:text="${#numbers.formatInteger(asset.crypto, 1, 'COMMA')} + '円'"></td>
                 <td>
                     <a th:href="@{'/monthly/edit/' + ${asset.targetYear} + '/' + ${asset.targetMonth}}" 
                        class="btn btn-primary btn-sm">編集</a>
