@@ -32,7 +32,7 @@
                 <form th:action="@{'/yearly/delete/' + ${asset.targetYear}}" method="post" style="display:inline;">
                     <button type="submit"
                             th:onclick="|return confirm('本当に' + ${asset.targetYear} + '年のデータを削除しますか？');|"
-                            class="btn btn-danger btn-sm">
+                            class="btn btn-danger btn-sm ms-1">
                         削除
                     </button>
                 </form>
