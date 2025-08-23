@@ -1,181 +1,181 @@
-# visuasset - GitHub Copilot Instructions
+# visuasset - GitHub Copilot 指示書
 
-**ALWAYS follow these instructions first and only fallback to additional search and context gathering if the information here is incomplete or found to be in error.**
+**常にこれらの指示に最初に従い、ここにある情報が不完全であるか誤りが見つかった場合のみ、追加の検索やコンテキスト収集に頼ってください。**
 
-visuasset is a Spring Boot 3.5.4 web application for asset visualization and management. The application allows users to track yearly and monthly assets, visualize portfolios, and run investment simulations.
+visuassetは、資産の可視化と管理のためのSpring Boot 3.5.4 Webアプリケーションです。このアプリケーションにより、ユーザーは年間および月間の資産を追跡し、ポートフォリオを可視化し、投資シミュレーションを実行できます。
 
-## Language and Communication Policy
+## 言語およびコミュニケーションポリシー
 
-**All responses and communication must be in Japanese (日本語)**:
-- All explanations, comments, and suggestions should be written in Japanese
-- Code comments should be written in Japanese  
-- Variable and method names can be in English, but explanations should be in Japanese
-- Error messages and technical explanations should be provided in Japanese
+**すべての応答とコミュニケーションは日本語で行う必要があります**：
+- すべての説明、コメント、提案は日本語で書く
+- コードコメントは日本語で書く
+- 変数名とメソッド名は英語でも構わないが、説明は日本語で行う
+- エラーメッセージと技術的説明は日本語で提供する
 
-## Working Effectively
+## 効果的な作業方法
 
-### Bootstrap and Build
-Run these commands in sequence to set up and build the project:
+### ブートストラップとビルド
+プロジェクトのセットアップとビルドのために、以下のコマンドを順番に実行してください：
 
 ```bash
-# Navigate to project root
+# プロジェクトルートに移動
 cd /path/to/visuasset
 
-# Build the application - NEVER CANCEL: Initial build takes 90+ seconds, subsequent builds ~10-15 seconds
+# アプリケーションをビルド - キャンセル禁止：初回ビルドは90秒以上、その後のビルドは10-15秒程度
 ./mvnw clean package
 ```
 
-**CRITICAL TIMING**: Set timeout to 120+ minutes for `./mvnw clean package` on first run. Build downloads dependencies and may take 60-90 seconds initially.
+**重要なタイミング**：`./mvnw clean package`の初回実行時は120分以上のタイムアウトを設定してください。ビルドは依存関係をダウンロードするため、初回は60-90秒かかる場合があります。
 
-### Run Tests
+### テストの実行
 ```bash
-# Run all tests - NEVER CANCEL: Takes ~15 seconds. Some test failures may exist (not critical)
+# 全テストを実行 - キャンセル禁止：約15秒かかります。いくつかのテスト失敗は存在する可能性があります（重要ではありません）
 ./mvnw test
 ```
 
-**CRITICAL TIMING**: Set timeout to 30+ minutes for test commands. Tests complete in ~7-15 seconds.
+**重要なタイミング**：テストコマンドには30分以上のタイムアウトを設定してください。テストは7-15秒で完了します。
 
-### Run the Application
+### アプリケーションの実行
 
-#### Local Development (Recommended)
+#### ローカル開発（推奨）
 ```bash
-# Start Spring Boot application - NEVER CANCEL: Startup takes ~5 seconds
+# Spring Bootアプリケーションを起動 - キャンセル禁止：起動には約5秒かかります
 ./mvnw spring-boot:run
 ```
-**CRITICAL TIMING**: Set timeout to 30+ minutes. Application starts in 2-5 seconds.
+**重要なタイミング**：30分以上のタイムアウトを設定してください。アプリケーションは2-5秒で起動します。
 
-#### Docker Development
+#### Docker開発
 ```bash
-# Build application first (required before Docker)
+# 最初にアプリケーションをビルド（Docker実行前に必要）
 ./mvnw clean package -DskipTests
 
-# Build and start Docker container - NEVER CANCEL: Takes ~10 seconds total
+# Dockerコンテナのビルドと起動 - キャンセル禁止：合計約10秒かかります
 docker compose up --build
 ```
 
-**CRITICAL TIMING**: Set timeout to 30+ minutes for Docker commands. Docker build and startup completes in 5-10 seconds.
+**重要なタイミング**：Dockerコマンドには30分以上のタイムアウトを設定してください。Dockerのビルドと起動は5-10秒で完了します。
 
-### Access Points
-After starting the application:
-- **Main Application**: http://localhost:8080 (redirects to /yearly)
-- **H2 Database Console**: http://localhost:8080/h2-console
-  - JDBC URL: `jdbc:h2:./.db/dev/h2` (local) or `jdbc:h2:mem:testdb` (Docker)
-  - Username: `sa`
-  - Password: (leave blank)
+### アクセスポイント
+アプリケーション起動後：
+- **メインアプリケーション**：http://localhost:8080（/yearlyにリダイレクト）
+- **H2データベースコンソール**：http://localhost:8080/h2-console
+  - JDBC URL：`jdbc:h2:./.db/dev/h2`（ローカル）または`jdbc:h2:mem:testdb`（Docker）
+  - ユーザー名：`sa`
+  - パスワード：（空白のまま）
 
-### Stop Services
+### サービスの停止
 ```bash
-# Stop Spring Boot (Ctrl+C in terminal where it's running)
+# Spring Bootの停止（実行中のターミナルでCtrl+C）
 
-# Stop Docker containers
+# Dockerコンテナの停止
 docker compose down
 ```
 
-## Validation Scenarios
+## 検証シナリオ
 
-**ALWAYS run these validation scenarios after making changes:**
+**変更後は常に以下の検証シナリオを実行してください：**
 
-### Basic Application Validation
-1. Build and start the application using local method
-2. Verify main page loads: `curl -I http://localhost:8080` should return HTTP 302 redirect
-3. Test key endpoints:
-   - Yearly assets: http://localhost:8080/yearly
-   - Portfolio: http://localhost:8080/portfolio  
-   - Simulation: http://localhost:8080/simulation
-   - Monthly assets: http://localhost:8080/monthly
-4. Verify H2 console accessibility: http://localhost:8080/h2-console
+### 基本的なアプリケーション検証
+1. ローカルメソッドを使用してアプリケーションをビルド・起動
+2. メインページの読み込みを確認：`curl -I http://localhost:8080`がHTTP 302リダイレクトを返すことを確認
+3. 主要なエンドポイントをテスト：
+   - 年間資産：http://localhost:8080/yearly
+   - ポートフォリオ：http://localhost:8080/portfolio
+   - シミュレーション：http://localhost:8080/simulation
+   - 月間資産：http://localhost:8080/monthly
+4. H2コンソールのアクセス可能性を確認：http://localhost:8080/h2-console
 
-### Complete User Workflow Validation
-1. Navigate to yearly assets page (/yearly)
-2. Add or view yearly asset data
-3. Navigate to simulation page (/simulation) 
-4. Run an investment simulation with default parameters
-5. Navigate to portfolio page (/portfolio)
-6. Verify data visualization displays correctly
+### 完全なユーザーワークフロー検証
+1. 年間資産ページ（/yearly）に移動
+2. 年間資産データを追加または表示
+3. シミュレーションページ（/simulation）に移動
+4. デフォルトパラメータで投資シミュレーションを実行
+5. ポートフォリオページ（/portfolio）に移動
+6. データ可視化が正しく表示されることを確認
 
-### Docker Validation
-1. Stop any local Spring Boot instance
-2. Build application: `./mvnw clean package -DskipTests`
-3. Start Docker: `docker compose up --build`
-4. Verify application accessibility at http://localhost:8080
-5. Stop Docker: `docker compose down`
+### Docker検証
+1. 実行中のローカルSpring Bootインスタンスを停止
+2. アプリケーションをビルド：`./mvnw clean package -DskipTests`
+3. Dockerを起動：`docker compose up --build`
+4. http://localhost:8080でアプリケーションのアクセス可能性を確認
+5. Dockerを停止：`docker compose down`
 
-## CI Compatibility
+## CI互換性
 
-The GitHub Actions CI (.github/workflows/build.yml) runs:
+GitHub Actions CI（.github/workflows/build.yml）は以下を実行します：
 ```bash
 mvn clean package
 ```
 
-**ALWAYS ensure your changes pass this exact command before committing.**
+**コミット前に、この正確なコマンドで変更がパスすることを常に確認してください。**
 
-## Project Structure
+## プロジェクト構造
 
-### Key Directories
+### 主要ディレクトリ
 ```
 src/
 ├── main/java/com/example/visuasset/
-│   ├── controller/          # Web controllers (5 controllers)
-│   ├── service/             # Business logic services  
-│   ├── entity/              # JPA entities
-│   ├── repository/          # Data repositories
-│   └── dto/                 # Data transfer objects
+│   ├── controller/          # Webコントローラ（5コントローラ）
+│   ├── service/             # ビジネスロジックサービス
+│   ├── entity/              # JPAエンティティ
+│   ├── repository/          # データリポジトリ
+│   └── dto/                 # データ転送オブジェクト
 ├── main/resources/
-│   ├── templates/           # Thymeleaf templates (11 templates)
-│   ├── static/              # CSS, JS, images
-│   ├── sql/                 # Database initialization scripts
+│   ├── templates/           # Thymeleafテンプレート（11テンプレート）
+│   ├── static/              # CSS、JS、画像
+│   ├── sql/                 # データベース初期化スクリプト
 │   └── application.properties
-└── test/groovy/             # Spock framework tests (21 test files)
+└── test/groovy/             # Spockフレームワークテスト（21テストファイル）
 ```
 
-### Key Controllers
-- **YearlyAssetsController**: Main landing page, yearly asset management
-- **SimulationController**: Investment simulation functionality  
-- **PortfolioController**: Asset portfolio visualization
-- **MonthlyAssetsController**: Monthly asset tracking
-- **GoalAchievementController**: Financial goal tracking
+### 主要コントローラ
+- **YearlyAssetsController**：メインランディングページ、年間資産管理
+- **SimulationController**：投資シミュレーション機能
+- **PortfolioController**：資産ポートフォリオ可視化
+- **MonthlyAssetsController**：月間資産追跡
+- **GoalAchievementController**：財務目標追跡
 
-## Technology Stack
+## 技術スタック
 
-- **Java 17** (required)
-- **Spring Boot 3.5.4** 
-- **Maven 3.6+** (wrapper provided)
-- **H2 Database** (in-memory for Docker, file-based for local)
-- **Thymeleaf** templates
-- **Lombok** for code generation
-- **Spock Framework** (Groovy) for testing
+- **Java 17**（必須）
+- **Spring Boot 3.5.4**
+- **Maven 3.6+**（ラッパー提供）
+- **H2 Database**（Dockerではインメモリ、ローカルではファイルベース）
+- **Thymeleaf** テンプレート
+- **Lombok** コード生成用
+- **Spock Framework**（Groovy）テスト用
 
-## Common Issues and Solutions
+## 一般的な問題と解決策
 
-### Build Issues
-- If Maven wrapper download fails: Check internet connectivity
-- If dependency resolution fails: Clear Maven cache with `rm -rf ~/.m2/repository`
+### ビルドの問題
+- Mavenラッパーのダウンロードが失敗する場合：インターネット接続を確認
+- 依存関係解決が失敗する場合：`rm -rf ~/.m2/repository`でMavenキャッシュをクリア
 
-### Database Issues  
-- Database files stored in `.db/dev/` for local development
-- Docker persists data in `db-data/` volume
-- Database auto-initializes on first startup using `src/main/resources/sql/`
+### データベースの問題
+- ローカル開発ではデータベースファイルが`.db/dev/`に保存される
+- Dockerでは`db-data/`ボリュームにデータが永続化される
+- データベースは初回起動時に`src/main/resources/sql/`を使用して自動初期化される
 
-### Application Won't Start
-- Verify Java 17 is installed: `java -version`
-- Check port 8080 is not in use: `lsof -i :8080`
-- Review application logs for specific error messages
+### アプリケーションが起動しない場合
+- Java 17がインストールされていることを確認：`java -version`
+- ポート8080が使用されていないことを確認：`lsof -i :8080`
+- 具体的なエラーメッセージについてアプリケーションログを確認
 
-## Development Workflow
+## 開発ワークフロー
 
-1. **Make changes** to source code
-2. **Build**: `./mvnw clean package` (90s timeout first time)
-3. **Test**: `./mvnw test` (30s timeout)  
-4. **Run locally**: `./mvnw spring-boot:run` (30s timeout)
-5. **Validate**: Test key endpoints and user workflows
-6. **For Docker**: Rebuild with `./mvnw clean package -DskipTests` then `docker compose up --build`
+1. **ソースコードを変更**
+2. **ビルド**：`./mvnw clean package`（初回は90秒のタイムアウト）
+3. **テスト**：`./mvnw test`（30秒のタイムアウト）
+4. **ローカル実行**：`./mvnw spring-boot:run`（30秒のタイムアウト）
+5. **検証**：主要エンドポイントとユーザーワークフローをテスト
+6. **Docker用**：`./mvnw clean package -DskipTests`で再ビルド後、`docker compose up --build`
 
-## Memory Requirements
-- **Minimum**: 512MB RAM
-- **Recommended**: 1GB+ RAM for development
+## メモリ要件
+- **最小**：512MB RAM
+- **推奨**：1GB以上のRAM（開発用）
 
-## Critical Reminders
-- **NEVER CANCEL** build or test commands - they may appear to hang but are processing
-- **ALWAYS** validate functionality manually after code changes
-- **Set appropriate timeouts**: 120+ minutes for builds, 30+ minutes for tests and startup
-- **Test both local and Docker deployment methods** when making infrastructure changes
+## 重要な注意事項
+- **ビルドやテストコマンドは絶対にキャンセルしない** - ハングしているように見えても処理中です
+- **コード変更後は常に機能を手動で検証する**
+- **適切なタイムアウトを設定する**：ビルドには120分以上、テストと起動には30分以上
+- **インフラストラクチャ変更時はローカルとDockerの両方のデプロイメント方法をテストする**
