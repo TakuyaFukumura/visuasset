@@ -1,0 +1,35 @@
+/* ボタンデザインシステム - visuasset */
+/* 
+ボタン使用ガイドライン:
+1. プライマリアクション（メイン操作）: btn btn-primary
+2. 成功アクション（作成・保存）: btn btn-success  
+3. セカンダリアクション（戻る・キャンセル・出力）: btn btn-secondary
+4. ナビゲーション（年移動・モード切替）: btn btn-outline-secondary
+5. 危険なアクション（削除）: btn btn-danger btn-sm
+6. 小さなボタンには btn-sm クラスを追加
+7. ボタン間隔には ms-1, ms-2 などのマージンクラスを使用
+*/
+
+/* ボタン間の一貫したスペーシング */
+.btn + .btn,
+.btn + form,
+form + .btn {
+    margin-left: 0.25rem;
+}
+
+/* 削除ボタンのホバー効果強化 */
+.btn-danger:hover {
+    transform: scale(1.02);
+    transition: transform 0.1s ease;
+}
+
+/* フォーム内のボタングループのスペーシング */
+.btn-group-actions {
+    gap: 0.5rem;
+}
+
+/* 小さなボタンのアクセシビリティ向上 */
+.btn-sm {
+    min-width: 60px;
+    min-height: 32px;
+}
